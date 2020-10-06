@@ -1,12 +1,11 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <HelloWorld msg="Lakra"/>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue';
 
 export default {
@@ -16,3 +15,10 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+img {
+  width: 200px;
+  height: 200px;
+}
+</style>
