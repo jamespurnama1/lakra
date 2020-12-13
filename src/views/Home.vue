@@ -56,6 +56,7 @@ export default {
     left: 50%;
     transform: translateX(-50%);
     width: 10vw;
+    min-width: 100px;
     z-index: 5;
   }
 
@@ -65,6 +66,7 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 15vw;
+    min-width: 140px;
     z-index: 5;
   }
 
