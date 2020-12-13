@@ -5,16 +5,23 @@
 </template>
 
 <style lang="scss">
-#app {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+@font-face {
+  font-family: Helvetica-Neue;
+  src: url(./assets/helveticaneue-light.woff2);
+}
+
+body {
+  margin: 0;
+
+  #app {
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+  }
 }
 </style>
