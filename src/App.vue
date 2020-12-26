@@ -1,27 +1,33 @@
 <template>
   <div id="app">
+    <Navigation />
     <router-view/>
   </div>
 </template>
 
-<style lang="scss">
-@font-face {
-  font-family: Helvetica-Neue;
-  src: url(./assets/helveticaneue-light.woff2);
-}
+<script>
+import Navigation from './components/Nav.vue';
 
+export default {
+  components: {
+    Navigation,
+  },
+};
+</script>
+
+<style lang="scss">
 body {
   margin: 0;
 
   #app {
-    overflow: hidden;
-    height: 100vh;
+    overflow-y: hidden;
     width: 100vw;
-    font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-family: Helvetica-Neue, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
+    display: flex;
   }
 }
 </style>
