@@ -1,102 +1,103 @@
 <template>
-  <div class="home">
-    <img id="logotext" src="../assets/logotext.svg" />
-    <h1>Coming Soon</h1>
-    <div id="overlay" />
-    <video autoplay preload="true" muted loop>
-      <source src="../assets/reel.webm" type="video/webm" />
-      <source src="../assets/reel.mp4" type="video/mp4" />
-    </video>
-    <!-- <img id="logo" src="../assets/logo.svg" /> -->
-    <div id="logo" />
+  <div id="home">
+    <hooper :wheelControl="false">
+      <slide>
+        <div class="hero">
+          <h2>Build Home, Build Value</h2>
+          <p>Lorem ipsum dolor sit amet,
+            consectetur adipiscing elit,
+            sed do eiusmod tempor incididunt
+            ut labore et dolore magna aliqua.
+            Ut enim ad minim veniam, quis nostrud
+            exercitation ullamco laboris nisi ut aliquip ea
+          </p>
+        </div>
+        <div class="overlay" />
+        <img src="../assets/images/Z3.jpg" />
+      </slide>
+      <slide>
+      </slide>
+      <slide>
+      </slide>
+    </hooper>
+    <listing />
   </div>
 </template>
 
 <script>
-import lottie from 'lottie-web';
-import json from '../assets/logo.json';
+import { Hooper, Slide } from 'hooper';
+import 'hooper/dist/hooper.css';
+import Listing from './Listing.vue';
 
 export default {
   name: 'Home',
+  components: {
+    Listing,
+    Hooper,
+    Slide,
+  },
   methods: {
-    countdownLottie() {
-      lottie.loadAnimation({
-        container: document.getElementById('logo'),
-        renderer: 'svg',
-        loop: true,
-        // speed: 0.1,
-        autoplay: true,
-        animationData: json,
-        name: 'logo',
-      });
-    },
   },
   mounted() {
-    // this.countdownLottie.addEventListener('complete', () => {
-    //   direction *= -1,
-    //   this.countdownLottie.setDirection(direction);
-    //   this.countdownLottie.play();
-    // });
-    this.countdownLottie();
-    lottie.setSpeed(0.5);
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.home {
-  position: relative;
-  height: 100vh;
-  width: 100vw;
+@import '../styles/index.scss';
+
+#home {
   overflow: hidden;
+  margin-top: 30%;
+  width: 75vw;
+  margin-left: auto;
 
-  #logotext {
-    position: absolute;
-    top: 7%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 10vw;
-    min-width: 100px;
-    z-index: 5;
-  }
+  .hooper {
+    width: 100%;
+    height: 50vw;
+    min-height: 150px;
+    min-width: 320px;
 
-  #logo {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 15vw;
-    min-width: 140px;
-    z-index: 5;
-  }
+    li {
+      position: relative;
 
-  #overlay {
-    position: absolute;
-    min-width: 100%;
-    min-height: 100%;
-    opacity: 35%;
-    background-color: #474D38;
-  }
+      .hero {
+        position: absolute;
+        width: 85%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        z-index: 3;
 
-  h1 {
-    position: absolute;
-    bottom: 7%;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    font-family: Helvetica-Neue, Helvetica, Arial, sans-serif;
-    font-size: 1.3em;
-    color: white;
-    font-weight: 100;
-    z-index: 5;
-  }
-  video {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    min-width: 100%;
-    min-height: 100%;
+        h2 {
+          font-size: 40px;
+          font-weight: 200;
+          margin: 0;
+        }
+
+        p {
+          margin: 0;
+        }
+      }
+
+      .overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: $green;
+        opacity: 30%;
+        z-index: 2;
+      }
+
+      img {
+      width: 100%;
+      height: 100%;
+      }
+    }
   }
 }
 </style>
