@@ -2,36 +2,126 @@
   <div class="kpr">
     <h1>Kredit Pemilikan Rumah</h1>
     <div class="first">
+      <h2>Simulasi KPR</h2>
+      <form>
+        <div style="grid-area: one; margin-right: 30px;">
+          <p>Harga Properti</p>
+          <vue-numeric
+            currency="Rp."
+            separator="."
+            :minus="false"
+            v-model="hargaProperti" />
+        </div>
+        <div style="grid-area: two; width: 50%;">
+          <p>Persentase DP</p>
+          <vue-numeric
+            currency="%"
+            currency-symbol-position="suffix"
+            :max="99"
+            :minus="false"
+            v-model="persentaseDP" />
+        </div>
+        <div style="grid-area: four">
+          <p>DP</p>
+          <vue-numeric
+            currency="Rp."
+            separator="."
+            :read-only="true"
+            read-only-class="result"
+            :value="DP" />
+        </div>
+        <div style="grid-area: three">
+          <p>Jumlah Pinjaman</p>
+          <vue-numeric currency="Rp."
+            separator="."
+            :read-only="true"
+            read-only-class="result"
+            :value="jumlahPinjaman" />
+        </div>
+        <hr style="grid-area: hr">
+        <div style="grid-area: five; width: 75%; margin-right: 30px;">
+          <p>Durasi</p>
+          <span>
+            <div>
+              <select v-model="durasi">
+                <option disabled value="">Pilih satu</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+                <option>11</option>
+                <option>12</option>
+                <option>13</option>
+                <option>14</option>
+                <option>15</option>
+                <option>16</option>
+                <option>17</option>
+                <option>18</option>
+                <option>19</option>
+                <option>20</option>
+                <option>21</option>
+                <option>22</option>
+                <option>23</option>
+                <option>24</option>
+                <option>25</option>
+                <option>26</option>
+                <option>27</option>
+                <option>28</option>
+                <option>29</option>
+                <option>30</option>
+              </select>
+            </div>
+            <p>Tahun</p>
+          </span>
+        </div>
+        <div style="grid-area: six; width: 50%;">
+          <p>Estimasi Bunga</p>
+          <vue-numeric
+            currency="%"
+            currency-symbol-position="suffix"
+            :max="99"
+            :minus="false"
+            :precision="1"
+            v-model="estimasiBunga" />
+        </div>
+        <div style="grid-area: seven">
+          <p>Angsuran per Bulan</p>
+          <vue-numeric
+            currency="Rp."
+            separator="."
+            :read-only="true"
+            read-only-class="result"
+            :value="angsuran" />
+        </div>
+      </form>
+    </div>
+    <h2>Proses Pengajuan KPR</h2>
+    <div class="second">
       <div>
-        <h2>Bank</h2>
-        <img :src="require(`../assets/images/bank.png`)" />
-        <h3>Kredit Pemilikan Hunian</h3>
-        <p>6.99%</p>
-        <h3>Suku Bunga</h3>
-        <p>6.99% per Tahun</p>
-        <h3>Masa Kredit Fix</h3>
-        <p>1 Tahun</p>
-        <h3>Tenor</h3>
-        <p>3-20 Tahun</p>
-      </div>
-      <div>
-        <h2>Proses Penhajuan KPR</h2>
         <h3><i class="las la-home" />Tentukan properti yang ingin anda beli</h3>
         <p>Sebelum mengajukan KPA/KPR, anda harus tahu terlebih
           dahulu properti yang anda impikan.</p>
+      </div>
+      <div>
         <h3><i class="las la-file-alt" />Lengkapi persyaratan dan dokumen</h3>
         <p>Ketahui dokumen apa saja yang diperlukan dalam pengajuan
           KPA/KPR guna meningkatkan kecepatan proses pengajuan.</p>
-        <h3><i class="las la-sync" />Proses</h3>
-        <p>Pengajuan yang sudah lengkap akan dianalisa dan diproses
-          oleh pihak bank.</p>
+      </div>
+      <div>
+      <h3><i class="las la-sync" />Proses</h3>
+      <p>Pengajuan yang sudah lengkap akan dianalisa dan diproses
+        oleh pihak bank.</p>
+      </div>
+      <div>
         <h3><i class="las la-check" />Akad</h3>
         <p>Jika bank sudah menyetujui pengajuan KPA/KPR anda,
           maka pencairan akan dilakukan setelah akad kredit.</p>
       </div>
     </div>
     <h2>Informasi Tambahan</h2>
-    <div class="second">
+    <div class="third">
       <div>
         <h3><i class="las la-coins" />Biaya Bank</h3>
         <p>Berikut merupakan biaya-biaya bank pada saat pengajuan KPA/KPR:</p>
@@ -56,7 +146,7 @@
       </div>
     </div>
     <h2>Tanya Jawab</h2>
-    <div class="third">
+    <div class="fourth">
       <ul>
         <li>
           <h3>
@@ -181,6 +271,33 @@
 <script>
 export default {
   name: 'KPR',
+  mounted() {
+    this.$root.$emit('mounted');
+  },
+  data() {
+    return {
+      hargaProperti: 0,
+      persentaseDP: 0,
+      durasi: 0,
+      estimasiBunga: 0,
+    };
+  },
+  computed: {
+    DP() {
+      return this.hargaProperti * (this.persentaseDP / 100);
+    },
+    jumlahPinjaman() {
+      return this.hargaProperti - this.DP;
+    },
+    angsuran() {
+      // eslint-disable-next-line max-len
+      let h = (this.jumlahPinjaman / this.durasi / 12) + ((this.jumlahPinjaman * (this.estimasiBunga / 100)) / 12);
+      if (!h) {
+        h = 0;
+      }
+      return h;
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -189,6 +306,7 @@ export default {
   .kpr {
     margin-top: 10vh;
     margin-right: 30px;
+    will-change: transform;
 
     h1, h2, h3, p {
       text-align: left;
@@ -217,12 +335,115 @@ export default {
       margin-right: 10px;
     }
 
-    .first, .second {
+    .first {
+      margin-bottom: 10vh;
+
+      h2 {
+        margin: 0;
+      }
+
+      form {
+        display: grid;
+        grid-template-areas:  'one two three'
+                              'one two four'
+                              'hr hr hr'
+                              'five six seven';
+        grid-template-columns: 2fr 1.5fr 2fr;
+        grid-gap: 0 50px;
+
+        hr {
+          width: 100%;
+          border: 1px solid $dark-green;
+          margin: 30px 0 20px 0;
+        }
+
+        div {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
+          p {
+            padding: 10px 0 5px 0;
+            margin: 0;
+          }
+
+          input, select {
+            border-radius: 0;
+            border: 2px solid $green;
+            padding: 15px 10px;
+            font-family: Helvetica-Neue, Helvetica, Arial, sans-serif;
+            font-weight: 200;
+            font-size: 1em;
+            box-sizing: border-box;
+            width: 100%;
+          }
+
+          span {
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+
+            div {
+              display: grid;
+              grid-template-areas: "select text";
+              grid-template-columns: 90% 10%;
+              align-items: center;
+              // margin-right: 15px;
+              flex: 1;
+
+              select {
+                grid-area: select;
+                appearance: none;
+                outline: none;
+                width: 100%;
+                z-index: 1;
+                cursor: inherit;
+                line-height: inherit;
+
+                &::-ms-expand {
+                  display: none;
+                }
+              }
+
+              &::after {
+                content: "";
+                grid-area: select;
+                justify-self: end;
+                position: relative;
+                z-index: 2;
+                width: 0.8em;
+                height: 0.5em;
+                background-color: $green;
+                // min-width: 15ch;
+                // max-width: 30ch;
+                // padding: 0.25em 0.5em;
+                margin-right: 0.5em;
+                clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+              }
+            }
+
+            p {
+              grid-area: text;
+            }
+          }
+
+          .result {
+            text-align: left;
+            color: white;
+            padding: 10px 15px;
+            background-color: $green;
+          }
+        }
+      }
+    }
+
+    .third {
       display: flex;
-      margin-bottom: 30px;
+      margin-bottom: 10vh;
 
       div {
         width: 50%;
+        margin-right: 15px;
 
         ul{
           padding: 0;
@@ -242,7 +463,27 @@ export default {
       }
     }
 
-    .third {
+  .second {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 15px;
+    margin-bottom: 10vh;
+
+    @include max-media(desktop) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @include max-media(desktop) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    div {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+    .fourth {
       column-count: 2;
       column-gap: 30px;
       margin-bottom: 30px;

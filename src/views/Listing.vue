@@ -1,10 +1,9 @@
 <template>
 <div id="grid">
   <div @click="route(house.Title)" v-for="(house, i) in $store.state.houses" :key="i" class="house">
+    <h2 class="title">{{ house.Title }}</h2>
     <div class="img">
-      <div class="overlay">
-        <h2 class="title">{{ house.Title }}</h2>
-      </div>
+      <div class="overlay" />
       <img :src="require(`../assets/images/H${i}.jpg`)" />
     </div>
     <div class="info">
@@ -28,7 +27,7 @@ export default {
   },
   methods: {
     route(i) {
-      this.$router.push({ path: `/lokasi/${i}` });
+      this.$router.push({ path: `/project/${i}` });
     },
   },
 };
@@ -40,6 +39,10 @@ export default {
 #grid {
   display: grid;
   grid-template-columns: 50% 50%;
+
+  .title {
+    text-align: left;
+  }
 
   .house {
     position: relative;
@@ -73,14 +76,6 @@ export default {
         &:hover {
           opacity: 100%;
           background-color: rgba(128, 135, 111, 0.5);
-        }
-
-        .title {
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
-          color: white;
         }
       }
     }
