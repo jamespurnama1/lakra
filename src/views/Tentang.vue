@@ -23,11 +23,17 @@
 <script>
 export default {
   name: 'About',
+  mounted() {
+    this.$root.$emit('mounted');
+  },
 };
 </script>
 <style lang="scss" scoped>
+@import '../styles/index.scss';
+
   .about {
     margin-top: 10vh;
+    will-change: transform;
 
     h1, p {
       text-align: left;

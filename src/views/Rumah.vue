@@ -35,24 +35,41 @@
       <img class="img3" :src="require(`../assets/images/${ttl}/H0.jpg`)" />
     </div>
     <GmapMap
-      :center="pid"
-      :zoom="7"
+      :center="data.Marker.position"
+      :zoom="15"
       class="map"
       map-type-id="terrain"
       ref="mapRef"
+      :options="{
+        styles: style,
+        disableDefaultUI: true,
+        gestureHandling: 'cooperative',
+      }"
     >
+      <gmap-info-window
+        :options="infoOptions"
+        :position="data.Marker.position"
+        :opened="true"
+      />
       <GmapMarker
-        :position="pidM"
+        :position="data.Marker.position"
         :animation="2"
-        :clickable="true"
+        :clickable="false"
         :draggable="false"
-        @click="center=m.position"
+        :icon="{
+          url: require('../assets/marker.svg'),
+          size: {width: 78, height: 95, f: 'px', b: 'px',},
+          scaledSize: {width: 39, height: 48, f: 'px', b: 'px',},
+          anchor: { x: 19.5, y: 48, f: 'px', b: 'px'},
+        }"
       />
     </GmapMap>
   </div>
 </template>
 
 <script>
+import style from '../styles/style.json';
+
 export default {
   name: 'Rumah',
   props: {
@@ -61,13 +78,13 @@ export default {
   data() {
     return {
       data: null,
-      pid: {
-        lat: -11.0,
-        lng: -11.0,
-      },
-      pidM: {
-        lat: -11.0,
-        lng: -11.0,
+      style,
+      infoOptions: {
+        content: '',
+        pixelOffset: {
+          width: 0,
+          height: -45,
+        },
       },
     };
   },
@@ -80,12 +97,19 @@ export default {
       if (this.data === undefined || this.data.length === 0) {
         this.$router.push('/404');
       }
+      this.infoOptions.content = this.data.Marker.infoText;
     },
   },
   computed: {
     ttl() {
       return this.data.Title.toLowerCase();
     },
+  },
+  async mounted() {
+    this.$root.$emit('mounted');
+    await setTimeout(() => {
+      document.querySelector('.gm-ui-hover-effect').style.display = 'none';
+    }, 1000);
   },
 };
 </script>

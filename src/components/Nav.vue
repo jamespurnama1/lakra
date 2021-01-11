@@ -3,34 +3,38 @@
     <router-link to="/" class="logo">
       <img src="../assets/logo.svg" />
       <img class="logoText"
-      :class="{ large: $route.name === 'Home' }"
       src="../assets/logotext.svg" />
     </router-link>
-    <ul>
+    <ul class="links">
       <li>
         <div>
-          <router-link to="/lokasi" class='lokasi'>Lokasi</router-link>
-          <i @click="expand" class="las la-angle-down"></i>
+          <router-link to="/project" class='lokasi' @click.native="close">
+            Project<i @click.stop.prevent="expand" class="las la-angle-down" />
+          </router-link>
           <transition name="slide-up">
             <ul class="lokasiList" v-if="expanded">
-                <router-link tag="li" to="/lokasi/Lakrasamana">
-                Lakrasamana
-                </router-link>
-                <router-link tag="li" to="/lokasi/Lakratempat">
-                  Lakratempat
-                </router-link>
-              <router-link tag="li" to="/lokasi/Lakralokasi">
+              <router-link tag="li" to="/project/Lakrasamana">
+              Lakrasamana
+              </router-link>
+              <router-link tag="li" to="/project/Lakratempat">
+                Lakratempat
+              </router-link>
+              <router-link tag="li" to="/project/Lakralokasi">
                 Lakralokasi
               </router-link>
-                <router-link tag="li" to="/lokasi">
-                Semua Lokasi</router-link>
             </ul>
           </transition>
         </div>
       </li>
-      <router-link tag="li" to="/kpr">KPR</router-link>
-      <router-link tag="li" to="/kontak">Kontak Kami</router-link>
-      <router-link tag="li" to="/tentang">Tentang Kami</router-link>
+      <router-link tag="li" to="/kpr" @click.native="close">
+        KPR
+      </router-link>
+      <router-link tag="li" to="/kontak" @click.native="close">
+        Kontak Kami
+      </router-link>
+      <router-link tag="li" to="/tentang" @click.native="close">
+        Tentang Kami
+      </router-link>
     </ul>
     <div class="active" />
   </div>
@@ -47,13 +51,21 @@ export default {
   data() {
     return {
       expanded: false,
-      navWidth: 150,
       tl: null,
       tl2: gsap.timeline(),
       yPos: 0,
+      scale: 7,
     };
   },
   methods: {
+    close() {
+      this.expanded = false;
+      gsap.to('.la-angle-down', {
+        rotate: 0,
+        duration: 0.3,
+      });
+      this.active();
+    },
     expand() {
       this.expanded = !this.expanded;
       gsap.to('.la-angle-down', {
@@ -62,52 +74,99 @@ export default {
       });
       this.active();
     },
-    navWidthListener() {
-      this.$store.commit('setNavWidth', document.getElementById('nav').offsetWidth);
-      this.navWidth = document.getElementById('nav').offsetWidth;
+    updateData() {
+      if (this.windowWidth > 1280) {
+        this.scale = 7;
+      } else if (this.windowWidth > 960) {
+        this.scale = 5;
+      } else if (this.windowWidth > 768) {
+        this.scale = 3;
+      }
+      // ScrollTrigger.refresh(true);
     },
     checkScroll() {
-      if (this.scroll === 'kill') {
-        this.killLogo();
-      } else if (this.scroll === 'init') {
-        this.logo();
-      }
-    },
-    logo() {
       if (this.$route.name === 'Home') {
-        this.tl = gsap.timeline({
-          scrollTrigger: {
-            id: 'trigger1',
-            trigger: '#home',
-            start: 0,
-            end: '+=200',
-            scrub: 0.3,
-          },
-        });
+        ScrollTrigger.refresh(true);
+        ScrollTrigger.getById('trigger1').enable();
+      } else {
+        ScrollTrigger.getById('trigger1').disable(true);
         gsap.set('.logoText', {
-          x: `${this.navWidth - 50}px`,
-          y: '10vh',
-          scale: 7,
-        });
-        this.tl.to('.logoText', {
           x: 0,
           y: 0,
           scale: 1,
-        })
-          .to('#nav img:first-child', {
-            rotate: '90deg',
-          }, 0)
-          .from('ul', {
-            y: '-10%',
-          }, 0);
+        });
+        gsap.to('.logoText', { clearProps: true });
+        gsap.to('ul', { clearProps: true });
       }
-      this.$store.commit('resetScroll');
     },
-    killLogo() {
-      ScrollTrigger.getById('trigger1').kill(true);
-      gsap.set('.logoText', { clearProps: true });
-      gsap.set('ul', { clearProps: true });
-      this.$store.commit('resetScroll');
+    logo() {
+      ScrollTrigger.matchMedia({
+        '(max-width: 1920px)': () => {
+          this.tl = gsap.timeline({
+            paused: true,
+            scrollTrigger: {
+              id: 'trigger1',
+              trigger: '#home',
+              start: 0,
+              end: 'top top',
+              endTrigger: '.hooper',
+              scrub: 0.3,
+              snap: {
+                snapTo: [0, 1],
+                duration: { min: 0.5, max: 1 },
+                delay: 0.5,
+              },
+            },
+          });
+          this.tl
+            .from('.logoText', {
+              x: `${this.navWidth - 50}px`,
+              y: '10vh',
+              scale: 6.5,
+            })
+            .to('#nav img:first-child', {
+              rotate: '90deg',
+            }, 0)
+            .to('.links', {
+              y: '+=10%',
+            }, 0);
+        },
+        '(max-width: 960px)': () => {
+          this.tl = gsap.timeline({
+            paused: true,
+            scrollTrigger: {
+              id: 'trigger1',
+              trigger: '#home',
+              start: 0,
+              end: 'top top',
+              endTrigger: '.hooper',
+              scrub: 0.3,
+              snap: {
+                snapTo: [0, 1],
+                duration: { min: 0.5, max: 1 },
+                delay: 0.5,
+              },
+            },
+          });
+          this.tl
+            .from('.logoText', {
+              x: `${this.navWidth - 50}px`,
+              y: '10vh',
+              scale: 4,
+            })
+            .to('#nav img:first-child', {
+              rotate: '90deg',
+            }, 0)
+            .to('.links', {
+              y: '+=10%',
+            }, 0);
+        },
+        all: () => {
+          gsap.set('.logoText', {
+            force3D: false,
+          });
+        },
+      });
     },
     async active() {
       try {
@@ -117,7 +176,24 @@ export default {
             x: -200,
             autoAlpha: 0,
           });
+        } else if (this.$route.name === 'Rumah' && !this.expanded) {
+          await this.sleep(330);
+          this.yPos = document.querySelector('.lokasi').getBoundingClientRect().top - 11;
+          this.tl2.to('.active', {
+            y: this.yPos,
+            duration: 0.3,
+          })
+            .to('.active', {
+              x: 0,
+              autoAlpha: 1,
+            }, '>')
+            .to('.lokasi', {
+              color: 'white',
+            }, '>');
         } else {
+          this.tl2.to('.lokasi', {
+            color: 'black',
+          }, '>');
           await this.sleep(330);
           this.yPos = document.querySelector('.router-link-exact-active').getBoundingClientRect().top - 11;
           this.tl2.to('.active', {
@@ -139,33 +215,38 @@ export default {
       });
     },
   },
-  created() {
-    window.addEventListener('resize', this.navWidthListener);
-  },
   mounted() {
-    this.navWidthListener();
     this.active();
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.navWidthListener);
+    this.updateData();
+    this.$nextTick(() => {
+      this.logo();
+      // this.checkScroll();
+      ScrollTrigger.refresh();
+    });
+    this.$root.$on('mounted', () => {
+      ScrollTrigger.refresh();
+      this.active();
+    });
   },
   watch: {
-    navWidth() {
-      this.logo();
-    },
-    scroll() {
-      this.checkScroll();
+    windowWidth() {
+      // this.updateData();
+      // this.checkScroll();
     },
     route() {
       this.active();
+      this.checkScroll();
     },
   },
   computed: {
-    scroll() {
-      return this.$store.state.scroll;
-    },
     route() {
       return this.$route.path;
+    },
+    windowWidth() {
+      return this.$store.state.windowWidth;
+    },
+    navWidth() {
+      return this.$store.state.navWidth;
     },
   },
 };
@@ -183,25 +264,22 @@ export default {
   text-align: left;
   padding: 50px;
   padding-right: 0;
+  background-color: white;
 
   .logo {
     display: flex;
     flex-direction: column;
 
     img {
+      position: relative;
       width: 90%;
       max-width: 125px;
       margin-bottom: 10px;
-      filter: brightness(0) saturate(100%);
       transform-origin: center center;
 
-      &.large {
-        position: relative;
+      &.logoText {
+        opacity: 1;
         transform-origin: left center;
-        transform: scale(7); // nav width ÷ scale
-        backface-visibility: hidden;
-        -webkit-font-smoothing: subpixel-antialiased;
-        transform-style: preserve-3d;
       }
     }
   }
@@ -210,12 +288,17 @@ export default {
     margin-right: auto;
     margin: 0;
     padding: 0;
+    // transform: translateY(-10%);
+
+  .router-link-exact-active {
+    color: white !important;
+  }
 
     li {
       margin: 30px;
       margin-left: 0;
       list-style-type: none;
-      transition: all 1s ease;
+      transition: all .3s ease;
       cursor: pointer;
 
       &:hover {
@@ -242,11 +325,6 @@ export default {
         li:last-child {
           margin-bottom: 0;
         }
-      }
-
-      &.router-link-exact-active {
-        color: white !important;
-        // background-color: $green;
       }
 
       a {

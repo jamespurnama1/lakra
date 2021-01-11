@@ -11,30 +11,30 @@ const routes = [
     component: Home,
   },
   {
-    path: '/lokasi',
-    name: 'Lokasi',
-    component: () => import(/* webpackChunkName: "lokasi" */ '../views/Lokasi.vue'),
+    path: '/project',
+    name: 'project',
+    component: () => import('../views/Lokasi.vue'),
   },
   {
-    path: '/lokasi/:id',
+    path: '/project/:id',
     name: 'Rumah',
     props: true,
-    component: () => import(/* webpackChunkName: "lokasi" */ '../views/Rumah.vue'),
+    component: () => import('../views/Rumah.vue'),
   },
   {
     path: '/kpr',
     name: 'KPR',
-    component: () => import(/* webpackChunkName: "KPR" */ '../views/KPR.vue'),
-  },
-  {
-    path: '/kontak',
-    name: 'Kontak Kami',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Kontak.vue'),
+    component: () => import('../views/KPR.vue'),
   },
   {
     path: '/tentang',
     name: 'Tentang Kami',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Tentang.vue'),
+    component: () => import('../views/Tentang.vue'),
+  },
+  {
+    path: '/kontak',
+    name: 'Kontak Kami',
+    component: () => import('../views/Kontak.vue'),
   },
 ];
 

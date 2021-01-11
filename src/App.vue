@@ -1,8 +1,9 @@
 <template>
   <div id="app">
     <Navigation />
+    <div id="navSpacer" />
     <div class="content">
-      <transition name="slide-down" mode="out-in">
+      <transition name="slide" mode="out-in">
         <router-view :key="$route.fullPath" />
       </transition>
       <Foot />
@@ -21,13 +22,9 @@ export default {
   },
   methods: {
     resize() {
-      document.querySelector('.content').style.left = `${this.navWidth}px`;
-      document.querySelector('.content').style.width = `calc(100% - ${this.navWidth}px)`;
-    },
-  },
-  computed: {
-    navWidth() {
-      return this.$store.getters.getNavWidth;
+      const w = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+      this.$store.commit('setWidth', w);
+      this.$store.commit('setNavWidth', document.getElementById('nav').offsetWidth);
     },
   },
   watch: {
@@ -37,6 +34,12 @@ export default {
   },
   mounted() {
     this.resize();
+  },
+  created() {
+    window.addEventListener('resize', this.resize);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.resize);
   },
 };
 </script>
@@ -55,17 +58,26 @@ body {
     text-align: center;
     color: #2c3e50;
     display: flex;
+    flex-wrap: wrap;
 
     h1, h2, h3, p {
       font-weight: 200;
     }
 
+    #navSpacer {
+      position: relative;
+      min-width: 150px;
+      width: 15vw;
+      height: 100vh;
+      padding: 50px;
+      padding-right: 0;
+    }
+
     .content {
-      position: absolute;
       top: 0;
       left: 150px;
       overflow: hidden;
-      width: 100%;
+      flex: 1;
       height: auto;
 
       .hooper-indicator {
