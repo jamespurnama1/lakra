@@ -291,7 +291,7 @@ export default {
     },
     angsuran() {
       // eslint-disable-next-line max-len
-      let h = (this.jumlahPinjaman / this.durasi / 12) + ((this.jumlahPinjaman * (this.estimasiBunga / 100)) / 12);
+      let h = this.jumlahPinjaman * (this.estimasiBunga / 1200) * (1 / (1 - (1 / (1 + this.estimasiBunga / 1200) ** (this.durasi * 12))));
       if (!h) {
         h = 0;
       }
@@ -352,6 +352,7 @@ export default {
         grid-gap: 0 50px;
 
         hr {
+          opacity: 50%;
           width: 100%;
           border: 1px solid $dark-green;
           margin: 30px 0 20px 0;
