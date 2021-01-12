@@ -4,7 +4,6 @@
       <h2><router-link to="/">Lakra</router-link></h2>
       <ul>
         <li><router-link to="/project">Project</router-link></li>
-        <!-- <li><router-link to="/">Berita</router-link></li> -->
         <li><router-link to="/kpr">KPR</router-link></li>
         <li><router-link to="/tentang">Tentang Kami</router-link></li>
       </ul>
@@ -29,9 +28,9 @@
         </a>
       </div>
     </div>
-    <form
+    <form id="widget"
     @submit="encode">
-      <input id="waText" v-model="text" placeholder="Chat di WhatsApp!">
+      <input id="waText" v-on:focus="focused" v-model="text" placeholder="Chat di WhatsApp!">
       <div>
         <i @click="encode" class="lab la-whatsapp" />
       </div>
@@ -41,12 +40,18 @@
 </template>
 
 <script>
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
 export default {
   name: 'Footer',
   data() {
     return {
       encodedText: null,
       text: null,
+      tl: null,
     };
   },
   methods: {
@@ -56,6 +61,44 @@ export default {
         window.open(`https://wa.me/6281382300094?text=${this.encodedText}`, '_blank');
       }
     },
+    focused() {
+
+    },
+    pin() {
+      this.tl = gsap.timeline({
+        paused: true,
+        scrollTrigger: {
+          id: 'trigger',
+          trigger: '.footer',
+          start: 'top bottom',
+          end: 'bottom bottom',
+          scrub: 0.3,
+        },
+      });
+      this.tl
+        .from('#widget', {
+          position: 'fixed',
+          bottom: 0,
+        })
+        .to('#widget', {
+          position: 'absolute',
+          top: 0,
+        })
+        .from('#waText', {
+          border: '2px solid #80876f',
+          borderRight: 'none',
+          borderBottom: 'none',
+          duration: 0.1,
+        })
+        .to('#waText', {
+          border: '2px solid #80876f',
+          borderRadius: 0,
+          duration: 0.1,
+        });
+    },
+  },
+  mounted() {
+    this.pin();
   },
 };
 </script>
@@ -64,9 +107,15 @@ export default {
 @import '../styles/index.scss';
 
 .footer {
+  position: relative;
   display: flex;
   width: 100%;
   margin: 100px 0;
+  flex-wrap: nowrap;
+
+  @include max-media(tablet) {
+    flex-wrap: wrap;
+  }
 
   a {
     color: black;
@@ -88,23 +137,33 @@ export default {
   }
 
   form {
-    width: 100%;
     height: 50px;
     display: flex;
     flex-direction: row;
-    position: -webkit-sticky;
-    position: sticky;
-    top: 100vh;
+    position: fixed;
+    right: 150px;
+    bottom: 0;
+
+    &.sticky {
+      position: relative;
+    }
+
+    @include max-media(tablet) {
+      margin-top: 15px;
+    }
 
     #waText {
-      border: 1px solid $green;
+      border: 2px solid $green;
       padding: 3px 15px;
       border-right: none;
+      border-bottom: none;
+      border-radius: 5px 0 0 0;
 
       &:focus {
         outline: none;
         border: 2px solid $dark-green;
         border-right: none;
+        border-bottom: none;
       }
     }
 
@@ -133,10 +192,18 @@ export default {
   div {
     margin-right: 10%;
 
+    @include max-media(desktop) {
+      margin-right: 3%;
+    }
+
     h2 {
       text-align: left;
       margin: 0;
       white-space: nowrap;
+
+      @include max-media(small-tablet) {
+        font-size: 1em;
+      }
     }
 
     i {
@@ -152,6 +219,10 @@ export default {
         list-style-type: none;
         padding: 5px 0;
         white-space: nowrap;
+
+        @include max-media(small-tablet) {
+          font-size: 0.75em;
+        }
       }
     }
   }

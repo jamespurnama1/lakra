@@ -26,34 +26,6 @@
         <div class="overlay" />
         <img src="../assets/images/H1.jpg" />
       </slide>
-      <!-- <slide>
-        <div class="hero">
-          <h2>Build Home, Build Value</h2>
-          <p>Lorem ipsum dolor sit amet,
-            consectetur adipiscing elit,
-            sed do eiusmod tempor incididunt
-            ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, quis nostrud
-            exercitation ullamco laboris nisi ut aliquip ea
-          </p>
-        </div>
-        <div class="overlay" />
-        <img src="../assets/images/Z3.jpg" />
-      </slide>
-      <slide>
-        <div class="hero">
-          <h2>Build Home, Build Value</h2>
-          <p>Lorem ipsum dolor sit amet,
-            consectetur adipiscing elit,
-            sed do eiusmod tempor incididunt
-            ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, quis nostrud
-            exercitation ullamco laboris nisi ut aliquip ea
-          </p>
-        </div>
-        <div class="overlay" />
-        <img src="../assets/images/H2.jpg" />
-      </slide> -->
       <hooper-navigation slot="hooper-addons"></hooper-navigation>
       <hooper-pagination slot="hooper-addons"></hooper-pagination>
     </hooper>
@@ -90,7 +62,7 @@ export default {
       document.querySelector('.logoText').style.opacity = 1;
       document.querySelector('#home').style.opacity = 1;
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 500);
+    }, 750);
   },
   beforeDestroy() {
     window.scrollTo({ top: 500, behavior: 'smooth' });
