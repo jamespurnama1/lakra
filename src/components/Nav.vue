@@ -13,14 +13,9 @@
           </router-link>
           <transition name="slide-up">
             <ul class="lokasiList" v-if="expanded">
-              <router-link tag="li" to="/project/Lakrasamana">
-              Lakrasamana
-              </router-link>
-              <router-link tag="li" to="/project/Lakratempat">
-                Lakratempat
-              </router-link>
-              <router-link tag="li" to="/project/Lakralokasi">
-                Lakralokasi
+              <router-link tag="li" v-for="(house, i) in $store.state.houses"
+              :key="i" :to="`/project/${house.Title}`">
+                {{ house.Title }}
               </router-link>
             </ul>
           </transition>
