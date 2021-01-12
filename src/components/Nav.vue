@@ -121,8 +121,8 @@ export default {
           this.tl
             .from('.logoText', {
               x: `${this.navWidth - 50}px`,
-              y: '10vh',
-              scale: 6.5,
+              y: '7vh',
+              scale: 6,
             })
             .to('#nav img:first-child', {
               rotate: '90deg',
@@ -151,7 +151,7 @@ export default {
           this.tl
             .from('.logoText', {
               x: `${this.navWidth - 50}px`,
-              y: '10vh',
+              y: '5vh',
               scale: 4,
             })
             .to('#nav img:first-child', {
@@ -171,6 +171,7 @@ export default {
     async active() {
       try {
         if (this.$route.name === 'Home') {
+          await this.sleep(330);
           gsap.to('.active', {
             y: this.yPos,
             x: -200,
@@ -220,7 +221,7 @@ export default {
     this.updateData();
     this.$nextTick(() => {
       this.logo();
-      // this.checkScroll();
+      this.checkScroll();
       ScrollTrigger.refresh();
     });
     this.$root.$on('mounted', () => {
@@ -231,7 +232,7 @@ export default {
   watch: {
     windowWidth() {
       // this.updateData();
-      // this.checkScroll();
+      this.checkScroll();
     },
     route() {
       this.active();

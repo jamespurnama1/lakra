@@ -93,6 +93,12 @@ export default {
   justify-content: space-between;
   height: 75vh;
   will-change: transform;
+  margin-right: 30px;
+
+  @include max-media(small-tablet) {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
 
   h3 {
     margin: 5em auto;
@@ -104,6 +110,11 @@ export default {
   .text {
     width: 50%;
     margin-right: 30px;
+    box-sizing: border-box;
+
+    @include max-media(small-tablet) {
+      width: 100%;
+    }
 
     h1, p {
       text-align: left;
@@ -142,8 +153,12 @@ export default {
     display: flex;
     flex-direction: column;
     width: 40%;
-    margin-top: 4em;
-    margin-right: 30px;
+    margin-top: 10vh;
+    // margin-right: 30px;
+
+    @include max-media(small-tablet) {
+      width: 100%;
+    }
 
     .grid {
       display: grid;

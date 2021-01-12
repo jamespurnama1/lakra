@@ -321,6 +321,7 @@ export default {
 
     h3 {
       font-size: 1.5em;
+      margin-bottom: 15px;
     }
 
     p, h1 {
@@ -442,9 +443,17 @@ export default {
       display: flex;
       margin-bottom: 10vh;
 
+      @include max-media(small-tablet) {
+        flex-direction: column;
+      }
+
       div {
         width: 50%;
-        margin-right: 15px;
+        margin-right: 30px;
+
+        @include max-media(small-tablet) {
+          width: 100%;
+        }
 
         ul{
           padding: 0;
@@ -474,8 +483,8 @@ export default {
       grid-template-columns: 1fr 1fr;
     }
 
-    @include max-media(desktop) {
-      grid-template-columns: 1fr 1fr;
+    @include max-media(small-tablet) {
+      grid-template-columns: 1fr;
     }
 
     div {
@@ -489,12 +498,17 @@ export default {
       column-gap: 30px;
       margin-bottom: 30px;
 
+      @include max-media(small-tablet) {
+        column-count: 1;
+      }
+
       ul{
         padding: 0;
 
         li {
           list-style-type: none;
           text-align: left;
+          break-inside: avoid;
         }
       }
     }

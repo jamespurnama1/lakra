@@ -46,11 +46,14 @@ export default {
     div {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 2fr));
+      grid-gap: 15px;
       width: calc(100% - 30px);
       margin-right: 30px;
       margin-bottom: 30px;
-      column-count: 2;
-      column-gap: 30px;
+
+      @include max-media(mobile) {
+        grid-template-columns: minmax(0, 2fr);
+      }
     }
 
     img {

@@ -23,36 +23,6 @@ export default new Vuex.Store({
           infoText: '<strong>Lakrasamana</strong><br>Jl. Raden Saleh I No. 34',
         },
       },
-      {
-        Title: 'Lakralokasi',
-        Location: 'Seyegan, Kab. Sleman',
-        Date: '02 Dec 2021',
-        Price: '404.000.000',
-        Desc:
-          'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
-        Marker: {
-          position: {
-            lat: -6.387843811325713,
-            lng: 106.78105976979819,
-          },
-          infoText: '<strong>Lakratempat</strong><br>Jl. lakra I No. 2',
-        },
-      },
-      {
-        Title: 'Lakratempat',
-        Location: 'Seyegan, Kab. Sleman',
-        Date: '02 Dec 2021',
-        Price: '404.000.000',
-        Desc:
-          'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
-        Marker: {
-          position: {
-            lat: -6.175152668747219,
-            lng: 106.82706501881407,
-          },
-          infoText: '<strong>Monas</strong><br>Beli nih Monas',
-        },
-      },
     ],
   },
   mutations: {
