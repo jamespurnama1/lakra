@@ -3,14 +3,9 @@
     <h1>Project</h1>
     <div class="flex">
       <ul class="loc">
-        <router-link @mouseover.native="active(1)" tag="li" to="/project/Lakrasamana">
-          <p>Lakrasamana</p>
-        </router-link>
-        <router-link @mouseover.native="active(2)" tag="li" to="/project/Lakratempat">
-          <p>Lakratempat</p>
-        </router-link>
-        <router-link @mouseover.native="active(3)" tag="li" to="/project/Lakralokasi">
-          <p>Lakralokasi</p>
+        <router-link tag="li" v-for="(house, i) in $store.state.houses"
+        @mouseover.native="active(i - 1)" :key="i" :to="`/project/${house.Title}`">
+          <p>{{ house.Title }}</p>
         </router-link>
       </ul>
       <div class="active1" />

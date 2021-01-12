@@ -28,11 +28,11 @@
         <li><i class="las la-check"></i>Tempat Parkir</li>
         <li><i class="las la-shield-alt"></i>Keamanan 24 Jam</li>
       </ul>
-      <img class="img1" :src="require(`../assets/images/${ttl}/H0.jpg`)" />
+      <img class="img1" :src="require(`../assets/images/${ttl}/H2.jpg`)" />
     </div>
     <div class="gallery">
-      <img class="img2" :src="require(`../assets/images/${ttl}/H0.jpg`)" />
-      <img class="img3" :src="require(`../assets/images/${ttl}/H0.jpg`)" />
+      <img class="img2" :src="require(`../assets/images/${ttl}/H3.jpg`)" />
+      <img class="img3" :src="require(`../assets/images/${ttl}/Z3.jpg`)" />
     </div>
     <GmapMap
       :center="data.Marker.position"
@@ -176,9 +176,11 @@ export default {
     grid-template-areas: 'header img'
                           'list img';
     grid-gap: 30px;
-    grid-template-rows: minmax(0, 0.3fr) minmax(0, 65vh);
+    grid-template-rows: minmax(0, 0.3fr) minmax(0, 95%);
     margin-bottom: 30px;
     margin-right: 30px;
+    height: 60vh;
+    min-height: 500px;
 
     img {
       height: 100%;
@@ -197,7 +199,7 @@ export default {
 
       li {
         list-style-type: none;
-        padding: 20px 0;
+        padding: 2vh 0;
 
         i {
           margin-right: 10px;

@@ -158,6 +158,7 @@ export default {
       border-right: none;
       border-bottom: none;
       border-radius: 5px 0 0 0;
+      margin: 0;
 
       &:focus {
         outline: none;
