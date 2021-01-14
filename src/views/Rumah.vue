@@ -4,9 +4,7 @@
     <img :src="require(`../assets/images/${ttl}/H0.jpg`)" />
     <div class="info">
       <div class="leftInfo">
-        <p>Estimasi Selesai:</p>
         <div class="h2">
-          <h2><i class="las la-calendar"></i>{{ data.Date }}</h2>
           <h2><i class="las la-map-marker"></i>{{ data.Location }}</h2>
         </div>
         <p>{{ data.Desc }}</p>
@@ -15,7 +13,6 @@
         <p>Mulai dari:</p>
         <h2>Rp. {{ data.Price }}</h2>
       </div>
-      <button>Hubungi Kami</button>
     </div>
     <div class="details">
       <h2>Spesifikasi</h2>
@@ -23,7 +20,6 @@
         <li><i class="las la-user-friends"></i>Kamar Tidur: 2</li>
         <li><i class="las la-expand-arrows-alt"></i>Luas Tanah: 86m2</li>
         <li><i class="las la-home"></i>Luas Bangunan: 36m2</li>
-        <li><i class="las la-compass"></i>Menghadap Barat</li>
         <li><i class="las la-check"></i>Taman</li>
         <li><i class="las la-check"></i>Tempat Parkir</li>
         <li><i class="las la-shield-alt"></i>Keamanan 24 Jam</li>
@@ -31,7 +27,7 @@
       <img class="img1" :src="require(`../assets/images/${ttl}/H2.jpg`)" />
     </div>
     <div class="gallery">
-      <img class="img2" :src="require(`../assets/images/${ttl}/H3.jpg`)" />
+      <img class="img2" :src="require(`../assets/images/${ttl}/H1.jpg`)" />
       <img class="img3" :src="require(`../assets/images/${ttl}/Z3.jpg`)" />
     </div>
     <GmapMap
@@ -93,7 +89,7 @@ export default {
   },
   methods: {
     updateData() {
-      [this.data] = this.$store.state.houses.filter((filter) => filter.Title === this.id);
+      [this.data] = this.$store.state.houses.filter((f) => f.Title.toLowerCase() === this.id);
       if (this.data === undefined || this.data.length === 0) {
         this.$router.push('/404');
       }

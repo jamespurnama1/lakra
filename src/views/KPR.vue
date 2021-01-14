@@ -44,7 +44,7 @@
           <span>
             <div>
               <select v-model="durasi">
-                <option disabled value="">Pilih satu</option>
+                <option disabled hidden value="">Pilih satu</option>
                 <option>5</option>
                 <option>6</option>
                 <option>7</option>

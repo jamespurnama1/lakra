@@ -8,26 +8,32 @@
     <ul class="links">
       <li>
         <div>
-          <router-link to="/project" class='lokasi' @click.native="close">
+          <router-link to="/project" id="project" ref="project" class='lokasi'>
             Project<i @click.stop.prevent="expand" class="las la-angle-down" />
           </router-link>
           <transition name="slide-up">
             <ul class="lokasiList" v-if="expanded">
-              <router-link tag="li" v-for="(house, i) in $store.state.houses"
-              :key="i" :to="`/project/${house.Title}`">
+              <template v-for="(house, i) in $store.state.houses">
+              <router-link
+              tag="li"
+              :ref="house.Title.toLowerCase()"
+              :id="house.Title.toLowerCase()"
+              :key="i"
+              :to="`/project/${house.Title.toLowerCase()}`">
                 {{ house.Title }}
               </router-link>
+              </template>
             </ul>
           </transition>
         </div>
       </li>
-      <router-link tag="li" to="/kpr" @click.native="close">
+      <router-link tag="li" ref="kpr" to="/kpr">
         KPR
       </router-link>
-      <router-link tag="li" to="/kontak" @click.native="close">
+      <router-link tag="li" ref="kontak" to="/kontak">
         Kontak Kami
       </router-link>
-      <router-link tag="li" to="/tentang" @click.native="close">
+      <router-link tag="li" ref="tentang" to="/tentang">
         Tentang Kami
       </router-link>
     </ul>
@@ -50,6 +56,7 @@ export default {
       tl2: gsap.timeline(),
       yPos: 0,
       scale: 7,
+      offset: 0,
     };
   },
   methods: {
@@ -59,15 +66,19 @@ export default {
         rotate: 0,
         duration: 0.3,
       });
-      this.active();
+      this.offset = 0;
+      this.act(this.$route.path.slice(this.$route.path.lastIndexOf('/') + 1));
     },
-    expand() {
+    async expand() {
       this.expanded = !this.expanded;
       gsap.to('.la-angle-down', {
         rotate: '+=180',
         duration: 0.3,
       });
-      this.active();
+      this.offset = (this.expanded) ? 48 : 0;
+      this.act(this.$route.path.slice(this.$route.path.lastIndexOf('/') + 1));
+      await this.$nextTick();
+      this.active(this.$route.name);
     },
     updateData() {
       if (this.windowWidth > 1280) {
@@ -77,14 +88,23 @@ export default {
       } else if (this.windowWidth > 768) {
         this.scale = 3;
       }
-      // ScrollTrigger.refresh(true);
     },
     checkScroll() {
       if (this.$route.name === 'Home') {
-        ScrollTrigger.refresh(true);
+        gsap.set('.logoText', {
+          autoAlpha: 0,
+        });
         ScrollTrigger.getById('trigger1').enable();
+        ScrollTrigger.getById('trigger1').scroll(ScrollTrigger.getById('trigger1').end);
+        setTimeout(() => {
+          gsap.to('.logoText', {
+            autoAlpha: 1,
+            duration: 0.5,
+          });
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 300);
       } else {
-        ScrollTrigger.getById('trigger1').disable(true);
+        ScrollTrigger.getById('trigger1').disable();
         gsap.set('.logoText', {
           x: 0,
           y: 0,
@@ -96,7 +116,7 @@ export default {
     },
     logo() {
       ScrollTrigger.matchMedia({
-        '(max-width: 1920px)': () => {
+        '(min-width: 961px)': () => {
           this.tl = gsap.timeline({
             paused: true,
             scrollTrigger: {
@@ -163,65 +183,79 @@ export default {
         },
       });
     },
-    async active() {
-      try {
-        if (this.$route.name === 'Home') {
-          await this.sleep(330);
-          gsap.to('.active', {
-            y: this.yPos,
-            x: -200,
-            autoAlpha: 0,
-          });
-        } else if (this.$route.name === 'Rumah' && !this.expanded) {
-          await this.sleep(330);
-          this.yPos = document.querySelector('.lokasi').getBoundingClientRect().top - 11;
-          this.tl2.to('.active', {
-            y: this.yPos,
-            duration: 0.3,
-          })
-            .to('.active', {
-              x: 0,
-              autoAlpha: 1,
-            }, '>')
-            .to('.lokasi', {
-              color: 'white',
-            }, '>');
-        } else {
-          this.tl2.to('.lokasi', {
-            color: 'black',
-          }, '>');
-          await this.sleep(330);
-          this.yPos = document.querySelector('.router-link-exact-active').getBoundingClientRect().top - 11;
-          this.tl2.to('.active', {
-            y: this.yPos,
-            duration: 0.3,
-          })
-            .to('.active', {
-              x: 0,
-              autoAlpha: 1,
-            }, '>');
-        }
-      } catch (err) {
-        console.error(err);
+    act(i) {
+      switch (i) {
+        case 'project':
+          this.yPos = (this.h / 5) + 44.5;
+          break;
+
+        case 'lakrasamana':
+          this.yPos = (this.h / 5) + 44.5 + this.offset;
+          break;
+
+        case 'kpr':
+          this.yPos = (this.h / 5) + 94.5 + this.offset;
+          break;
+
+        case 'kontak':
+          this.yPos = (this.h / 5) + 144.5 + this.offset;
+          break;
+
+        case 'tentang':
+          this.yPos = (this.h / 5) + 194.5 + this.offset;
+          break;
+
+        default:
       }
     },
-    sleep(ms) {
-      return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-      });
+    active(i) {
+      if (i === 'Rumah' && !this.expanded) {
+        this.yPos = (this.h / 5) + 44.5;
+        this.tl2.set('.active', {
+          y: this.yPos,
+          duration: 0.1,
+        })
+          .to('.lokasi', {
+            color: 'white',
+            duration: 0.3,
+          }, '<')
+          .to('.active', {
+            x: '125%',
+            autoAlpha: 1,
+            duration: 0.3,
+          });
+      } else if (i !== 'Home') {
+        this.tl2.to('.lokasi, #project', {
+          color: 'black',
+          duration: 0.3,
+        }, 0)
+          .to('.active', {
+            y: this.yPos,
+            duration: 0.3,
+          }, '+=0.1')
+          .to('.active', {
+            x: '125%',
+            autoAlpha: 1,
+            duration: 0.3,
+          }, 'active', '>')
+          .to('.router-link-exact-active:not(.footer a)', {
+            color: 'white',
+            duration: 0.3,
+          }, 'active');
+      }
     },
   },
   mounted() {
-    this.active();
-    this.updateData();
+    this.updateData(); // set logo scale
     this.$nextTick(() => {
-      this.logo();
-      this.checkScroll();
+      this.logo(); // init gsap scrolltrigger
       ScrollTrigger.refresh();
     });
-    this.$root.$on('mounted', () => {
-      ScrollTrigger.refresh();
-      this.active();
+    this.$root.$on('mounted', () => { // on content mount
+      this.$nextTick(() => {
+        this.active(this.$route.name); // move active
+        this.checkScroll();
+      });
     });
   },
   watch: {
@@ -229,20 +263,34 @@ export default {
       // this.updateData();
       this.checkScroll();
     },
-    route() {
-      this.active();
-      this.checkScroll();
+    // eslint-disable-next-line object-shorthand
+    '$route'(to, from) {
+      const p = from.path.slice(from.path.lastIndexOf('/') + 1);
+      if (p.length > 0) {
+        gsap.to(this.$refs[p].$el, {
+          color: 'black',
+          duration: 0.3,
+        });
+      }
+      this.close();
+      if (to.name === 'Home') {
+        gsap.to('.active', {
+          x: 0,
+          autoAlpha: 0,
+          duration: 0.3,
+        });
+      }
     },
   },
   computed: {
-    route() {
-      return this.$route.path;
-    },
     windowWidth() {
       return this.$store.state.windowWidth;
     },
     navWidth() {
       return this.$store.state.navWidth;
+    },
+    h() {
+      return Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
     },
   },
 };
@@ -284,11 +332,6 @@ export default {
     margin-right: auto;
     margin: 0;
     padding: 0;
-    // transform: translateY(-10%);
-
-  .router-link-exact-active {
-    color: white !important;
-  }
 
     li {
       margin: 30px;
@@ -351,7 +394,7 @@ export default {
     position: absolute;
     background-color: $green;
     top: 0;
-    left: 0;
+    left: -100%;
     width: 80%;
     height: 2.5em;
     z-index: -1;

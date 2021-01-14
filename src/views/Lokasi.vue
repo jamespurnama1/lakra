@@ -4,7 +4,7 @@
     <div class="flex">
       <ul class="loc">
         <router-link tag="li" v-for="(house, i) in $store.state.houses"
-        @mouseover.native="active(i - 1)" :key="i" :to="`/project/${house.Title}`">
+        @mouseover.native="active(i + 1)" :key="i" :to="`/project/${house.Title.toLowerCase()}`">
           <p>{{ house.Title }}</p>
         </router-link>
       </ul>
@@ -126,13 +126,13 @@ export default {
     },
   },
   async mounted() {
-    this.$root.$emit('mounted');
     await setTimeout(() => {
       this.active(1);
       gsap.set('.gm-ui-hover-effect', {
         display: 'none',
       });
     }, 1000);
+    this.$root.$emit('mounted');
   },
 };
 </script>

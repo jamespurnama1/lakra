@@ -8,7 +8,6 @@
     </div>
     <div class="info">
       <div>
-        <p><i class="las la-map-marker"></i>{{ house.Date }}</p>
         <p><i class="las la-calendar"></i>{{ house.Location }}</p>
       </div>
       <h2>Rp. {{ house.Price }}</h2>
@@ -27,7 +26,7 @@ export default {
   },
   methods: {
     route(i) {
-      this.$router.push({ path: `/project/${i}` });
+      this.$router.push({ path: `/project/${i.toLowerCase()}` });
     },
   },
 };

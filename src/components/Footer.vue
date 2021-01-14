@@ -141,7 +141,7 @@ export default {
     display: flex;
     flex-direction: row;
     position: fixed;
-    right: 150px;
+    right: 30px;
     bottom: 0;
 
     &.sticky {
