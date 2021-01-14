@@ -56,16 +56,15 @@ export default {
 
   },
   mounted() {
-    document.querySelector('.hooper').scrollIntoView();
+    // document.querySelector('.hooper').scrollIntoView();
     this.$root.$emit('mounted');
     setTimeout(() => {
       document.querySelector('.logoText').style.opacity = 1;
       document.querySelector('#home').style.opacity = 1;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 750);
+    }, 1000);
   },
   beforeDestroy() {
-    window.scrollTo({ top: 500, behavior: 'smooth' });
+    // window.scrollTo({ top: 500, behavior: 'smooth' });
   },
 };
 </script>

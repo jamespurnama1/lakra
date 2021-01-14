@@ -4,7 +4,9 @@
     <div id="navSpacer" />
     <div class="content">
       <transition name="slide" mode="out-in">
-        <router-view :key="$route.fullPath" />
+        <!-- <keep-alive> -->
+          <router-view :key="$route.fullPath" />
+        <!-- </keep-alive> -->
       </transition>
       <Foot />
     </div>
@@ -45,56 +47,62 @@ export default {
 </script>
 
 <style lang="scss">
-body {
-  margin: 0;
+html {
+  height: 100%;
+  overflow: auto;
 
-  #app {
-    overflow-y: hidden;
-    width: 100vw;
-    font-family: Helvetica-Neue, Helvetica, Arial, sans-serif;
-    font-weight: 200;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    display: flex;
-    flex-wrap: wrap;
+  body {
+    margin: 0;
+    height: 100%;
 
-    h1, h2, h3, p {
+    #app {
+      overflow-y: hidden;
+      width: 100vw;
+      font-family: Helvetica-Neue, Helvetica, Arial, sans-serif;
       font-weight: 200;
-    }
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-align: center;
+      color: #2c3e50;
+      display: flex;
+      flex-wrap: wrap;
 
-    #navSpacer {
-      position: relative;
-      min-width: 150px;
-      width: 15vw;
-      height: 100vh;
-      padding: 50px;
-      padding-right: 0;
-    }
-
-    .content {
-      top: 0;
-      left: 150px;
-      overflow: hidden;
-      flex: 1;
-      height: auto;
-
-      .hooper-indicator {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        margin: 0 5px;
-        opacity: 50%;
-
-        &.is-active {
-          background-color: white;
-          opacity: 100%;
-        }
+      h1, h2, h3, p {
+        font-weight: 200;
       }
 
-      svg.icon {
-        filter: brightness(0) invert(1);
+      #navSpacer {
+        position: relative;
+        min-width: 150px;
+        width: 15vw;
+        height: 100vh;
+        padding: 50px;
+        padding-right: 0;
+      }
+
+      .content {
+        top: 0;
+        left: 150px;
+        overflow: hidden;
+        flex: 1;
+        height: auto;
+
+        .hooper-indicator {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          margin: 0 5px;
+          opacity: 50%;
+
+          &.is-active {
+            background-color: white;
+            opacity: 100%;
+          }
+        }
+
+        svg.icon {
+          filter: brightness(0) invert(1);
+        }
       }
     }
   }

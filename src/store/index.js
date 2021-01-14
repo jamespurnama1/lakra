@@ -12,9 +12,9 @@ export default new Vuex.Store({
         Title: 'Lakrasamana',
         Location: 'Raden Saleh, Depok',
         Date: 'Dec 2020',
-        Price: '404.000.000',
+        Price: '880.000.000',
         Desc:
-          'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
+          '',
         Marker: {
           position: {
             lat: -6.405181627778632,

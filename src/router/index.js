@@ -4,6 +4,12 @@ import Home from '../views/Home.vue';
 
 Vue.use(VueRouter);
 
+const Lokasi = () => import('../views/Lokasi.vue');
+const Rumah = () => import('../views/Rumah.vue');
+const KPR = () => import('../views/KPR.vue');
+const Tentang = () => import('../views/Tentang.vue');
+const Kontak = () => import('../views/Kontak.vue');
+
 const routes = [
   {
     path: '/',
@@ -13,28 +19,32 @@ const routes = [
   {
     path: '/project',
     name: 'project',
-    component: () => import('../views/Lokasi.vue'),
+    component: Lokasi,
   },
   {
     path: '/project/:id',
     name: 'Rumah',
     props: true,
-    component: () => import('../views/Rumah.vue'),
+    component: Rumah,
   },
   {
     path: '/kpr',
     name: 'KPR',
-    component: () => import('../views/KPR.vue'),
+    component: KPR,
   },
   {
     path: '/tentang',
     name: 'Tentang Kami',
-    component: () => import('../views/Tentang.vue'),
+    component: Tentang,
   },
   {
     path: '/kontak',
     name: 'Kontak Kami',
-    component: () => import('../views/Kontak.vue'),
+    component: Kontak,
+  },
+  {
+    path: '/404',
+    component: Home,
   },
 ];
 
