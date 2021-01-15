@@ -18,7 +18,7 @@
           <h2>Design maksimal dengan biaya minimum.</h2>
           <p>Menyediakan hunian premium yang
             inovatif dan berkualitas bagi client,
-            dengan menghadirkan arbiter profesional,
+            dengan menghadirkan arsitek profesional,
             kontraktor, dan konsultan terkait untuk
             menjamin kualitas dan kenyamanan hunian bagi client.
           </p>

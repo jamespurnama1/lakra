@@ -18,8 +18,8 @@
       <h2>Spesifikasi</h2>
       <ul>
         <li><i class="las la-user-friends"></i>Kamar Tidur: 2</li>
-        <li><i class="las la-expand-arrows-alt"></i>Luas Tanah: 86m2</li>
-        <li><i class="las la-home"></i>Luas Bangunan: 36m2</li>
+        <li><i class="las la-expand-arrows-alt"></i>Luas Tanah: {{ data.Tanah }}m<sup>2</sup></li>
+        <li><i class="las la-home"></i>Luas Bangunan: {{ data.Bangunan }}m<sup>2</sup></li>
         <li><i class="las la-check"></i>Taman</li>
         <li><i class="las la-check"></i>Tempat Parkir</li>
         <li><i class="las la-shield-alt"></i>Keamanan 24 Jam</li>

@@ -15,6 +15,8 @@ export default new Vuex.Store({
         Price: '880.000.000',
         Desc:
           '',
+        Tanah: 60,
+        Bangunan: 72,
         Marker: {
           position: {
             lat: -6.405181627778632,
