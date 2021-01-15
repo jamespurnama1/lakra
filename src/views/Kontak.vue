@@ -36,7 +36,7 @@
           <input type="tel" placeholder="Nomor HP" name="hp" required pattern="(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[-\.\s\\\/]?)?((?:\(?\d{1,}\)?[-\.\s\\\/]?){0,})(?:[-\.\s\\\/]?(?:#|ext\.?|extension|x)[-\.s\\\/]?(\d+))?">
         </div>
         <br>
-        <textarea name="message" placeholder="Ketik di sini..." required></textarea>
+        <textarea id="message" name="message" placeholder="Ketik di sini..." required></textarea>
         <input id="submit" type="submit" value="Send">
       </form>
     </transition-group>
@@ -53,8 +53,17 @@ export default {
   mounted() {
     this.form();
     this.$root.$emit('mounted');
+    const textarea = document.querySelector('#message');
+    textarea.addEventListener('keyup', () => {
+      textarea.style.height = `${this.calcHeight(textarea.value)}px`;
+    });
   },
   methods: {
+    calcHeight(value) {
+      const numberOfLineBreaks = (value.match(/\n/g) || []).length;
+      const newHeight = 20 + numberOfLineBreaks * 20 + 12 + 2;
+      return newHeight;
+    },
     form() {
       this.$refs.form.addEventListener('submit', (ev) => {
         ev.preventDefault();
