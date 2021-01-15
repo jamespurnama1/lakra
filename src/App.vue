@@ -98,14 +98,14 @@ html {
       h2 {
         @include max-media(mobile) {
           font-size: 1em;
-          line-height: 0.75em;
+          line-height: 1.2em;
         }
       }
 
       h3 {
         @include max-media(mobile) {
           font-size: 1em;
-          line-height: 1em;
+          line-height: 1.2em;
         }
       }
 

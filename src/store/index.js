@@ -18,6 +18,7 @@ export default new Vuex.Store({
           '',
         Tanah: 60,
         Bangunan: 72,
+        Kamar: 2,
         Marker: {
           position: {
             lat: -6.405181627778632,

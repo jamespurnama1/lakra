@@ -208,11 +208,10 @@ export default {
     }
 
     textarea {
-      height: 10%;
+      height: 75%;
       resize: vertical;
       box-sizing: border-box;
-      border-style: solid;
-      border-color: $green;
+      border: 2px solid $green;
       margin-bottom: 10px;
       font-family: Helvetica-Neue, Helvetica, Arial, sans-serif;
       font-weight: 200;
@@ -220,7 +219,6 @@ export default {
       padding: 15px 10px;
 
       @include max-media(mobile) {
-        height: 75%;
         font-size: 0.75em;
         line-height: 1em;
       }
