@@ -3,7 +3,7 @@
   <div @click="route(house.Title)" v-for="(house, i) in $store.state.houses" :key="i" class="house">
     <h2 class="title">{{ house.Title }}</h2>
     <div class="img">
-      <div class="overlay" />
+      <!-- <div class="overlay" /> -->
       <img :src="require(`../assets/images/H${i}.jpg`)" />
     </div>
     <div class="info">
@@ -59,24 +59,30 @@ export default {
         width: 100%;
         height: 100%;
         object-fit: cover;
-      }
+        transition: transform .3s ease;
 
-      .overlay {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: 100%;
-        height: 100%;
-        background-color: $green;
-        opacity: 0;
-        transition: all .5s ease;
-
-        &:hover {
-          opacity: 100%;
-          background-color: rgba(128, 135, 111, 0.5);
+          &:hover {
+          transform: scale(1.3);
         }
       }
+
+      // .overlay {
+      //   position: absolute;
+      //   left: 50%;
+      //   top: 50%;
+      //   transform: translate(-50%, -50%);
+      //   width: 100%;
+      //   height: 100%;
+      //   background-color: $green;
+      //   opacity: 0;
+      //   transition: all .5s ease;
+      //   pointer-events: none;
+
+      //   &:hover {
+      //     opacity: 100%;
+      //     background-color: rgba(128, 135, 111, 0.5);
+      //   }
+      // }
     }
 
     .info {
