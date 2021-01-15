@@ -14,10 +14,10 @@
         <h2>Rp. {{ data.Price }}</h2>
       </div>
     </div>
+    <h2>Spesifikasi</h2>
     <div class="details">
-      <h2>Spesifikasi</h2>
       <ul>
-        <li><i class="las la-user-friends" /><p>Kamar Tidur: 2</p></li>
+        <li><i class="las la-user-friends" /><p>Kamar Tidur: {{ data.Kamar }}</p></li>
         <li><i class="las la-expand-arrows-alt" />
           <p>Luas Tanah: {{ data.Tanah }}m<sup>2</sup></p>
         </li>
@@ -171,35 +171,33 @@ export default {
         background-color: $dark-green;
       }
     }
-
   }
+
+  h2 {
+    text-align: left;
+  }
+
   .details {
     display: grid;
-    grid-template-areas: 'header img'
-                          'list img';
+    grid-template-areas: 'list img';
     grid-gap: 30px;
-    grid-template-rows: minmax(0, 0.3fr) minmax(0, 95%);
     margin-bottom: 30px;
     margin-right: 30px;
     height: 60vh;
     min-height: 500px;
+    overflow: hidden;
 
     @include max-media(mobile) {
+      margin-right: 0;
       height: initial;
       min-height: initial;
-      grid-template-areas:  'header'
-                            'list'
+      grid-template-areas:  'list'
                             'img';
-      grid-template-rows: 0fr 0.5fr 1fr;
+      grid-template-rows: 0.5fr 1fr;
     }
 
     img {
       height: 100%;
-    }
-
-    h2 {
-      text-align: left;
-      grid-area: header;
     }
 
     ul {
@@ -208,9 +206,19 @@ export default {
       padding: 0;
       grid-area: list;
 
+      @include max-media(mobile) {
+        columns: 2;
+      }
+
+      @include max-media(small-mobile) {
+        columns: 1;
+      }
+
       li {
         list-style-type: none;
         padding: 2vh 0;
+        display: flex;
+        align-items: center;
 
         i {
           margin-right: 10px;
@@ -231,10 +239,15 @@ export default {
 
   .gallery {
     display: flex;
+    flex-wrap: wrap;
 
     img {
       margin-right: 30px;
       margin-bottom: 30px;
+
+      @include max-media(mobile) {
+        margin-right: 0;
+      }
     }
   }
 
@@ -244,6 +257,11 @@ export default {
     min-height: 150px;
     min-width: 320px;
     margin-right: 30px;
+
+    @include max-media(mobile) {
+      width: 100%;
+      margin-right: 0;
+    }
   }
 }
 </style>
