@@ -35,6 +35,10 @@ export default {
     margin-top: 10vh;
     will-change: transform;
 
+  @include max-media(mobile) {
+    margin-top: 0px;
+  }
+
     h1, p {
       text-align: left;
     }
@@ -53,13 +57,21 @@ export default {
 
       @include max-media(mobile) {
         grid-template-columns: minmax(0, 2fr);
+        margin-right: 0;
       }
     }
 
     img {
       width: calc(100% - 30px);
+      height: auto;
       margin-right: 30px;
       object-fit: cover;
+
+      @include max-media(mobile) {
+        margin-right: 0;
+        width: 100%;
+        height: auto;
+      }
     }
   }
 </style>

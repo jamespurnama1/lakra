@@ -100,6 +100,10 @@ export default {
     justify-content: flex-start;
   }
 
+  @include max-media(mobile) {
+    margin: 0;
+  }
+
   h3 {
     margin: 5em auto;
     margin-bottom: auto;
@@ -154,7 +158,6 @@ export default {
     flex-direction: column;
     width: 40%;
     margin-top: 10vh;
-    // margin-right: 30px;
 
     @include max-media(small-tablet) {
       width: 100%;
@@ -165,10 +168,6 @@ export default {
       grid-template-columns: 1fr 1fr;
       grid-gap: 15px;
       box-sizing: border-box;
-
-      input {
-        // width: calc(100% - 1px);
-      }
     }
 
     input {
@@ -181,6 +180,11 @@ export default {
       font-size: 1em;
       box-sizing: border-box;
       width: 100%;
+
+      @include max-media(mobile) {
+        font-size: 0.75em;
+        line-height: 1em;
+      }
 
       &#submit {
         background-color: $green;
@@ -214,6 +218,12 @@ export default {
       font-weight: 200;
       font-size: 1em;
       padding: 15px 10px;
+
+      @include max-media(mobile) {
+        height: 75%;
+        font-size: 0.75em;
+        line-height: 1em;
+      }
 
       &:focus {
         border-color: $dark-green;

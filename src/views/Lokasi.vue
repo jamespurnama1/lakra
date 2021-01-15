@@ -1,15 +1,20 @@
 <template>
   <div id="lokasi">
-    <h1>Project</h1>
+    <h1>Projects</h1>
     <div class="flex">
       <ul class="loc">
         <router-link tag="li" v-for="(house, i) in $store.state.houses"
-        @mouseover.native="active(i + 1)" :key="i" :to="`/project/${house.Title.toLowerCase()}`">
+        @mouseover.native="active(i)" :key="i" :to="`/projects/${house.Title.toLowerCase()}`">
           <p>{{ house.Title }}</p>
+          <p v-if="$store.state.windowWidth < 600">
+            <i class="las la-map-marker" />
+            {{ house.Location }}
+          </p>
         </router-link>
       </ul>
-      <div class="active1" />
+      <div class="active1" v-if="$store.state.windowWidth > 600" />
       <GmapMap
+        v-if="$store.state.windowWidth > 600"
         :center="{ lat: -6.405181627778632, lng: 106.84120278009165 }"
         :zoom=zoom
         ref="mapRef"
@@ -92,32 +97,35 @@ export default {
   },
   methods: {
     active(i) {
-      this.activeMarker = this.markers[i - 1];
-      this.infoOptions.content = this.markers[i - 1].infoText;
-      const h = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
-      this.yPos = (h / 10) + 58 + ((i - 1) * 39.3);
-      this.tl.set('.active1', {
-        y: `${this.yPos}px`,
-        x: 0,
-        autoAlpha: 1,
-      })
-        .to('.loc li', {
-          color: 'black',
-          duration: 0.1,
-        }, '<')
-        .to(`.loc li:nth-child(${i})`, {
-          color: 'white',
-          duration: 0.1,
-        }, '<');
-      if (this.prevActive !== i) {
-        this.$refs.mapRef.$mapPromise.then((map) => {
-          map.setZoom(13);
-          setTimeout(() => {
-            map.panTo(this.markers[i - 1].position);
-            map.setZoom(15);
-          }, 500);
-        });
-        this.prevActive = i;
+      this.activeMarker = this.markers[i];
+      this.infoOptions.content = this.markers[i].infoText;
+      // const h = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+      // this.yPos = (h / 10) + 58 + ((i - 1) * 39.3);
+      this.yPos = i * 26;
+      if (this.$store.state.windowWidth > 600) {
+        this.tl.set('.active1', {
+          y: `${this.yPos}px`,
+          x: 0,
+          autoAlpha: 1,
+        })
+          .to('.loc li', {
+            color: 'black',
+            duration: 0.1,
+          }, '<')
+          .to(`.loc li:nth-child(${i + 1})`, {
+            color: 'white',
+            duration: 0.1,
+          }, '<');
+        if (this.prevActive !== i) {
+          this.$refs.mapRef.$mapPromise.then((map) => {
+            map.setZoom(13);
+            setTimeout(() => {
+              map.panTo(this.markers[i].position);
+              map.setZoom(15);
+            }, 500);
+          });
+          this.prevActive = i;
+        }
       }
     },
     toggleInfoWindow: (marker) => {
@@ -127,12 +135,18 @@ export default {
   },
   async mounted() {
     await setTimeout(() => {
-      this.active(1);
+      this.active(0);
       gsap.set('.gm-ui-hover-effect', {
         display: 'none',
       });
     }, 1000);
     this.$root.$emit('mounted');
+  },
+  watch: {
+    // eslint-disable-next-line object-shorthand
+    '$store.state.windowWidth'() {
+      this.active(0);
+    },
   },
 };
 </script>
@@ -142,7 +156,12 @@ export default {
 
 #lokasi {
   margin-top: 10vh;
-  // will-change: transform;
+  min-height: 50vh;
+  will-change: transform;
+
+  @include max-media(mobile) {
+    margin-top: 0;
+  }
 
   h1 {
     text-align: left;
@@ -151,11 +170,16 @@ export default {
 
   .flex {
     display: flex;
+    position: relative;
 
     .map {
       height: 75vh;
       width: 80%;
       margin-left: auto;
+
+      @include max-media(small-tablet) {
+          width: 60%;
+        }
     }
 
     ul {

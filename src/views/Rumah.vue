@@ -5,7 +5,7 @@
     <div class="info">
       <div class="leftInfo">
         <div class="h2">
-          <h2><i class="las la-map-marker"></i>{{ data.Location }}</h2>
+          <h2><i class="las la-map-marker" />{{ data.Location }}</h2>
         </div>
         <p>{{ data.Desc }}</p>
       </div>
@@ -17,12 +17,14 @@
     <div class="details">
       <h2>Spesifikasi</h2>
       <ul>
-        <li><i class="las la-user-friends"></i>Kamar Tidur: 2</li>
-        <li><i class="las la-expand-arrows-alt"></i>Luas Tanah: {{ data.Tanah }}m<sup>2</sup></li>
-        <li><i class="las la-home"></i>Luas Bangunan: {{ data.Bangunan }}m<sup>2</sup></li>
-        <li><i class="las la-check"></i>Taman</li>
-        <li><i class="las la-check"></i>Tempat Parkir</li>
-        <li><i class="las la-shield-alt"></i>Keamanan 24 Jam</li>
+        <li><i class="las la-user-friends" /><p>Kamar Tidur: 2</p></li>
+        <li><i class="las la-expand-arrows-alt" />
+          <p>Luas Tanah: {{ data.Tanah }}m<sup>2</sup></p>
+        </li>
+        <li><i class="las la-home" /><p>Luas Bangunan: {{ data.Bangunan }}m<sup>2</sup></p></li>
+        <li><i class="las la-check" /><p>Taman</p></li>
+        <li><i class="las la-check" /><p>Tempat Parkir</p></li>
+        <li><i class="las la-shield-alt" /><p>Keamanan 24 Jam</p></li>
       </ul>
       <img class="img1" :src="require(`../assets/images/${ttl}/H2.jpg`)" />
     </div>
@@ -116,6 +118,10 @@ export default {
 #rumah {
   margin-top: 10vh;
 
+  @include max-media(mobile) {
+    margin-top: 0;
+  }
+
   p, h2 {
     margin: 0;
   }
@@ -177,6 +183,15 @@ export default {
     margin-right: 30px;
     height: 60vh;
     min-height: 500px;
+
+    @include max-media(mobile) {
+      height: initial;
+      min-height: initial;
+      grid-template-areas:  'header'
+                            'list'
+                            'img';
+      grid-template-rows: 0fr 0.5fr 1fr;
+    }
 
     img {
       height: 100%;

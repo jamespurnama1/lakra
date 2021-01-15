@@ -10,7 +10,7 @@
             yang dimulai dari bawah atap rumah tinggal kita.
           </p>
         </div>
-        <div class="overlay" />
+        <div class="overlay" style="opacity: 30%" />
         <img src="../assets/images/H3.jpg" />
       </slide>
       <slide>
@@ -23,7 +23,7 @@
             menjamin kualitas dan kenyamanan hunian bagi client.
           </p>
         </div>
-        <div class="overlay" />
+        <div class="overlay" style="opacity: 30%" />
         <img src="../assets/images/H1.jpg" />
       </slide>
       <hooper-navigation slot="hooper-addons"></hooper-navigation>
@@ -52,28 +52,29 @@ export default {
     HooperPagination,
     HooperNavigation,
   },
-  created() {
-
-  },
   mounted() {
-    // document.querySelector('.hooper').scrollIntoView();
     this.$root.$emit('mounted');
     setTimeout(() => {
-      document.querySelector('.logoText').style.opacity = 1;
       document.querySelector('#home').style.opacity = 1;
+      if (this.$store.state.windowWidth > 600) {
+        document.querySelector('.logoText').style.opacity = 1;
+      }
     }, 1000);
-  },
-  beforeDestroy() {
-    // window.scrollTo({ top: 500, behavior: 'smooth' });
   },
 };
 </script>
 <style lang="scss" scoped>
+@import '../styles/index.scss';
+
 #home {
-  margin-top: 45vh;
+  margin-top: clamp(300px, 45vh, 45vh);
   will-change: transform;
   opacity: 0;
   transition: opacity .5s ease;
+
+  @include max-media(mobile) {
+    margin-top: 0;
+  }
 }
 </style>
 <style lang="scss">
