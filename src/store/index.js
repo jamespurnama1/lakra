@@ -12,7 +12,6 @@ export default new Vuex.Store({
       {
         Title: 'Lakrasamana',
         Location: 'Raden Saleh, Depok',
-        Date: 'Dec 2020',
         Price: '880.000.000',
         Desc:
           '',

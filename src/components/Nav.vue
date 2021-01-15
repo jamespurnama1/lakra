@@ -126,7 +126,6 @@ export default {
       ScrollTrigger.matchMedia({
         '(min-width: 961px)': () => {
           this.tl = gsap.timeline({
-            paused: true,
             scrollTrigger: {
               id: 'trigger1',
             },
@@ -144,7 +143,6 @@ export default {
         },
         '(min-width:769px) and (max-width: 960px)': () => {
           this.tl = gsap.timeline({
-            paused: true,
             scrollTrigger: {
               id: 'trigger1',
             },
@@ -164,7 +162,6 @@ export default {
         },
         '(max-width: 768px)': () => {
           this.tl = gsap.timeline({
-            paused: true,
             scrollTrigger: {
               id: 'trigger1',
             },
