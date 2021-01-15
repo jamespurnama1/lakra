@@ -20,24 +20,26 @@
         </div>
       </div>
     </div>
-    <h3 v-if="status === 'Message Sent!'" id="status">
-      <i class="las la-check" />{{ status }}
-    </h3>
-    <h3 v-else-if="status === 'Oops! There was a problem.'" id="status">
-      <i class="las la-times" />{{ status }}
-    </h3>
-    <form v-if="!status" ref="form" id="my-form" action="https://formspree.io/f/mrgoyynd" method="POST">
-      <input type="text" placeholder="Nama" name="name" required>
-      <br>
-      <div class="grid">
-        <input type="email" placeholder="E-mail" name="email" required>
-        <!-- eslint-disable-next-line max-len -->
-        <input type="tel" placeholder="Nomor HP" name="hp" required pattern="(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[-\.\s\\\/]?)?((?:\(?\d{1,}\)?[-\.\s\\\/]?){0,})(?:[-\.\s\\\/]?(?:#|ext\.?|extension|x)[-\.s\\\/]?(\d+))?">
-      </div>
-      <br>
-      <textarea name="message" placeholder="Ketik di sini..." required></textarea>
-      <input id="submit" type="submit" value="Send">
-    </form>
+    <transition-group name="fade" mode="out-in">
+      <h3 :key="2" v-if="status === 'Message Sent!'" id="status">
+        <i class="las la-check" />{{ status }}
+      </h3>
+      <h3 :key="3" v-else-if="status === 'Oops! There was a problem.'" id="status">
+        <i class="las la-times" />{{ status }}
+      </h3>
+      <form :key="1" v-else-if="!status" ref="form" id="my-form" action="https://formspree.io/f/mrgoyynd" method="POST">
+        <input type="text" placeholder="Nama" name="name" required>
+        <br>
+        <div class="grid">
+          <input type="email" placeholder="E-mail" name="email" required>
+          <!-- eslint-disable-next-line max-len -->
+          <input type="tel" placeholder="Nomor HP" name="hp" required pattern="(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[-\.\s\\\/]?)?((?:\(?\d{1,}\)?[-\.\s\\\/]?){0,})(?:[-\.\s\\\/]?(?:#|ext\.?|extension|x)[-\.s\\\/]?(\d+))?">
+        </div>
+        <br>
+        <textarea name="message" placeholder="Ketik di sini..." required></textarea>
+        <input id="submit" type="submit" value="Send">
+      </form>
+    </transition-group>
   </div>
 </template>
 <script>
@@ -58,21 +60,30 @@ export default {
         ev.preventDefault();
         const data = new FormData(this.$refs.form);
         this.send(this.$refs.form.method, this.$refs.form.action, data);
+        this.$Progress.start();
       });
     },
-    error() {
+    async error() {
       this.status = 'Oops! There was a problem.';
+      this.$Progress.fail();
+      await setTimeout(() => {
+        this.status = null;
+      }, 3000);
     },
     success() {
       this.$refs.form.reset();
       this.status = 'Message Sent!';
+      this.$Progress.finish();
     },
     send(method, url, data) {
       const xhr = new XMLHttpRequest();
       xhr.open(method, url);
+      this.$Progress.increase(20);
       xhr.setRequestHeader('Accept', 'application/json');
+      this.$Progress.increase(20);
       xhr.onreadystatechange = () => {
         if (xhr.readyState !== XMLHttpRequest.DONE) return;
+        this.$Progress.increase(20);
         if (xhr.status === 200) {
           this.success(xhr.response, xhr.responseType);
         } else {
@@ -108,7 +119,7 @@ export default {
     margin: 5em auto;
     margin-bottom: auto;
     display: flex;
-    justify-content: center;
+    align-items: center;
   }
 
   .text {
@@ -153,79 +164,82 @@ export default {
     font-size: 2em;
   }
 
-  form {
-    display: flex;
-    flex-direction: column;
+  span {
     width: 40%;
     margin-top: 10vh;
 
-    @include max-media(small-tablet) {
-      width: 100%;
-    }
+    form {
+      display: flex;
+      flex-direction: column;
 
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-gap: 15px;
-      box-sizing: border-box;
-    }
-
-    input {
-      border-radius: 0;
-      border: 2px solid $green;
-      padding: 15px 10px;
-      margin-bottom: 10px;
-      font-family: Helvetica-Neue, Helvetica, Arial, sans-serif;
-      font-weight: 200;
-      font-size: 1em;
-      box-sizing: border-box;
-      width: 100%;
-
-      @include max-media(mobile) {
-        font-size: 0.75em;
-        line-height: 1em;
+      @include max-media(small-tablet) {
+        width: 100%;
       }
 
-      &#submit {
-        background-color: $green;
-        color: white;
-        border: 0;
-        padding: 10px 25px;
-        margin-bottom: 50px;
-        margin-top: 1em;
-        transition: background-color .3s ease;
-        cursor: pointer;
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 15px;
+        box-sizing: border-box;
+      }
 
-        &:hover {
-          background-color: $dark-green;
+      input {
+        border-radius: 0;
+        border: 2px solid $green;
+        padding: 15px 10px;
+        margin-bottom: 10px;
+        font-family: Helvetica-Neue, Helvetica, Arial, sans-serif;
+        font-weight: 200;
+        font-size: 1em;
+        box-sizing: border-box;
+        width: 100%;
+
+        @include max-media(mobile) {
+          font-size: 0.75em;
+          line-height: 1em;
+        }
+
+        &#submit {
+          background-color: $green;
+          color: white;
+          border: 0;
+          padding: 10px 25px;
+          margin-bottom: 50px;
+          margin-top: 1em;
+          transition: background-color .3s ease;
+          cursor: pointer;
+
+          &:hover {
+            background-color: $dark-green;
+          }
+        }
+
+        &:focus {
+          border-color: $dark-green;
+          outline: none;
         }
       }
 
-      &:focus {
-        border-color: $dark-green;
-        outline: none;
-      }
-    }
+      textarea {
+        height: 75%;
+        resize: vertical;
+        box-sizing: border-box;
+        border: 2px solid $green;
+        margin-bottom: 10px;
+        font-family: Helvetica-Neue, Helvetica, Arial, sans-serif;
+        font-weight: 200;
+        font-size: 1em;
+        padding: 15px 10px;
 
-    textarea {
-      height: 75%;
-      resize: vertical;
-      box-sizing: border-box;
-      border: 2px solid $green;
-      margin-bottom: 10px;
-      font-family: Helvetica-Neue, Helvetica, Arial, sans-serif;
-      font-weight: 200;
-      font-size: 1em;
-      padding: 15px 10px;
+        @include max-media(mobile) {
+          font-size: 0.75em;
+          line-height: 1em;
+        }
 
-      @include max-media(mobile) {
-        font-size: 0.75em;
-        line-height: 1em;
-      }
-
-      &:focus {
-        border-color: $dark-green;
-        outline: none;
+        &:focus {
+          border-color: $dark-green;
+          outline: none;
+        }
       }
     }
   }

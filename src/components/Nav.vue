@@ -259,6 +259,7 @@ export default {
       this.$nextTick(() => {
         this.active(this.$route.name); // move active
         this.checkScroll();
+        this.$Progress.finish();
       });
     });
   },
@@ -273,6 +274,8 @@ export default {
     },
     // eslint-disable-next-line object-shorthand
     '$route'(to, from) {
+      this.$Progress.start();
+      this.$Progress.increase(20);
       this.$store.state.opened = false;
       const p = from.path.slice(from.path.lastIndexOf('/') + 1);
       if (p.length > 0) {
