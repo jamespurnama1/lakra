@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     navWidth: 200,
     windowWidth: 1920,
+    opened: false,
     houses: [
       {
         Title: 'Lakrasamana',
@@ -33,6 +34,9 @@ export default new Vuex.Store({
     },
     setNavWidth(state, w) {
       state.navWidth = w;
+    },
+    toggleNav(state) {
+      state.opened = !state.opened;
     },
   },
   getters: {

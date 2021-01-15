@@ -126,14 +126,14 @@
         <h3><i class="las la-coins" />Biaya Bank</h3>
         <p>Berikut merupakan biaya-biaya bank pada saat pengajuan KPA/KPR:</p>
         <ul>
-          <li>Biaya Appraisal/Penilaian Aset</li>
-          <li>Biaya Administrasi</li>
-          <li>Biaya Provisi</li>
-          <li>Biaya SKMHT (Surat Kuasa Membebankan Hak Tanggungan)</li>
-          <li>Biaya APHT (Akta Pemberian Hak Tanggungan)</li>
-          <li>Biaya PKPH (Perjanjian Kredit Pengakuan Hutang)</li>
-          <li>Biaya PNBP (Pendapatan Negara Bukan Pajak)</li>
-          <li>Biaya Asuransi Kebakaran dan Jiwa</li>
+          <li><p>Biaya Appraisal/Penilaian Aset</p></li>
+          <li><p>Biaya Administrasi</p></li>
+          <li><p>Biaya Provisi</p></li>
+          <li><p>Biaya SKMHT (Surat Kuasa Membebankan Hak Tanggungan)</p></li>
+          <li><p>Biaya APHT (Akta Pemberian Hak Tanggungan)</p></li>
+          <li><p>Biaya PKPH (Perjanjian Kredit Pengakuan Hutang)</p></li>
+          <li><p>Biaya PNBP (Pendapatan Negara Bukan Pajak)</p></li>
+          <li><p>Biaya Asuransi Kebakaran dan Jiwa</p></li>
         </ul>
       </div>
       <div>
@@ -167,6 +167,7 @@
             Aset yang diterima oleh bank untuk diagunkan
             adalah sertifikat dari rumah atau apartemen yang dibeli.
             Adapun sertifikat yang diterima antara lain:
+            <br>
             <br>
             a. SHM (Sertifikat Hak Milik)
             <br>
@@ -225,10 +226,12 @@
             sebagai balas jasa atas pembiayaan yang diperoleh.
             Adapun suku bunga dibagi menjadi 2 jenis, yakni:
             <br>
+            <br>
             <b>a. Suku Bunga Fix</b>
             <br>
             Suku bunga yang besarannya tetap pada periode tertentu (masa fix).
             Namun perlu diperhatikan, setiap bank memiliki masa fix yang berbeda-beda.
+            <br>
             <br>
             <b>b. Suku Bunga Floating</b>
             <br>
@@ -248,15 +251,18 @@
             saat ini ke bank lain biasa disebut Take Over.
             Secara umum, Take Over dibagi menjadi 3 jenis, yakni:
             <br>
+            <br>
             <b>a. Take Over Murni</b>
             <br>
             Pemindahan fasilitas pembiayaan ke bank lain tanpa
             ada penambahan dana tunai tambahan/Top Up.
             <br>
+            <br>
             <b>b. Take Over Top Up</b>
             <br>
             Pemindahan fasilitas pembiayaan ke bank lain dengan
             penambahan dana tunai tambahan/Top Up.
+            <br>
             <br>
             <b>c. Take Over Jual Beli</b>
             <br>
@@ -308,6 +314,10 @@ export default {
     margin-right: 30px;
     will-change: transform;
 
+    @include max-media(mobile) {
+      margin: 0;
+    }
+
     h1, h2, h3, p {
       text-align: left;
       margin: 0;
@@ -339,6 +349,10 @@ export default {
     .first {
       margin-bottom: 10vh;
 
+      @include max-media(mobile) {
+        margin-bottom: 30px;
+      }
+
       h2 {
         margin: 0;
       }
@@ -351,6 +365,16 @@ export default {
                               'five six seven';
         grid-template-columns: 2fr 1.5fr 2fr;
         grid-gap: 0 50px;
+
+        @include max-media(mobile) {
+          grid-template-columns: 2fr 1.5fr;
+          grid-template-areas:  'one two'
+                                'three four'
+                                'hr hr'
+                                'five six'
+                                'seven seven';
+          grid-gap: 0 10px;
+        }
 
         hr {
           opacity: 50%;
@@ -390,7 +414,6 @@ export default {
               grid-template-areas: "select text";
               grid-template-columns: 90% 10%;
               align-items: center;
-              // margin-right: 15px;
               flex: 1;
 
               select {
@@ -416,9 +439,6 @@ export default {
                 width: 0.8em;
                 height: 0.5em;
                 background-color: $green;
-                // min-width: 15ch;
-                // max-width: 30ch;
-                // padding: 0.25em 0.5em;
                 margin-right: 0.5em;
                 clip-path: polygon(100% 0%, 0 0%, 50% 100%);
               }
@@ -447,6 +467,10 @@ export default {
         flex-direction: column;
       }
 
+      @include max-media(mobile) {
+        margin-bottom: 30px;
+      }
+
       div {
         width: 50%;
         margin-right: 30px;
@@ -456,7 +480,11 @@ export default {
         }
 
         ul{
-          padding: 0;
+          padding-left: 16px;
+
+          @include max-media(mobile) {
+            margin-bottom: 30px;
+          }
 
           li {
             list-style-type: none;
@@ -478,6 +506,10 @@ export default {
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-gap: 15px;
     margin-bottom: 10vh;
+
+    @include max-media(mobile) {
+      margin-bottom: 30px;
+    }
 
     @include max-media(desktop) {
       grid-template-columns: 1fr 1fr;

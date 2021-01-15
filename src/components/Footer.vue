@@ -3,7 +3,7 @@
     <div>
       <h2><router-link to="/">Lakra</router-link></h2>
       <ul>
-        <li><router-link to="/project">Project</router-link></li>
+        <li><router-link to="/projects">Projects</router-link></li>
         <li><router-link to="/kpr">KPR</router-link></li>
         <li><router-link to="/tentang">Tentang Kami</router-link></li>
       </ul>
@@ -24,13 +24,18 @@
       <div>
         <a class="ig" href="https://instagram.com/lakra_id" target="_blank">
           <i class="lab la-instagram" />
-          @lakra_id
+          <p>@lakra_id</p>
         </a>
       </div>
     </div>
     <form id="widget"
     @submit="encode">
-      <input id="waText" v-on:focus="focused" v-model="text" placeholder="Chat di WhatsApp!">
+      <input
+        v-if="$store.state.windowWidth > 600"
+        id="waText"
+        v-model="text"
+        placeholder="Chat di WhatsApp!"
+      >
       <div>
         <i @click="encode" class="lab la-whatsapp" />
       </div>
@@ -40,11 +45,6 @@
 </template>
 
 <script>
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
-
 export default {
   name: 'Footer',
   data() {
@@ -59,46 +59,10 @@ export default {
       this.encodedText = encodeURIComponent(this.text);
       if (this.encodedText) {
         window.open(`https://wa.me/6281382300094?text=${this.encodedText}`, '_blank');
+      } else {
+        window.open('https://wa.me/6281382300094', '_blank');
       }
     },
-    focused() {
-
-    },
-    pin() {
-      this.tl = gsap.timeline({
-        paused: true,
-        scrollTrigger: {
-          id: 'trigger',
-          trigger: '.footer',
-          start: 'top bottom',
-          end: 'bottom bottom',
-          scrub: 0.3,
-        },
-      });
-      this.tl
-        .from('#widget', {
-          position: 'fixed',
-          bottom: 0,
-        })
-        .to('#widget', {
-          position: 'absolute',
-          top: 0,
-        })
-        .from('#waText', {
-          border: '2px solid #80876f',
-          borderRight: 'none',
-          borderBottom: 'none',
-          duration: 0.1,
-        })
-        .to('#waText', {
-          border: '2px solid #80876f',
-          borderRadius: 0,
-          duration: 0.1,
-        });
-    },
-  },
-  mounted() {
-    this.pin();
   },
 };
 </script>
@@ -115,6 +79,10 @@ export default {
 
   @include max-media(tablet) {
     flex-wrap: wrap;
+  }
+
+  @include max-media(mobile) {
+    justify-content: space-between;
   }
 
   a {
@@ -153,37 +121,55 @@ export default {
     }
 
     #waText {
+      position: relative;
       border: 2px solid $green;
       padding: 3px 15px;
       border-right: none;
       border-bottom: none;
       border-radius: 5px 0 0 0;
       margin: 0;
+      transform: translateY(100%);
+      transition: all .3s ease;
 
       &:focus {
         outline: none;
         border: 2px solid $dark-green;
         border-right: none;
         border-bottom: none;
+        transform: translateY(0);
+
+        ~ div {
+          border-radius: 0 5px 0 0;
+        }
       }
     }
 
-  div {
-    background-color: $green;
-    border-radius: 0 5px 0 0;
-
     &:hover {
-      background-color: $dark-green;
+      #waText {
+        transform: translateY(0);
+      }
+
+      div {
+        border-radius: 0 5px 0 0;
+      }
     }
 
-    .la-whatsapp {
-      color: white;
-      font-size: 2.5em;
-      height: 100%;
-      margin: auto 0;
-      padding: 3px;
+    div {
+      background-color: $green;
+      border-radius: 5px 5px 0 0;
+
+      &:hover {
+        background-color: $dark-green;
+      }
+
+      .la-whatsapp {
+        color: white;
+        font-size: 2.5em;
+        height: 100%;
+        margin: auto 0;
+        padding: 3px;
+      }
     }
-  }
 
     #submit {
       display: none;
@@ -197,10 +183,15 @@ export default {
       margin-right: 3%;
     }
 
+    @include max-media(mobile) {
+      margin-right: 0;
+    }
+
     h2 {
       text-align: left;
       margin: 0;
       white-space: nowrap;
+      margin-bottom: 10px;
 
       @include max-media(small-tablet) {
         font-size: 1em;
@@ -209,6 +200,10 @@ export default {
 
     i {
       font-size: 2em;
+
+      @include max-media(mobile) {
+        font-size: 1.5em;
+      }
     }
 
     ul {

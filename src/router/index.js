@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../views/Home.vue';
+// import Home from '../views/Home.vue';
+import asyncRoutes from './asyncRoutes';
 
 Vue.use(VueRouter);
 
@@ -14,15 +15,15 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home,
+    component: asyncRoutes.Home,
   },
   {
-    path: '/project',
-    name: 'project',
+    path: '/projects',
+    name: 'projects',
     component: Lokasi,
   },
   {
-    path: '/project/:id',
+    path: '/projects/:id',
     name: 'Rumah',
     props: true,
     component: Rumah,
@@ -44,7 +45,7 @@ const routes = [
   },
   {
     path: '/404',
-    component: Home,
+    component: asyncRoutes.Home,
   },
 ];
 

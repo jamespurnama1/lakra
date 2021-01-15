@@ -3,7 +3,7 @@
   <div @click="route(house.Title)" v-for="(house, i) in $store.state.houses" :key="i" class="house">
     <h2 class="title">{{ house.Title }}</h2>
     <div class="img">
-      <!-- <div class="overlay" /> -->
+      <div class="overlay" />
       <img :src="require(`../assets/images/H${i}.jpg`)" />
     </div>
     <div class="info">
@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     route(i) {
-      this.$router.push({ path: `/project/${i.toLowerCase()}` });
+      this.$router.push({ path: `/projects/${i.toLowerCase()}` });
     },
   },
 };

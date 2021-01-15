@@ -1,6 +1,6 @@
 <template>
   <div id="nav">
-    <router-link to="/" class="logo">
+    <router-link to="/" class="logo" v-if="windowWidth > 600">
       <img src="../assets/logo.svg" />
       <img class="logoText"
       src="../assets/logotext.svg" />
@@ -8,8 +8,8 @@
     <ul class="links">
       <li>
         <div>
-          <router-link to="/project" id="project" ref="project" class='lokasi'>
-            Project<i @click.stop.prevent="expand" class="las la-angle-down" />
+          <router-link to="/projects" id="project" ref="projects" class='lokasi'>
+            Projects<i @click.stop.prevent="expand" class="las la-angle-down" />
           </router-link>
           <transition name="slide-up">
             <ul class="lokasiList" v-if="expanded">
@@ -19,7 +19,7 @@
               :ref="house.Title.toLowerCase()"
               :id="house.Title.toLowerCase()"
               :key="i"
-              :to="`/project/${house.Title.toLowerCase()}`">
+              :to="`/projects/${house.Title.toLowerCase()}`">
                 {{ house.Title }}
               </router-link>
               </template>
@@ -37,13 +37,15 @@
         Tentang Kami
       </router-link>
     </ul>
-    <div class="active" />
+    <div class="active" v-if="windowWidth > 600" />
   </div>
 </template>
 
 <script>
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { debounce } from 'debounce';
+// import asyncRoutes from '@/router/asyncRoutes';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -55,7 +57,6 @@ export default {
       tl: null,
       tl2: gsap.timeline(),
       yPos: 0,
-      scale: 7,
       offset: 0,
     };
   },
@@ -80,65 +81,60 @@ export default {
       await this.$nextTick();
       this.active(this.$route.name);
     },
-    updateData() {
-      if (this.windowWidth > 1280) {
-        this.scale = 7;
-      } else if (this.windowWidth > 960) {
-        this.scale = 5;
-      } else if (this.windowWidth > 768) {
-        this.scale = 3;
-      }
-    },
     checkScroll() {
       if (this.$route.name === 'Home') {
         gsap.set('.logoText', {
           autoAlpha: 0,
         });
         ScrollTrigger.getById('trigger1').enable();
-        ScrollTrigger.getById('trigger1').scroll(ScrollTrigger.getById('trigger1').end);
-        setTimeout(() => {
-          gsap.to('.logoText', {
-            autoAlpha: 1,
-            duration: 0.5,
-          });
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }, 300);
-      } else {
-        ScrollTrigger.getById('trigger1').disable();
-        gsap.set('.logoText', {
-          x: 0,
-          y: 0,
-          scale: 1,
+        window.scrollTo({ top: 45 * this.h });
+        gsap.to('.logoText', {
+          autoAlpha: 1,
+          duration: 0.3,
         });
-        gsap.to('.logoText', { clearProps: true });
-        gsap.to('ul', { clearProps: true });
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          ScrollTrigger.refresh();
+        }, 500);
+      } else {
+        ScrollTrigger.getById('trigger1').disable(false);
+        this.$nextTick(() => {
+          gsap.set('.logoText', {
+            x: 0,
+            y: 0,
+            scale: 1,
+          });
+          gsap.to('.logoText', { clearProps: true });
+          gsap.to('ul', { clearProps: true });
+        });
       }
     },
     logo() {
+      ScrollTrigger.saveStyles('.logoText, .links');
+      ScrollTrigger.defaults({
+        trigger: '#home',
+        start: 0,
+        end: 'top top',
+        endTrigger: '.hooper',
+        scrub: 0.3,
+        snap: {
+          snapTo: [0, 1],
+          duration: { min: 0.5, max: 1 },
+          delay: 0.5,
+        },
+      });
       ScrollTrigger.matchMedia({
         '(min-width: 961px)': () => {
           this.tl = gsap.timeline({
             paused: true,
             scrollTrigger: {
               id: 'trigger1',
-              trigger: '#home',
-              start: 0,
-              end: 'top top',
-              endTrigger: '.hooper',
-              scrub: 0.3,
-              snap: {
-                snapTo: [0, 1],
-                duration: { min: 0.5, max: 1 },
-                delay: 0.5,
-              },
             },
           });
-          this.tl
-            .from('.logoText', {
-              x: `${this.navWidth - 50}px`,
-              y: '7vh',
-              scale: 6,
-            })
+          this.tl.from('.logoText', {
+            x: `${this.navWidth - 50}px`,
+            scale: 6,
+          })
             .to('#nav img:first-child', {
               rotate: '90deg',
             }, 0)
@@ -146,21 +142,11 @@ export default {
               y: '+=10%',
             }, 0);
         },
-        '(max-width: 960px)': () => {
+        '(min-width:769px) and (max-width: 960px)': () => {
           this.tl = gsap.timeline({
             paused: true,
             scrollTrigger: {
               id: 'trigger1',
-              trigger: '#home',
-              start: 0,
-              end: 'top top',
-              endTrigger: '.hooper',
-              scrub: 0.3,
-              snap: {
-                snapTo: [0, 1],
-                duration: { min: 0.5, max: 1 },
-                delay: 0.5,
-              },
             },
           });
           this.tl
@@ -169,6 +155,25 @@ export default {
               y: '5vh',
               scale: 4,
             })
+            .to('#nav img:first-child', {
+              rotate: '90deg',
+            }, 0)
+            .to('.links', {
+              y: '+=10%',
+            }, 0);
+        },
+        '(max-width: 768px)': () => {
+          this.tl = gsap.timeline({
+            paused: true,
+            scrollTrigger: {
+              id: 'trigger1',
+            },
+          });
+          this.tl.from('.logoText', {
+            x: `${this.navWidth - 50}px`,
+            y: '5vh',
+            scale: 2.5,
+          })
             .to('#nav img:first-child', {
               rotate: '90deg',
             }, 0)
@@ -185,24 +190,24 @@ export default {
     },
     act(i) {
       switch (i) {
-        case 'project':
-          this.yPos = (this.h / 5) + 44.5;
+        case 'projects':
+          this.yPos = (27 * this.h) + 46;
           break;
 
         case 'lakrasamana':
-          this.yPos = (this.h / 5) + 44.5 + this.offset;
+          this.yPos = (27 * this.h) + 46 + this.offset;
           break;
 
         case 'kpr':
-          this.yPos = (this.h / 5) + 94.5 + this.offset;
+          this.yPos = (27 * this.h) + 92 + this.offset;
           break;
 
         case 'kontak':
-          this.yPos = (this.h / 5) + 144.5 + this.offset;
+          this.yPos = (27 * this.h) + 138 + this.offset;
           break;
 
         case 'tentang':
-          this.yPos = (this.h / 5) + 194.5 + this.offset;
+          this.yPos = (27 * this.h) + 184 + this.offset;
           break;
 
         default:
@@ -210,7 +215,7 @@ export default {
     },
     active(i) {
       if (i === 'Rumah' && !this.expanded) {
-        this.yPos = (this.h / 5) + 44.5;
+        this.yPos = (27 * this.h) + 46;
         this.tl2.set('.active', {
           y: this.yPos,
           duration: 0.1,
@@ -245,8 +250,7 @@ export default {
       }
     },
   },
-  mounted() {
-    this.updateData(); // set logo scale
+  async mounted() {
     this.$nextTick(() => {
       this.logo(); // init gsap scrolltrigger
       ScrollTrigger.refresh();
@@ -260,11 +264,16 @@ export default {
   },
   watch: {
     windowWidth() {
-      // this.updateData();
-      this.checkScroll();
+      debounce(async () => {
+        this.checkScroll();
+        await this.$nextTick();
+        this.act(this.$route.path.slice(this.$route.path.lastIndexOf('/') + 1));
+        this.active(this.$route.name);
+      }, 200);
     },
     // eslint-disable-next-line object-shorthand
     '$route'(to, from) {
+      this.$store.state.opened = false;
       const p = from.path.slice(from.path.lastIndexOf('/') + 1);
       if (p.length > 0) {
         gsap.to(this.$refs[p].$el, {
@@ -290,7 +299,7 @@ export default {
       return this.$store.state.navWidth;
     },
     h() {
-      return Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+      return Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0) / 100;
     },
   },
 };
@@ -306,13 +315,13 @@ export default {
   width: 15vw;
   height: 100vh;
   text-align: left;
-  padding: 50px;
-  padding-right: 0;
+  padding: 7vh 10px 50px 50px;
   background-color: white;
 
   .logo {
     display: flex;
     flex-direction: column;
+    height: 20vh;
 
     img {
       position: relative;
@@ -333,59 +342,64 @@ export default {
     margin: 0;
     padding: 0;
 
-    li {
-      margin: 30px;
-      margin-left: 0;
-      list-style-type: none;
-      transition: all .3s ease;
-      cursor: pointer;
+    &.links {
+      position: relative;
+      top: 30px;
 
-      &:hover {
-        color: $dark-green;
-
-        li {
-          color: black;
-
-          &:hover {
-            color: $dark-green;
-          }
-        }
-      }
-
-      .lokasi {
-        margin: 30px 0;
-      }
-
-      .lokasiList {
-        margin: 0;
-        padding-left: 10%;
-        transform: translateY(0);
-
-        li:last-child {
-          margin-bottom: 0;
-        }
-      }
-
-      a {
-        color: black;
-        text-decoration: none;
-
-        &:visited {
-          color: black;
-        }
-
-        &:hover {
-          color: $green;
-        }
-
-      }
-
-      i {
-        margin: 0 10px;
+      li {
+        margin: 30px;
+        margin-left: 0;
+        list-style-type: none;
+        transition: all .3s ease;
         cursor: pointer;
 
         &:hover {
-          color: $green;
+          color: $dark-green;
+
+          li {
+            color: black;
+
+            &:hover {
+              color: $dark-green;
+            }
+          }
+        }
+
+        .lokasi {
+          margin: 30px 0;
+        }
+
+        .lokasiList {
+          margin: 0;
+          padding-left: 10%;
+          transform: translateY(0);
+
+          li:last-child {
+            margin-bottom: 0;
+          }
+        }
+
+        a {
+          color: black;
+          text-decoration: none;
+
+          &:visited {
+            color: black;
+          }
+
+          &:hover {
+            color: $green;
+          }
+
+        }
+
+        i {
+          margin: 0 10px;
+          cursor: pointer;
+
+          &:hover {
+            color: $green;
+          }
         }
       }
     }
@@ -396,6 +410,7 @@ export default {
     top: 0;
     left: -100%;
     width: 80%;
+    min-width: 150px;
     height: 2.5em;
     z-index: -1;
     opacity: 0;
