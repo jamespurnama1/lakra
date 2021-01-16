@@ -240,7 +240,7 @@ export default {
             autoAlpha: 1,
             duration: 0.3,
           }, 'active', '>')
-          .to('.router-link-exact-active:not(.footer a)', {
+          .to('#nav .router-link-exact-active', {
             color: 'white',
             duration: 0.3,
           }, 'active');
