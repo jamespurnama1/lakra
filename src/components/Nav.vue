@@ -132,6 +132,7 @@ export default {
           });
           this.tl.from('.logoText', {
             x: `${this.navWidth - 50}px`,
+            y: '10vh',
             scale: 6,
           })
             .to('#nav img:first-child', {
@@ -282,13 +283,15 @@ export default {
         });
       }
       this.close();
-      if (to.name === 'Home') {
-        gsap.to('.active', {
-          x: 0,
-          autoAlpha: 0,
-          duration: 0.3,
-        });
-      }
+      this.$nextTick(() => {
+        if (to.name === 'Home') {
+          gsap.to('.active', {
+            x: 0,
+            autoAlpha: 0,
+            duration: 0.3,
+          });
+        }
+      });
     },
   },
   computed: {
