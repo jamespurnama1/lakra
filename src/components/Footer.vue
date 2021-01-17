@@ -9,13 +9,6 @@
       </ul>
     </div>
     <div>
-      <h2><router-link to="/">Bantuan</router-link></h2>
-      <ul>
-        <li><router-link to="/">FAQ</router-link></li>
-        <li><router-link to="/">Syarat &amp; Ketentuan</router-link></li>
-      </ul>
-    </div>
-    <div>
       <h2><router-link to="/kontak">Kontak Kami</router-link></h2>
       <ul>
         <a href="mailto:info@lakra.id"><li>info@lakra.id</li></a>
@@ -82,7 +75,7 @@ export default {
   }
 
   @include max-media(mobile) {
-    justify-content: space-between;
+    justify-content: space-around;
   }
 
   a {
@@ -178,10 +171,6 @@ export default {
 
   div {
     margin-right: 10%;
-
-    @include max-media(desktop) {
-      margin-right: 3%;
-    }
 
     @include max-media(mobile) {
       margin-right: 0;
