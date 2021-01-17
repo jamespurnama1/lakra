@@ -177,13 +177,13 @@ export default {
     width: 40%;
     margin-top: 10vh;
 
+    @include max-media(small-tablet) {
+      width: 100%;
+    }
+
     form {
       display: flex;
       flex-direction: column;
-
-      @include max-media(small-tablet) {
-        width: 100%;
-      }
 
       .grid {
         display: grid;
@@ -217,6 +217,7 @@ export default {
           margin-top: 1em;
           transition: background-color .3s ease;
           cursor: pointer;
+          -webkit-appearance: none;
 
           &:hover {
             background-color: $dark-green;

@@ -1,18 +1,18 @@
 <template>
   <div id="lokasi">
     <h1>Projects</h1>
-    <div class="flex">
+    <div class="flex" v-if="$store.state.windowWidth > 600">
       <ul class="loc">
         <router-link tag="li" v-for="(house, i) in $store.state.houses"
         @mouseover.native="active(i)" :key="i" :to="`/projects/${house.Title.toLowerCase()}`">
           <p>{{ house.Title }}</p>
-          <p v-if="$store.state.windowWidth < 600">
+          <p v-if="$store.state.windowWidth < 601">
             <i class="las la-map-marker" />
             {{ house.Location }}
           </p>
         </router-link>
       </ul>
-      <div class="active1" v-if="$store.state.windowWidth > 600" />
+      <div class="active1" />
       <GmapMap
         v-if="$store.state.windowWidth > 600"
         :center="{ lat: -6.405181627778632, lng: 106.84120278009165 }"
@@ -44,15 +44,20 @@
         />
       </GmapMap>
     </div>
+    <Listing v-else-if="$store.state.windowWidth < 601" />
   </div>
 </template>
 
 <script>
 import { gsap } from 'gsap';
 import style from '../styles/style.json';
+import Listing from './Listing.vue';
 
 export default {
   name: 'Lokasi',
+  components: {
+    Listing,
+  },
   data() {
     return {
       markers: [{

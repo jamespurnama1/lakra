@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <vue-progress-bar></vue-progress-bar>
-    <div class="mobileHeader" v-if="windowWidth < 600">
+    <div class="mobileHeader" v-if="windowWidth < 601">
     <div class="burger" :class="{open: $store.state.opened}" @click="toggleOpen">
       <span />
       <span />

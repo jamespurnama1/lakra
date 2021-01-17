@@ -7,15 +7,19 @@
         <div class="h2">
           <h2><i class="las la-map-marker" />{{ data.Location }}</h2>
         </div>
-        <p>{{ data.Desc }}</p>
+        <p class="margin">Status Konstruksi</p>
+        <p>{{ data.Status }}</p>
+        <p class="margin">{{ data.Desc }}</p>
       </div>
       <div class="rightInfo">
         <p>Mulai dari:</p>
         <h2>Rp. {{ data.Price }}</h2>
+        <p class="margin">Jenis Pembayaran</p>
+        <p>Hard Cash, KPR</p>
       </div>
     </div>
-    <h2>Spesifikasi</h2>
     <div class="details">
+      <h2>Spesifikasi</h2>
       <ul>
         <li><i class="las la-user-friends" /><p>Kamar Tidur: {{ data.Kamar }}</p></li>
         <li><i class="las la-expand-arrows-alt" />
@@ -26,11 +30,12 @@
         <li><i class="las la-check" /><p>Tempat Parkir</p></li>
         <li><i class="las la-shield-alt" /><p>Keamanan 24 Jam</p></li>
       </ul>
-      <img class="img1" :src="require(`../assets/images/${ttl}/H2.jpg`)" />
+      <img :src="require(`../assets/images/${ttl}/H2.jpg`)" />
     </div>
     <div class="gallery">
-      <img class="img2" :src="require(`../assets/images/${ttl}/H1.jpg`)" />
-      <img class="img3" :src="require(`../assets/images/${ttl}/Z3.jpg`)" />
+      <img :src="require(`../assets/images/${ttl}/H1.jpg`)" />
+      <img :src="require(`../assets/images/${ttl}/H3.jpg`)" />
+      <img :src="require(`../assets/images/${ttl}/Z3.jpg`)" />
     </div>
     <GmapMap
       :center="data.Marker.position"
@@ -142,6 +147,11 @@ export default {
     display: flex;
     justify-content: space-between;
     margin: 5px 30px 30px 0;
+    min-height: 90px;
+
+    .margin {
+      margin-top: 15px;
+    }
 
     .leftInfo {
       display: flex;
@@ -155,6 +165,8 @@ export default {
     }
     .rightInfo {
       text-align: left;
+      display: flex;
+      flex-direction: column;
     }
 
     button {
@@ -179,8 +191,10 @@ export default {
 
   .details {
     display: grid;
-    grid-template-areas: 'list img';
-    grid-gap: 30px;
+    grid-template-areas:  'header img'
+                          'list img';
+    grid-template-rows: 2em 1fr;
+    grid-gap: 0 30px;
     margin-bottom: 30px;
     margin-right: 30px;
     height: 60vh;
@@ -188,16 +202,26 @@ export default {
     overflow: hidden;
 
     @include max-media(mobile) {
-      margin-right: 0;
       height: initial;
       min-height: initial;
-      grid-template-areas:  'list'
+      grid-template-areas:  'header'
+                            'list'
                             'img';
-      grid-template-rows: 0.5fr 1fr;
+      grid-gap: 10px;
+      margin-right: 0;
     }
 
     img {
       height: 100%;
+      grid-area: img;
+
+      @include max-media(mobile) {
+        height: initial;
+      }
+    }
+
+    h2 {
+      grid-area: header;
     }
 
     ul {
@@ -226,27 +250,36 @@ export default {
         }
       }
     }
-    .img1 {
-      grid-area: img;
-    }
-    .img2 {
-      grid-area: img2;
-    }
-    .img3 {
-      grid-area: img3;
-    }
   }
 
   .gallery {
-    display: flex;
+    display: grid;
+    grid-template-areas:  'first second'
+                          'third third';
     flex-wrap: wrap;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    grid-gap: 30px;
+
+    @include max-media(mobile) {
+      margin-right: 0;
+      grid-template-areas:'first'
+                          'second'
+                          'third';
+    }
 
     img {
-      margin-right: 30px;
-      margin-bottom: 30px;
 
-      @include max-media(mobile) {
-        margin-right: 0;
+      &:first-child {
+        grid-area: first;
+      }
+
+      &:nth-child(2) {
+        grid-area: second;
+      }
+
+      &:last-child {
+        grid-area: third;
       }
     }
   }

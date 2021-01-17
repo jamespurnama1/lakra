@@ -12,6 +12,7 @@ export default new Vuex.Store({
       {
         Title: 'Lakrasamana',
         Location: 'Raden Saleh, Depok',
+        Status: 'Selesai',
         Price: '880.000.000',
         Desc:
           '',
