@@ -9,18 +9,18 @@ $wide_width: 120em; //1920 , x 1080
 
 @mixin min-media($res) {
   @if small-mobile == $res {
-    @media only screen and (min-width: $small_mobile_width) {
+    @media only screen and (min-width: $small_mobile_width), (orientation:landscape) {
       @content;
     }
   }
 
   @if mobile == $res {
-    @media only screen and (min-width: $mobile_width) {
+    @media only screen and (min-width: $mobile_width), (orientation:landscape) {
       @content;
     }
   }
   @if mobile-landscape == $res {
-    @media only screen and (min-width: $small_mobile_landscape_width) {
+    @media only screen and (min-width: $small_mobile_landscape_width), (orientation:landscape) {
       @content;
     }
   }

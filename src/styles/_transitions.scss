@@ -5,6 +5,10 @@
   transition: all .3s ease;
 }
 
+.nav-enter-active, .nav-leave-active {
+  transition: transform .5s ease;
+}
+
 .slide-up-enter, .slide-up-leave-to {
   transform: translateY(-20%) !important;
   opacity: 0;
@@ -13,6 +17,10 @@
 .slide-enter, .slide-leave-to {
   transform: translateY(20%) !important;
   opacity: 0;
+}
+
+.nav-enter, .nav-leave-to {
+  transform: translateY(-100%) !important;
 }
 
 .slide-right-enter, .slide-right-leave-to {

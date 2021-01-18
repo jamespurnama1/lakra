@@ -1,5 +1,5 @@
 <template>
-  <div class="kpr">
+  <div class="kpr" :class="{ remMargin:$store.state.isMobile }">
     <h1>Kredit Pemilikan Rumah</h1>
     <div class="first">
       <h2>Simulasi KPR</h2>
@@ -405,8 +405,8 @@ export default {
           border-radius: 0;
           border: 2px solid $green;
           padding: 15px 10px;
-          font-family: Helvetica-Neue, Helvetica, Arial, sans-serif;
-          font-weight: 200;
+          font-family: 'Helvetica Neue' Helvetica, Arial, sans-serif;
+          font-weight: 300;
           font-size: 1em;
           box-sizing: border-box;
           width: 100%;

@@ -48,6 +48,11 @@ export default {
     margin-bottom: 5%;
     cursor: pointer;
 
+    &:hover {
+      img {
+        transform: scale(1.3);
+      }
+    }
     .img {
       position: relative;
       width: 100%;
@@ -60,9 +65,6 @@ export default {
         object-fit: cover;
         transition: transform .3s ease;
 
-          &:hover {
-          transform: scale(1.3);
-        }
       }
     }
 
@@ -78,7 +80,7 @@ export default {
 
     h2 {
       margin: 0;
-      font-weight: 200;
+      font-weight: 300;
       text-align: left;
 
       &.price {

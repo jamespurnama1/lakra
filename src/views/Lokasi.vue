@@ -1,12 +1,12 @@
 <template>
-  <div id="lokasi">
+  <div id="lokasi" :class="{ remMargin:$store.state.isMobile }">
     <h1>Projects</h1>
-    <div class="flex" v-if="$store.state.windowWidth > 600">
+    <div class="flex" v-if="$store.state.windowWidth > 600 && !$store.state.isMobile">
       <ul class="loc">
         <router-link tag="li" v-for="(house, i) in $store.state.houses"
         @mouseover.native="active(i)" :key="i" :to="`/projects/${house.Title.toLowerCase()}`">
           <p>{{ house.Title }}</p>
-          <p v-if="$store.state.windowWidth < 601">
+          <p v-if="$store.state.windowWidth < 601 || $store.state.isMobile">
             <i class="las la-map-marker" />
             {{ house.Location }}
           </p>
@@ -14,7 +14,7 @@
       </ul>
       <div class="active1" />
       <GmapMap
-        v-if="$store.state.windowWidth > 600"
+        v-if="$store.state.windowWidth > 600 && !$store.state.isMobile"
         :center="{ lat: -6.405181627778632, lng: 106.84120278009165 }"
         :zoom=zoom
         ref="mapRef"
@@ -44,7 +44,7 @@
         />
       </GmapMap>
     </div>
-    <Listing v-else-if="$store.state.windowWidth < 601" />
+    <Listing v-else-if="$store.state.windowWidth < 601 || $store.state.isMobile" />
   </div>
 </template>
 
@@ -107,7 +107,7 @@ export default {
       // const h = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
       // this.yPos = (h / 10) + 58 + ((i - 1) * 39.3);
       this.yPos = i * 26;
-      if (this.$store.state.windowWidth > 600) {
+      if (this.$store.state.windowWidth > 600 && !this.$store.state.isMobile) {
         this.tl.set('.active1', {
           y: `${this.yPos}px`,
           x: 0,
@@ -165,7 +165,7 @@ export default {
   will-change: transform;
 
   @include max-media(mobile) {
-    margin-top: 0;
+    margin: 0;
   }
 
   h1 {

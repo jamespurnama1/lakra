@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div class="about" :class="{ remMargin:$store.state.isMobile }">
     <h1>Tentang Kami</h1>
     <div>
       <p>
@@ -35,9 +35,9 @@ export default {
     margin-top: 10vh;
     will-change: transform;
 
-  @include max-media(mobile) {
-    margin-top: 0px;
-  }
+    @include max-media(mobile) {
+      margin: 0;
+    }
 
     h1, p {
       text-align: left;

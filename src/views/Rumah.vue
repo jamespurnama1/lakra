@@ -1,5 +1,5 @@
 <template>
-  <div id="rumah">
+  <div id="rumah" :class="{ remMargin:$store.state.isMobile }">
     <h1>{{ data.Title }}</h1>
     <img :src="require(`../assets/images/${ttl}/H0.jpg`)" />
     <div class="info">
@@ -7,14 +7,16 @@
         <div class="h2">
           <h2><i class="las la-map-marker" />{{ data.Location }}</h2>
         </div>
-        <p class="margin">Status Konstruksi</p>
-        <p>{{ data.Status }}</p>
-        <p class="margin">{{ data.Desc }}</p>
+        <p v-if="data.Desc" class="margin desc">{{ data.Desc }}</p>
+        <div class="margin status">
+          <p><b>Status Konstruksi</b></p>
+          <p>{{ data.Status }}</p>
+        </div>
       </div>
       <div class="rightInfo">
-        <p>Mulai dari:</p>
+        <p><b>Mulai dari</b></p>
         <h2>Rp. {{ data.Price }}</h2>
-        <p class="margin">Jenis Pembayaran</p>
+        <p class="margin"><b>Jenis Pembayaran</b></p>
         <p>Hard Cash, KPR</p>
       </div>
     </div>
@@ -124,7 +126,7 @@ export default {
   margin-top: 10vh;
 
   @include max-media(mobile) {
-    margin-top: 0;
+    margin: 0;
   }
 
   p, h2 {
@@ -132,6 +134,7 @@ export default {
   }
 
   h1 {
+    margin-top: 0;
     text-align: left;
   }
 
@@ -144,49 +147,72 @@ export default {
   }
 
   .info {
-    display: flex;
+    display: grid;
+    grid-template-areas:  'left right'
+                          'desc desc';
     justify-content: space-between;
     margin: 5px 30px 30px 0;
     min-height: 90px;
 
+    @include max-media(mobile) {
+      margin-right: 0;
+      min-height: 120px;
+    }
+
     .margin {
-      margin-top: 15px;
+      margin-top: auto;
+
+      &.desc {
+        grid-area: desc;
+        text-align: left;
+        white-space: normal;
+      }
+
+      &.status {
+        grid-area: status;
+        margin-left: auto;
+
+        @include max-media(mobile) {
+          margin-left: 0;
+        }
+      }
     }
 
     .leftInfo {
-      display: flex;
+      grid-area: left;
+      display: grid;
+      grid-template-areas:  'loc loc'
+                            'desc status';
       flex-direction: column;
       text-align: left;
-      width: 45%;
+      width: 110%;
+
+      @include max-media(mobile) {
+        grid-template-areas:  'loc'
+                              'desc'
+                              'status';
+        width: 45%;
+      }
+
+      p {
+        white-space: nowrap;
+      }
 
       .h2 {
         display: flex;
       }
     }
     .rightInfo {
+      grid-area: right;
       text-align: left;
       display: flex;
       flex-direction: column;
-    }
-
-    button {
-      background-color: $green;
-      color: white;
-      border: 0;
-      padding: 10px 25px;
-      margin-bottom: 50px;
-      margin-top: 1em;
-      transition: background-color .3s ease;
-      cursor: pointer;
-
-      &:hover {
-        background-color: $dark-green;
-      }
     }
   }
 
   h2 {
     text-align: left;
+    white-space: nowrap;
   }
 
   .details {
@@ -260,6 +286,7 @@ export default {
     margin-right: 30px;
     margin-bottom: 30px;
     grid-gap: 30px;
+    overflow: hidden;
 
     @include max-media(mobile) {
       margin-right: 0;

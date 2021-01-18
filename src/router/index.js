@@ -10,6 +10,7 @@ const Rumah = () => import('../views/Rumah.vue');
 const KPR = () => import('../views/KPR.vue');
 const Tentang = () => import('../views/Tentang.vue');
 const Kontak = () => import('../views/Kontak.vue');
+const notFound = () => import('../views/notFound.vue');
 
 const routes = [
   {
@@ -45,7 +46,12 @@ const routes = [
   },
   {
     path: '/404',
-    component: asyncRoutes.Home,
+    name: 'Not Found',
+    component: notFound,
+  },
+  {
+    path: '*',
+    redirect: '/404',
   },
 ];
 
