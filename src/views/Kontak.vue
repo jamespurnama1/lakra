@@ -1,5 +1,5 @@
 <template>
-  <div class="contact">
+  <div class="contact" :class="{ remMargin:$store.state.isMobile }">
     <div class="text">
       <h1>Kontak Kami</h1>
       <p>
@@ -111,7 +111,7 @@ export default {
   margin-top: 10vh;
   display: flex;
   justify-content: space-between;
-  height: 75vh;
+  min-height: 75vh;
   will-change: transform;
   margin-right: 30px;
 
@@ -197,8 +197,8 @@ export default {
         border: 2px solid $green;
         padding: 15px 10px;
         margin-bottom: 10px;
-        font-family: Helvetica-Neue, Helvetica, Arial, sans-serif;
-        font-weight: 200;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-weight: 300;
         font-size: 1em;
         box-sizing: border-box;
         width: 100%;
@@ -236,8 +236,8 @@ export default {
         box-sizing: border-box;
         border: 2px solid $green;
         margin-bottom: 10px;
-        font-family: Helvetica-Neue, Helvetica, Arial, sans-serif;
-        font-weight: 200;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-weight: 300;
         font-size: 1em;
         padding: 15px 10px;
 

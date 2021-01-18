@@ -3,28 +3,30 @@
     <div>
       <h2><router-link to="/">Lakra</router-link></h2>
       <ul>
-        <li><router-link to="/projects">Projects</router-link></li>
-        <li><router-link to="/kpr">KPR</router-link></li>
-        <li><router-link to="/tentang">Tentang Kami</router-link></li>
+        <li><h3><router-link to="/projects">Projects</router-link></h3></li>
+        <li><h3><router-link to="/kpr">KPR</router-link></h3></li>
+        <li><h3><router-link to="/tentang">Tentang Kami</router-link></h3></li>
       </ul>
     </div>
     <div>
       <h2><router-link to="/kontak">Kontak Kami</router-link></h2>
       <ul>
-        <a href="mailto:info@lakra.id"><li>info@lakra.id</li></a>
-        <a href="https://wa.me/6281382300094" target="_blank"><li>+62 8138 2300 094</li></a>
+        <li><h3><a href="mailto:info@lakra.id">info@lakra.id</a></h3></li>
+        <li><h3><a href="https://wa.me/6281382300094" target="_blank">+62 8138 2300 094</a></h3></li>
+        <li class="offset">
+          <h3>
+            <a class="ig" href="https://instagram.com/lakra_id" target="_blank">
+              <i class="lab la-instagram" />
+              @lakra_id
+            </a>
+          </h3>
+        </li>
       </ul>
-      <div>
-        <a class="ig" href="https://instagram.com/lakra_id" target="_blank">
-          <i class="lab la-instagram" />
-          <p>@lakra_id</p>
-        </a>
-      </div>
     </div>
     <form id="widget"
     @submit="encode">
       <input
-        v-if="$store.state.windowWidth > 600"
+        v-if="$store.state.windowWidth > 600 && !$store.state.isMobile"
         id="waText"
         v-model="text"
         placeholder="Chat di WhatsApp!"
@@ -42,9 +44,8 @@ export default {
   name: 'Footer',
   data() {
     return {
-      encodedText: null,
-      text: null,
-      tl: null,
+      encodedText: '',
+      text: '',
     };
   },
   methods: {
@@ -89,7 +90,6 @@ export default {
     &:hover {
       color: $green;
     }
-
   }
 
   .ig {
@@ -185,6 +185,20 @@ export default {
       @include max-media(small-tablet) {
         font-size: 1em;
       }
+
+      @include max-media(mobile) {
+        font-size: 1.5em !important;
+        line-height: 1.5em !important;
+      }
+    }
+
+    h3 {
+      font-size: 1em;
+
+      @include max-media(mobile) {
+        font-size: 1.2em !important;
+        line-height: 1.2em !important;
+      }
     }
 
     i {
@@ -202,8 +216,12 @@ export default {
 
       li {
         list-style-type: none;
-        padding: 5px 0;
         white-space: nowrap;
+
+        &.offset {
+          position: relative;
+          top: -5px;
+        }
 
         @include max-media(small-tablet) {
           font-size: 0.75em;

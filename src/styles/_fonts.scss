@@ -1,5 +1,36 @@
 @font-face {
-  font-family: Helvetica-Neue;
-  src: url(/assets/helveticaneue-light.woff2);
-  font-weight: 200;
+    font-family: 'Helvetica Neue';
+    src: url('~@/assets/fonts/helveticaneue-light.eot');
+    src: url('~@/assets/fonts/helveticaneue-light.eot?#iefix') format('embedded-opentype'),
+        url('~@/assets/fonts/helveticaneue-light.woff2') format('woff2'),
+        url('~@/assets/fonts/helveticaneue-light.woff') format('woff'),
+        url('~@/assets/fonts/helveticaneue-light.svg#HelveticaNeue-Light') format('svg');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
 }
+
+@font-face {
+    font-family: 'Helvetica Neue';
+    src: url('~@/assets/fonts/helveticaneue-bold.eot');
+    src: url('~@/assets/fonts/helveticaneue-bold.eot?#iefix') format('embedded-opentype'),
+        url('~@/assets/fonts/helveticaneue-bold.woff2') format('woff2'),
+        url('~@/assets/fonts/helveticaneue-bold.woff') format('woff'),
+        url('~@/assets/fonts/helveticaneue-bold.svg#HelveticaNeue-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue';
+    src: url('~@/assets/fonts/helveticaneue-regular.eot');
+    src: url('~@/assets/fonts/helveticaneue-regular.eot?#iefix') format('embedded-opentype'),
+        url('~@/assets/fonts/helveticaneue-regular.woff2') format('woff2'),
+        url('~@/assets/fonts/helveticaneue-regular.woff') format('woff'),
+        url('~@/assets/fonts/helveticaneue-regular.svg#HelveticaNeue') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

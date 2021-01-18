@@ -1,21 +1,21 @@
 <template>
-  <div id="home">
+  <div id="home" :class="{ remMargin:$store.state.isMobile }">
     <hooper :wheelControl="false" :infiniteScroll="true" :autoPlay="true">
       <slide>
         <div class="hero">
-          <h2>Build Home, Build Value</h2>
+          <h1>Build Home, Build Value</h1>
           <p>Lakra adalah perusahaan property developer
             yang berbasis di Jakarta, kami hadir untuk
             memperkenalkan hidup mendasar dan bernilai
             yang dimulai dari bawah atap rumah tinggal kita.
           </p>
         </div>
-        <div class="overlay" style="opacity: 30%" />
+        <div class="overlay" style="opacity: 40%" />
         <img src="../assets/images/H3.jpg" />
       </slide>
       <slide>
         <div class="hero">
-          <h2>Design maksimal dengan biaya minimum.</h2>
+          <h1>Design maksimal dengan biaya minimum.</h1>
           <p>Menyediakan hunian premium yang
             inovatif dan berkualitas bagi client,
             dengan menghadirkan arsitek profesional,
@@ -23,7 +23,7 @@
             menjamin kualitas dan kenyamanan hunian bagi client.
           </p>
         </div>
-        <div class="overlay" style="opacity: 30%" />
+        <div class="overlay" style="opacity: 40%" />
         <img src="../assets/images/H1.jpg" />
       </slide>
       <hooper-navigation slot="hooper-addons"></hooper-navigation>
@@ -56,7 +56,7 @@ export default {
     this.$root.$emit('mounted');
     setTimeout(() => {
       document.querySelector('#home').style.opacity = 1;
-      if (this.$store.state.windowWidth > 600) {
+      if (this.$store.state.windowWidth > 600 && !this.$store.state.isMobile) {
         document.querySelector('.logoText').style.opacity = 1;
       }
     }, 1000);
@@ -67,13 +67,13 @@ export default {
 @import '../styles/index.scss';
 
 #home {
-  margin-top: clamp(300px, 45vh, 45vh);
+  margin-top: 45vh;
   will-change: transform;
   opacity: 0;
   transition: opacity .5s ease;
 
   @include max-media(mobile) {
-    margin-top: 0;
+    margin: 0;
   }
 }
 </style>
@@ -105,9 +105,8 @@ export default {
       color: white;
       z-index: 3;
 
-      h2 {
-        font-size: 40px;
-        font-weight: 200;
+      h1 {
+        font-weight: 300;
         margin: 0;
       }
 
@@ -124,7 +123,7 @@ export default {
       left: 50%;
       transform: translate(-50%, -50%);
       background-color: $green;
-      opacity: 30%;
+      opacity: 40%;
       z-index: 2;
     }
   }

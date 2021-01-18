@@ -1,6 +1,6 @@
 <template>
-  <div id="nav">
-    <router-link to="/" class="logo" v-if="windowWidth > 600">
+  <div id="nav" :class="{ mobile: $store.state.opened }">
+    <router-link to="/" class="logo" v-show="windowWidth > 600 && !$store.state.isMobile">
       <img src="../assets/logo.svg" />
       <img class="logoText"
       src="../assets/logotext.svg" />
@@ -37,7 +37,8 @@
         Tentang Kami
       </router-link>
     </ul>
-    <div class="active" v-if="windowWidth > 600" />
+    <div class="active"
+    v-show="windowWidth > 600 && !$store.state.isMobile && $route.name !== 'Home'" />
   </div>
 </template>
 
@@ -45,7 +46,6 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { debounce } from 'debounce';
-// import asyncRoutes from '@/router/asyncRoutes';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -77,17 +77,26 @@ export default {
         duration: 0.3,
       });
       this.offset = (this.expanded) ? 48 : 0;
-      this.act(this.$route.path.slice(this.$route.path.lastIndexOf('/') + 1));
       await this.$nextTick();
+      this.act(this.$route.path.slice(this.$route.path.lastIndexOf('/') + 1));
       this.active(this.$route.name);
     },
+    resizeW() {
+      this.checkScroll();
+    },
+    resizeH() {
+      this.act(this.$route.path.slice(this.$route.path.lastIndexOf('/') + 1));
+      this.active(this.$route.name);
+      this.resizeW();
+    },
     checkScroll() {
+      const h = ((document.documentElement.clientHeight || 0, window.innerHeight || 0) / 100);
       if (this.$route.name === 'Home') {
         gsap.set('.logoText', {
           autoAlpha: 0,
         });
         ScrollTrigger.getById('trigger1').enable();
-        window.scrollTo({ top: 45 * this.h });
+        window.scrollTo({ top: 45 * h });
         gsap.to('.logoText', {
           autoAlpha: 1,
           duration: 0.3,
@@ -131,8 +140,7 @@ export default {
             },
           });
           this.tl.from('.logoText', {
-            x: `${this.navWidth - 50}px`,
-            y: '10vh',
+            x: '16vw',
             scale: 6,
           })
             .to('#nav img:first-child', {
@@ -150,8 +158,8 @@ export default {
           });
           this.tl
             .from('.logoText', {
-              x: `${this.navWidth - 50}px`,
-              y: '5vh',
+              x: '160px',
+              y: '6vh',
               scale: 4,
             })
             .to('#nav img:first-child', {
@@ -168,9 +176,9 @@ export default {
             },
           });
           this.tl.from('.logoText', {
-            x: `${this.navWidth - 50}px`,
-            y: '5vh',
+            x: '160px',
             scale: 2.5,
+            y: '10.5vh',
           })
             .to('#nav img:first-child', {
               rotate: '90deg',
@@ -187,33 +195,35 @@ export default {
       });
     },
     act(i) {
+      const h = ((document.documentElement.clientHeight || 0, window.innerHeight || 0) / 100);
       switch (i) {
         case 'projects':
-          this.yPos = (27 * this.h) + 46;
+          this.yPos = (27.5 * h) + 48;
           break;
 
         case 'lakrasamana':
-          this.yPos = (27 * this.h) + 46 + this.offset;
+          this.yPos = (27.5 * h) + 48 + this.offset;
           break;
 
         case 'kpr':
-          this.yPos = (27 * this.h) + 92 + this.offset;
+          this.yPos = (27.5 * h) + 94 + this.offset;
           break;
 
         case 'kontak':
-          this.yPos = (27 * this.h) + 138 + this.offset;
+          this.yPos = (27.5 * h) + 140 + this.offset;
           break;
 
         case 'tentang':
-          this.yPos = (27 * this.h) + 184 + this.offset;
+          this.yPos = (27.5 * h) + 186 + this.offset;
           break;
 
         default:
       }
     },
     active(i) {
+      const h = ((document.documentElement.clientHeight || 0, window.innerHeight || 0) / 100);
       if (i === 'Rumah' && !this.expanded) {
-        this.yPos = (27 * this.h) + 46;
+        this.yPos = (27.5 * h) + 46;
         this.tl2.set('.active', {
           y: this.yPos,
           duration: 0.1,
@@ -223,11 +233,18 @@ export default {
             duration: 0.3,
           }, '<')
           .to('.active', {
-            x: '125%',
+            x: '15vw',
             autoAlpha: 1,
             duration: 0.3,
           });
+      } else if (!i || i === 'Not Found') {
+        this.tl2.to('active', {
+          x: 0,
+          autoAlpha: 0,
+          duration: 0.3,
+        });
       } else if (i !== 'Home') {
+        // this.tl2.invalidate();
         this.tl2.to('.lokasi, #project', {
           color: 'black',
           duration: 0.3,
@@ -237,7 +254,7 @@ export default {
             duration: 0.3,
           }, '+=0.1')
           .to('.active', {
-            x: '125%',
+            x: '15vw',
             autoAlpha: 1,
             duration: 0.3,
           }, 'active', '>')
@@ -263,12 +280,11 @@ export default {
   },
   watch: {
     windowWidth() {
-      debounce(async () => {
-        this.checkScroll();
-        await this.$nextTick();
-        this.act(this.$route.path.slice(this.$route.path.lastIndexOf('/') + 1));
-        this.active(this.$route.name);
-      }, 200);
+      debounce(this.resizeW(), 200, true);
+    },
+    // eslint-disable-next-line object-shorthand
+    '$store.state.windowHeight'() {
+      debounce(this.resizeH(), 200, true);
     },
     // eslint-disable-next-line object-shorthand
     '$route'(to, from) {
@@ -276,7 +292,7 @@ export default {
       this.$Progress.increase(20);
       this.$store.state.opened = false;
       const p = from.path.slice(from.path.lastIndexOf('/') + 1);
-      if (p.length > 0) {
+      if (p.length > 0 && p !== '404') {
         gsap.to(this.$refs[p].$el, {
           color: 'black',
           duration: 0.3,
@@ -314,28 +330,38 @@ export default {
 #nav {
   position: fixed;
   z-index: 5;
-  min-width: 150px;
+  min-width: 144.15px;
   width: 15vw;
   height: 100vh;
   text-align: left;
-  padding: 7vh 10px 50px 50px;
-  background-color: white;
+  padding: 7vh 1vw 50px 50px;
+
+  &.mobile {
+    background-color: white;
+  }
+
+  @include max-media(tablet) {
+    padding-right: 10px;
+  }
 
   .logo {
     display: flex;
     flex-direction: column;
     height: 20vh;
+    margin-right: auto;
+    width: min-content;
 
     img {
       position: relative;
-      width: 90%;
-      max-width: 125px;
+      height: 15vh;
+      width: 15vh;
       margin-bottom: 10px;
       transform-origin: center center;
 
       &.logoText {
+        height: 3vh;
         opacity: 1;
-        transform-origin: left center;
+        transform-origin: left top;
       }
     }
   }
@@ -411,13 +437,17 @@ export default {
     position: absolute;
     background-color: $green;
     top: 0;
-    left: -100%;
-    width: 80%;
+    left: -15vw;
+    width: 15vw;
     min-width: 150px;
     height: 2.5em;
     z-index: -1;
     opacity: 0;
     visibility: hidden;
+
+    &:hover {
+      background-color: $dark-green;
+    }
   }
 }
 </style>

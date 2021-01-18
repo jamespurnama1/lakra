@@ -7,12 +7,14 @@ export default new Vuex.Store({
   state: {
     navWidth: 200,
     windowWidth: 1920,
+    windowHeight: 1080,
     opened: false,
+    isMobile: false,
     houses: [
       {
         Title: 'Lakrasamana',
         Location: 'Raden Saleh, Depok',
-        Status: 'Selesai',
+        Status: 'Dalam Pengembangan',
         Price: '880.000.000',
         Desc:
           '',
@@ -33,11 +35,17 @@ export default new Vuex.Store({
     setWidth(state, w) {
       state.windowWidth = w;
     },
+    setHeight(state, h) {
+      state.windowHeight = h;
+    },
     setNavWidth(state, w) {
       state.navWidth = w;
     },
     toggleNav(state) {
       state.opened = !state.opened;
+    },
+    isMobile(state, b) {
+      state.isMobile = b;
     },
   },
   getters: {
