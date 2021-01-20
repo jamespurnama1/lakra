@@ -16,14 +16,8 @@ module.exports = {
       maskIcon: 'img/icons/safari-pinned-tab.svg',
       msTileImage: 'img/icons/msapplication-icon-144x144.png',
     },
-    workboxOptions: {
-      cacheId: 'lakrasamana',
-      importWorkboxFrom: 'local',
-      navigateFallback: 'shell.html',
-      navigateFallbackWhitelist: [/^((?!\/404).)*$/],
+    manifestOptions: {
       background_color: '#ffffff',
-      display: 'standalone',
-      start_url: '/',
       icons: [
         {
           src: 'img/icons/android-chrome-maskable-192x192.png',
@@ -36,6 +30,14 @@ module.exports = {
           type: 'image/png',
         },
       ],
+      display: 'standalone',
+      start_url: '/',
+    },
+    workboxOptions: {
+      cacheId: 'lakrasamana',
+      importWorkboxFrom: 'local',
+      navigateFallback: 'shell.html',
+      navigateFallbackWhitelist: [/^((?!\/404).)*$/],
     },
     configureWebpack: (config) => {
       if (process.env.NODE_ENV !== 'production') {
