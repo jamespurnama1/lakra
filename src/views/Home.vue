@@ -11,7 +11,12 @@
           </p>
         </div>
         <div class="overlay" style="opacity: 40%" />
-        <img src="../assets/images/H3.jpg" />
+        <img
+          srcset="../assets/images/H3-1800w.jpg 1900w,
+                  ../assets/images/H3-1200w.jpg 1300w,
+                  ../assets/images/H3-600w.jpg 700w"
+          src="../assets/images/H3-1800w.jpg"
+          alt="Kamar &amp; tempat belajar." />
       </slide>
       <slide>
         <div class="hero">
@@ -24,7 +29,12 @@
           </p>
         </div>
         <div class="overlay" style="opacity: 40%" />
-        <img src="../assets/images/H1.jpg" />
+                <img
+          srcset="../assets/images/H1-1800w.jpg 1900w,
+                  ../assets/images/H1-1200w.jpg 1300w,
+                  ../assets/images/H1-600w.jpg 700w"
+          src="../assets/images/H1-1800w.jpg"
+          alt="Lakrasamana dengan ruko." />
       </slide>
       <hooper-navigation slot="hooper-addons"></hooper-navigation>
       <hooper-pagination slot="hooper-addons"></hooper-pagination>
