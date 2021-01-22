@@ -11,10 +11,10 @@
         <p>
           <a href="mailto:info@lakra.id">info@lakra.id</a>
           <br>
-          <a href="https://wa.me/6281382300094" target="_blank">+62 8138 2300 094</a>
+          <a href="https://wa.me/6281382300094" target="_blank" rel="noopener noreferrer">+62 8138 2300 094</a>
         </p>
         <div>
-          <a class="ig" href="https://instagram.com/lakra_id" target="_blank">
+          <a class="ig" href="https://instagram.com/lakra_id" target="_blank" rel="noopener noreferrer">
             <i class="lab la-instagram" />lakra_id
           </a>
         </div>

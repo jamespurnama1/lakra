@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import Vue from 'vue';
 import Vuex from 'vuex';
 
@@ -28,6 +29,38 @@ export default new Vuex.Store({
           },
           infoText: '<strong>Lakrasamana</strong><br>Jl. Raden Saleh I No. 34',
         },
+        Photos: [
+          {
+            s: require('../assets/images/lakrasamana/H0-600w.jpg'),
+            m: require('../assets/images/lakrasamana/H0-1200w.jpg'),
+            l: require('../assets/images/lakrasamana/H0-1800w.jpg'),
+            alt: '',
+          },
+          {
+            s: require('../assets/images/lakrasamana/H2-600w.jpg'),
+            m: require('../assets/images/lakrasamana/H2-1200w.jpg'),
+            l: require('../assets/images/lakrasamana/H2-1800w.jpg'),
+            alt: '',
+          },
+          {
+            s: require('../assets/images/lakrasamana/H1-600w.jpg'),
+            m: require('../assets/images/lakrasamana/H1-1200w.jpg'),
+            l: require('../assets/images/lakrasamana/H1-1800w.jpg'),
+            alt: '',
+          },
+          {
+            s: require('../assets/images/lakrasamana/H3-600w.jpg'),
+            m: require('../assets/images/lakrasamana/H3-1200w.jpg'),
+            l: require('../assets/images/lakrasamana/H3-1800w.jpg'),
+            alt: '',
+          },
+          {
+            s: require('../assets/images/lakrasamana/Z3-600w.jpg'),
+            m: require('../assets/images/lakrasamana/Z3-1200w.jpg'),
+            l: require('../assets/images/lakrasamana/Z3-1800w.jpg'),
+            alt: '',
+          },
+        ],
       },
     ],
   },

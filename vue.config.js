@@ -1,4 +1,5 @@
 const PrerenderSPAPlugin = require('prerender-spa-plugin');
+const path = require('path');
 
 module.exports = {
   pwa: {
@@ -37,18 +38,19 @@ module.exports = {
       navigateFallback: 'shell.html',
       navigateFallbackWhitelist: [/^((?!\/404).)*$/],
     },
-    configureWebpack: (config) => {
+    configureWebpack: () => {
       if (process.env.NODE_ENV !== 'production') {
         return {};
       }
       return {
         plugins: [
           new PrerenderSPAPlugin({
-            staticDir: config.output.path,
+            staticDir: path.resolve(__dirname, 'dist'),
             routes: ['/', '/404', '/projects', '/kpr', '/tentang', '/kontak'],
             renderer: new PrerenderSPAPlugin.PuppeteerRenderer({
               renderAfterDocumentEvent: 'rendered',
             }),
+            inject: {},
             // … other Prerender SPA Plugin options …
           }),
         ],

@@ -17,14 +17,29 @@
         Build home, build values.
       </p>
     </div>
-    <img :src="require(`../assets/images/H0.jpg`)" />
+    <img
+      :src="`${photos.l}`"
+      :srcset="`${photos.l} 1900w,
+                ${photos.m} 1300w,
+                ${photos.s} 700w`"
+      alt="Lakrasamana" />
   </div>
 </template>
 <script>
+/* eslint-disable global-require */
 export default {
   name: 'About',
   mounted() {
     this.$root.$emit('mounted');
+  },
+  data() {
+    return {
+      photos: {
+        s: require('../assets/images/H0-600w.jpg'),
+        m: require('../assets/images/H0-1200w.jpg'),
+        l: require('../assets/images/H0-1800w.jpg'),
+      },
+    };
   },
 };
 </script>

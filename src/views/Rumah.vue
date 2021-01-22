@@ -1,7 +1,12 @@
 <template>
   <div id="rumah" :class="{ remMargin:$store.state.isMobile }">
     <h1>{{ data.Title }}</h1>
-    <img :src="require(`../assets/images/${ttl}/H0.jpg`)" />
+    <img
+      :src="`${data.Photos[0].l}`"
+      :srcset="`${data.Photos[0].l} 1900w,
+                ${data.Photos[0].m} 1300w,
+                ${data.Photos[0].s} 700w`"
+      :alt="data.Photos[0].alt" />
     <div class="info">
       <div class="leftInfo">
         <div class="h2">
@@ -32,12 +37,32 @@
         <li><i class="las la-check" /><p>Tempat Parkir</p></li>
         <li><i class="las la-shield-alt" /><p>Keamanan 24 Jam</p></li>
       </ul>
-      <img :src="require(`../assets/images/${ttl}/H2.jpg`)" />
+      <img
+        :src="`${data.Photos[1].l}`"
+        :srcset="`${data.Photos[1].l} 1900w,
+                  ${data.Photos[1].m} 1300w,
+                  ${data.Photos[1].s} 700w`"
+        :alt="data.Photos[1].alt" />
     </div>
     <div class="gallery">
-      <img :src="require(`../assets/images/${ttl}/H1.jpg`)" />
-      <img :src="require(`../assets/images/${ttl}/H3.jpg`)" />
-      <img :src="require(`../assets/images/${ttl}/Z3.jpg`)" />
+      <img
+        :src="`${data.Photos[2].l}`"
+        :srcset="`${data.Photos[2].l} 1900w,
+                  ${data.Photos[2].m} 1300w,
+                  ${data.Photos[2].s} 700w`"
+        :alt="data.Photos[2].alt"/>
+      <img
+        :src="`${data.Photos[3].l}`"
+        :srcset="`${data.Photos[3].l} 1900w,
+                  ${data.Photos[3].m} 1300w,
+                  ${data.Photos[3].s} 700w`"
+        :alt="data.Photos[3].alt"/>
+      <img
+        :src="`${data.Photos[4].l}`"
+        :srcset="`${data.Photos[4].l} 1900w,
+                  ${data.Photos[4].m} 1300w,
+                  ${data.Photos[4].s} 700w`"
+        :alt="data.Photos[4].alt" />
     </div>
     <GmapMap
       :center="data.Marker.position"
@@ -144,6 +169,10 @@ export default {
     min-height: 150px;
     min-width: 320px;
     object-fit: cover;
+
+    @include max-media(mobile) {
+      height: auto;
+    }
   }
 
   .info {

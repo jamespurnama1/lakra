@@ -12,10 +12,10 @@
       <h2><router-link to="/kontak">Kontak Kami</router-link></h2>
       <ul>
         <li><h3><a href="mailto:info@lakra.id">info@lakra.id</a></h3></li>
-        <li><h3><a href="https://wa.me/6281382300094" target="_blank">+62 8138 2300 094</a></h3></li>
+        <li><h3><a href="https://wa.me/6281382300094" target="_blank" rel="noopener noreferrer">+62 8138 2300 094</a></h3></li>
         <li class="offset">
           <h3>
-            <a class="ig" href="https://instagram.com/lakra_id" target="_blank">
+            <a class="ig" href="https://instagram.com/lakra_id" target="_blank" rel="noopener noreferrer">
               <i class="lab la-instagram" />
               @lakra_id
             </a>
@@ -52,9 +52,9 @@ export default {
     encode() {
       this.encodedText = encodeURIComponent(this.text);
       if (this.encodedText) {
-        window.open(`https://wa.me/6281382300094?text=${this.encodedText}`, '_blank');
+        window.open(`https://wa.me/6281382300094?text=${this.encodedText}`, '_blank').opener = null;
       } else {
-        window.open('https://wa.me/6281382300094', '_blank');
+        window.open('https://wa.me/6281382300094', '_blank').opener = null;
       }
     },
   },
