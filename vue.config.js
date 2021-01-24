@@ -1,6 +1,3 @@
-const PrerenderSPAPlugin = require('prerender-spa-plugin');
-const path = require('path');
-
 module.exports = {
   pwa: {
     name: 'Lakra',
@@ -38,34 +35,46 @@ module.exports = {
       navigateFallback: 'shell.html',
       navigateFallbackWhitelist: [/^((?!\/404).)*$/],
     },
+    // configureWebpack: () => {
+    //   if (process.env.NODE_ENV !== 'production') {
+    //     return {};
+    //   }
+    //   return {
+    //     plugins: [
+    //       new PrerenderSPAPlugin({
+    //         staticDir: path.joing(__dirname, 'dist'),
+    //         routes: ['/', '/404', '/projects', '/kpr', '/tentang', '/kontak'],
+    //         renderer: new Renderer({
+    //           // renderAfterDocumentEvent: 'app.rendered',
+    //           product: 'firefox',
+    //           renderAfterTime: 5000,
+    //           headless: false,
+    //           injectProperty: '__prerender',
+    //           inject: {},
+    //         }),
+    //         // … other Prerender SPA Plugin options …
+    //       }),
+    //     ],
+    //   };
+    // },
+  },
 
-    chainWebpack: (config) => {
-      config.plugin('html').tap((args) => {
-        // eslint-disable-next-line no-param-reassign
-        args[0].filename = process.env.WEBPACK_DEV_SERVER ? 'index.html' : 'i.html';
-        return args;
-      });
-    },
-    configureWebpack: () => {
-      if (process.env.NODE_ENV !== 'production') {
-        return {};
-      }
-      return {
-        plugins: [
-          new PrerenderSPAPlugin({
-            indexPath: path.resolve('dist/i.html'),
-            staticDir: path.resolve('dist'),
-            routes: ['/', '/404', '/projects', '/kpr', '/tentang', '/kontak'],
-            renderer: new PrerenderSPAPlugin.PuppeteerRenderer({
-              renderAfterDocumentEvent: 'app.rendered',
-              headless: false,
-              injectProperty: '__prerender',
-              inject: {},
-            }),
-            // … other Prerender SPA Plugin options …
-          }),
-        ],
-      };
+  pluginOptions: {
+    prerenderSpa: {
+      registry: undefined,
+      renderRoutes: [
+        '/',
+        '/404',
+        '/projects',
+        '/projects/lakrasamana',
+        '/kpr',
+        '/tentang',
+        '/kontak',
+      ],
+      useRenderEvent: true,
+      maxConcurrentRoutes: 1,
+      headless: true,
+      onlyProduction: true,
     },
   },
 };
