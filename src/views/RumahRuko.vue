@@ -3,7 +3,7 @@
     <i @click="$emit('selected', null)" class="las la-times" />
     <video
       :src="require(`@/assets/images/${selected.Title.toLowerCase()}/reel.mp4`)"
-      autoplay muted preload loop />
+      autoplay muted preload loop playsinline />
     <h1>{{ selected.Title }}</h1>
     <p class="loc"><i class="las la-map-marker" />{{ selected.Location }}</p>
     <span>
@@ -55,7 +55,7 @@ export default {
   padding: 50px;
 
   @include max-media(mobile) {
-    padding: 50% 20px;
+    padding: 0 20px;
   }
 
   h1 {
@@ -91,6 +91,7 @@ export default {
 
     @include max-media(mobile) {
       width: 100%;
+      margin: auto 0 0 0;
     }
   }
 
@@ -101,10 +102,9 @@ export default {
     margin-right: auto;
     height: 3em;
 
-    // @include max-media(mobile) {
-    //   margin: 0 auto;
-    //   width: 75%;
-    // }
+    @include max-media(mobile) {
+      margin-bottom: auto;
+    }
 
     button {
       background-color: $green;
