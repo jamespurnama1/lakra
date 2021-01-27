@@ -3,10 +3,10 @@
   <div @click="route(house.Title)" v-for="(house, i) in $store.state.houses" :key="i" class="house">
     <div class="img">
       <img
-        :src="`${house.Photos[0].l}`"
-        :srcset="`${house.Photos[0].l} 1900w,
-                  ${house.Photos[0].m} 1300w,
-                  ${house.Photos[0].s} 700w`"
+        v-lazy="house.Photos[0].l"
+        :data-srcset="` ${house.Photos[0].l} 1900w,
+                        ${house.Photos[0].m} 1300w,
+                        ${house.Photos[0].s} 700w`"
         :alt="house.Photos[0].alt" />
     </div>
     <div class="info">

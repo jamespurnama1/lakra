@@ -89,32 +89,41 @@ export default {
       this.active(this.$route.name);
       this.resizeW();
     },
-    checkScroll() {
+    async checkScroll() {
       const h = ((document.documentElement.clientHeight || 0, window.innerHeight || 0) / 100);
-      if (this.$route.name === 'Home') {
-        gsap.set('.logoText', {
-          autoAlpha: 0,
-        });
-        ScrollTrigger.getById('trigger1').enable();
+      if (this.$route.name === 'Home' && this.$store.state.windowWidth > 600) {
+        try {
+          ScrollTrigger.getById('trigger1').enable();
+        } catch (err) {
+          console.error(err);
+        }
         window.scrollTo({ top: 45 * h });
-        gsap.to('.logoText', {
+        gsap.to('.logo', {
           autoAlpha: 1,
-          duration: 0.3,
+          delay: 0.7,
+          duration: 0.5,
         });
         setTimeout(() => {
           window.scrollTo({ top: 0, behavior: 'smooth' });
           ScrollTrigger.refresh();
         }, 500);
-      } else {
-        ScrollTrigger.getById('trigger1').disable(false);
-        this.$nextTick(() => {
-          gsap.set('.logoText', {
-            x: 0,
-            y: 0,
-            scale: 1,
-          });
-          gsap.to('.logoText', { clearProps: true });
-          gsap.to('ul', { clearProps: true });
+      } else if (this.$route.name) {
+        await this.$nextTick();
+        try {
+          ScrollTrigger.getById('trigger1').disable(false);
+        } catch (err) {
+          console.error(err);
+        }
+        gsap.set('.logoText', {
+          x: 0,
+          y: 0,
+          scale: 1,
+        });
+        gsap.to('.logoText', { clearProps: true });
+        gsap.to('ul', { clearProps: true });
+        gsap.to('.logo', {
+          autoAlpha: 1,
+          duration: 0.5,
         });
       }
     },
@@ -139,15 +148,20 @@ export default {
               id: 'trigger1',
             },
           });
-          this.tl.from('.logoText', {
+          this.tl.fromTo('.logoText', {
             x: '16vw',
             scale: 6,
+            opacity: 1,
+          }, {
+            x: 0,
+            scale: 1,
+            opacity: 1,
           })
             .to('#nav img:first-child', {
               rotate: '90deg',
             }, 0)
             .to('.links', {
-              y: '+=10%',
+              y: '10%',
             }, 0);
         },
         '(min-width:769px) and (max-width: 960px)': () => {
@@ -157,35 +171,52 @@ export default {
             },
           });
           this.tl
-            .from('.logoText', {
+            .fromTo('.logoText', {
               x: '160px',
               y: '6vh',
               scale: 4,
+              opacity: 1,
+            }, {
+              x: 0,
+              y: 0,
+              scale: 1,
+              opacity: 1,
             })
             .to('#nav img:first-child', {
               rotate: '90deg',
             }, 0)
             .to('.links', {
-              y: '+=10%',
+              y: '10%',
             }, 0);
         },
-        '(max-width: 768px)': () => {
+        '(min-width: 601px) and (max-width: 768px)': () => {
           this.tl = gsap.timeline({
             scrollTrigger: {
               id: 'trigger1',
             },
           });
-          this.tl.from('.logoText', {
+          this.tl.fromTo('.logoText', {
             x: '160px',
             scale: 2.5,
             y: '10.5vh',
+            opacity: 1,
+          }, {
+            x: 0,
+            y: 0,
+            scale: 1,
+            opacity: 1,
           })
             .to('#nav img:first-child', {
               rotate: '90deg',
             }, 0)
             .to('.links', {
-              y: '+=10%',
+              y: '10%',
             }, 0);
+        },
+        '(max-width: 600px)': () => {
+          gsap.to('.logoText', { clearProps: true });
+          gsap.to('ul', { clearProps: true });
+          gsap.to('#nav img:first-child', { clearProps: true });
         },
         all: () => {
           gsap.set('.logoText', {
@@ -195,35 +226,35 @@ export default {
       });
     },
     act(i) {
-      const h = ((document.documentElement.clientHeight || 0, window.innerHeight || 0) / 100);
+      // const h = ((document.documentElement.clientHeight || 0, window.innerHeight || 0) / 100);
       switch (i) {
         case 'projects':
-          this.yPos = (27.5 * h) + 48;
+          this.yPos = 48;
           break;
 
         case 'lakrasamana':
-          this.yPos = (27.5 * h) + 48 + this.offset;
+          this.yPos = 48 + this.offset;
           break;
 
         case 'kpr':
-          this.yPos = (27.5 * h) + 94 + this.offset;
+          this.yPos = 94 + this.offset;
           break;
 
         case 'kontak':
-          this.yPos = (27.5 * h) + 140 + this.offset;
+          this.yPos = 144 + this.offset;
           break;
 
         case 'tentang':
-          this.yPos = (27.5 * h) + 186 + this.offset;
+          this.yPos = 194 + this.offset;
           break;
 
         default:
       }
     },
     active(i) {
-      const h = ((document.documentElement.clientHeight || 0, window.innerHeight || 0) / 100);
+      // const h = ((document.documentElement.clientHeight || 0, window.innerHeight || 0) / 100);
       if (i === 'Rumah' && !this.expanded) {
-        this.yPos = (27.5 * h) + 46;
+        this.yPos = 46;
         this.tl2.set('.active', {
           y: this.yPos,
           duration: 0.1,
@@ -238,7 +269,7 @@ export default {
             duration: 0.3,
           });
       } else if (!i || i === 'Not Found') {
-        this.tl2.to('active', {
+        this.tl2.to('.active', {
           x: 0,
           autoAlpha: 0,
           duration: 0.3,
@@ -266,14 +297,11 @@ export default {
     },
   },
   async mounted() {
-    this.$nextTick(() => {
-      this.logo(); // init gsap scrolltrigger
-      ScrollTrigger.refresh();
-    });
+    this.logo(); // init gsap scrolltrigger
     this.$root.$on('mounted', () => { // on content mount
       this.$nextTick(() => {
         this.active(this.$route.name); // move active
-        this.checkScroll();
+        Promise.resolve().then(() => { this.checkScroll(); });
         this.$Progress.finish();
       });
     });
@@ -284,7 +312,7 @@ export default {
     },
     // eslint-disable-next-line object-shorthand
     '$store.state.windowHeight'() {
-      debounce(this.resizeH(), 200, true);
+      debounce(this.resizeH(), 100, true);
     },
     // eslint-disable-next-line object-shorthand
     '$route'(to, from) {
@@ -301,6 +329,10 @@ export default {
       this.close();
       this.$nextTick(() => {
         if (to.name === 'Home') {
+          gsap.to('.logo', {
+            autoAlpha: 0,
+            duration: 0.3,
+          });
           gsap.to('.active', {
             x: 0,
             autoAlpha: 0,
@@ -313,9 +345,6 @@ export default {
   computed: {
     windowWidth() {
       return this.$store.state.windowWidth;
-    },
-    navWidth() {
-      return this.$store.state.navWidth;
     },
     h() {
       return Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0) / 100;
@@ -349,6 +378,7 @@ export default {
     flex-direction: column;
     height: 20vh;
     margin-right: auto;
+    opacity: 0;
     width: min-content;
 
     img {
@@ -360,7 +390,6 @@ export default {
 
       &.logoText {
         height: 3vh;
-        opacity: 1;
         transform-origin: left top;
       }
     }
@@ -436,10 +465,10 @@ export default {
   .active {
     position: absolute;
     background-color: $green;
-    top: 0;
+    top: 27.5vh;
     left: -15vw;
     width: 15vw;
-    min-width: 150px;
+    min-width: 194px;
     height: 2.5em;
     z-index: -1;
     opacity: 0;

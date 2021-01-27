@@ -13,36 +13,38 @@
         </router-link>
       </ul>
       <div class="active1" />
-      <GmapMap
-        v-if="$store.state.windowWidth > 600 && !$store.state.isMobile"
-        :center="{ lat: -6.405181627778632, lng: 106.84120278009165 }"
-        :zoom=zoom
-        ref="mapRef"
-        class="map"
-        :options="{
-          styles: style,
-          disableDefaultUI: true,
-          gestureHandling: 'cooperative',
-          }"
-      >
-        <gmap-info-window
-          :options="infoOptions"
-          :position="activeMarker.position"
-          :opened="true"
-        />
-        <GmapMarker
-          :position="activeMarker.position"
-          :animation="2"
-          :clickable="false"
-          :draggable="false"
-          :icon="{
-            url: require('../assets/marker.svg'),
-            size: {width: 78, height: 95, f: 'px', b: 'px',},
-            scaledSize: {width: 39, height: 48, f: 'px', b: 'px',},
-            anchor: { x: 19.5, y: 48, f: 'px', b: 'px'},
-          }"
-        />
-      </GmapMap>
+      <lazy-component>
+        <GmapMap
+          v-if="$store.state.windowWidth > 600 && !$store.state.isMobile"
+          :center="{ lat: -6.405181627778632, lng: 106.84120278009165 }"
+          :zoom=zoom
+          ref="mapRef"
+          class="map"
+          :options="{
+            styles: style,
+            disableDefaultUI: true,
+            gestureHandling: 'cooperative',
+            }"
+        >
+          <gmap-info-window
+            :options="infoOptions"
+            :position="activeMarker.position"
+            :opened="true"
+          />
+          <GmapMarker
+            :position="activeMarker.position"
+            :animation="2"
+            :clickable="false"
+            :draggable="false"
+            :icon="{
+              url: require('../assets/marker.svg'),
+              size: {width: 78, height: 95, f: 'px', b: 'px',},
+              scaledSize: {width: 39, height: 48, f: 'px', b: 'px',},
+              anchor: { x: 19.5, y: 48, f: 'px', b: 'px'},
+            }"
+          />
+        </GmapMap>
+      </lazy-component>
     </div>
     <Listing v-else-if="$store.state.windowWidth < 601 || $store.state.isMobile" />
   </div>
@@ -65,7 +67,7 @@ export default {
           lat: -6.405181627778632,
           lng: 106.84120278009165,
         },
-        infoText: '<strong>Lakrasamana</strong><br>Jl. Raden Saleh I No. 34',
+        infoText: '<strong>Lakrasamana</strong><br>Jl. Raden Saleh No. 52',
       },
       {
         position: {
@@ -101,11 +103,9 @@ export default {
     };
   },
   methods: {
-    active(i) {
+    async active(i) {
       this.activeMarker = this.markers[i];
       this.infoOptions.content = this.markers[i].infoText;
-      // const h = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
-      // this.yPos = (h / 10) + 58 + ((i - 1) * 39.3);
       this.yPos = i * 26;
       if (this.$store.state.windowWidth > 600 && !this.$store.state.isMobile) {
         this.tl.set('.active1', {
@@ -122,14 +122,19 @@ export default {
             duration: 0.1,
           }, '<');
         if (this.prevActive !== i) {
-          this.$refs.mapRef.$mapPromise.then((map) => {
-            map.setZoom(13);
-            setTimeout(() => {
-              map.panTo(this.markers[i].position);
-              map.setZoom(15);
-            }, 500);
-          });
-          this.prevActive = i;
+          try {
+            await this.$gmapApiPromiseLazy();
+            this.$refs.mapRef.$mapPromise.then((map) => {
+              map.setZoom(13);
+              setTimeout(() => {
+                map.panTo(this.markers[i].position);
+                map.setZoom(15);
+              }, 500);
+            });
+            this.prevActive = i;
+          } catch (err) {
+            console.error(err);
+          }
         }
       }
     },
@@ -138,13 +143,8 @@ export default {
       this.infoOptions.content = marker.infoText;
     },
   },
-  async mounted() {
-    await setTimeout(() => {
-      this.active(0);
-      gsap.set('.gm-ui-hover-effect', {
-        display: 'none',
-      });
-    }, 1000);
+  mounted() {
+    this.active(0);
     this.$root.$emit('mounted');
   },
   watch: {
@@ -181,6 +181,7 @@ export default {
       height: 75vh;
       width: 80%;
       margin-left: auto;
+      background-color: #d1d1d1;
 
       @include max-media(small-tablet) {
           width: 60%;

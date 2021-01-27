@@ -1,4 +1,7 @@
 module.exports = {
+  configureWebpack: {
+    devtool: 'source-map',
+  },
   pwa: {
     name: 'Lakra',
     themeColor: '#80876f',
@@ -35,28 +38,6 @@ module.exports = {
       navigateFallback: 'shell.html',
       navigateFallbackWhitelist: [/^((?!\/404).)*$/],
     },
-    // configureWebpack: () => {
-    //   if (process.env.NODE_ENV !== 'production') {
-    //     return {};
-    //   }
-    //   return {
-    //     plugins: [
-    //       new PrerenderSPAPlugin({
-    //         staticDir: path.joing(__dirname, 'dist'),
-    //         routes: ['/', '/404', '/projects', '/kpr', '/tentang', '/kontak'],
-    //         renderer: new Renderer({
-    //           // renderAfterDocumentEvent: 'app.rendered',
-    //           product: 'firefox',
-    //           renderAfterTime: 5000,
-    //           headless: false,
-    //           injectProperty: '__prerender',
-    //           inject: {},
-    //         }),
-    //         // … other Prerender SPA Plugin options …
-    //       }),
-    //     ],
-    //   };
-    // },
   },
 
   pluginOptions: {

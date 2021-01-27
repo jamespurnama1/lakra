@@ -1,69 +1,73 @@
 <template>
   <div id="rumah" :class="{ remMargin:$store.state.isMobile }">
-    <h1>{{ data.Title }}</h1>
     <img
-      :src="`${data.Photos[0].l}`"
-      :srcset="`${data.Photos[0].l} 1900w,
+      v-lazy="data.Photos[0].l"
+      :data-srcset="`${data.Photos[0].l} 1900w,
                 ${data.Photos[0].m} 1300w,
                 ${data.Photos[0].s} 700w`"
       :alt="data.Photos[0].alt" />
     <div class="info">
       <div class="leftInfo">
-        <div class="h2">
-          <h2><i class="las la-map-marker" />{{ data.Location }}</h2>
-        </div>
-        <p v-if="data.Desc" class="margin desc">{{ data.Desc }}</p>
-        <div class="margin status">
-          <p><b>Status Konstruksi</b></p>
-          <p>{{ data.Status }}</p>
-        </div>
+        <h1>{{ data.Title }}</h1>
+        <p v-if="data.Desc" class="desc">{{ data.Desc }}</p>
+        <span>
+          <p><i class="las la-map-marker" /><b>Lokasi</b></p>
+          <p>{{ data.Location }}</p>
+        </span>
       </div>
       <div class="rightInfo">
-        <p><b>Mulai dari</b></p>
+        <p><i class="las la-money-check" /><b>Harga Mulai Dari</b></p>
         <h2>Rp. {{ data.Price }}</h2>
-        <p class="margin"><b>Jenis Pembayaran</b></p>
-        <p>Hard Cash, KPR</p>
+        <p class="margin"><i class="las la-hammer" /><b>Status Konstruksi</b></p>
+          <p>{{ data.Status }}</p>
       </div>
     </div>
     <div class="details">
       <h2>Spesifikasi</h2>
       <ul>
-        <li><i class="las la-user-friends" /><p>Kamar Tidur: {{ data.Kamar }}</p></li>
+        <li><i class="las la-user-friends" /><p>{{ data.Kamar }} Kamar Tidur</p></li>
         <li><i class="las la-expand-arrows-alt" />
-          <p>Luas Tanah: {{ data.Tanah }}m<sup>2</sup></p>
+          <p>Luas Tanah {{ data.Tanah }}m<sup>2</sup></p>
         </li>
-        <li><i class="las la-home" /><p>Luas Bangunan: {{ data.Bangunan }}m<sup>2</sup></p></li>
+        <li><i class="las la-home" /><p>Luas Bangunan {{ data.Bangunan }}m<sup>2</sup></p></li>
         <li><i class="las la-check" /><p>Taman</p></li>
         <li><i class="las la-check" /><p>Tempat Parkir</p></li>
         <li><i class="las la-shield-alt" /><p>Keamanan 24 Jam</p></li>
       </ul>
       <img
-        :src="`${data.Photos[1].l}`"
-        :srcset="`${data.Photos[1].l} 1900w,
-                  ${data.Photos[1].m} 1300w,
-                  ${data.Photos[1].s} 700w`"
-        :alt="data.Photos[1].alt" />
+        v-lazy="data.Denah.l"
+        :data-srcset="`${data.Denah.l} 1900w,
+                  ${data.Denah.m} 1300w,
+                  ${data.Denah.s} 700w`"
+        :alt="data.Denah.alt" />
     </div>
     <div class="gallery">
       <img
-        :src="`${data.Photos[2].l}`"
-        :srcset="`${data.Photos[2].l} 1900w,
+        v-lazy="data.Photos[1].l"
+        :data-srcset="`${data.Photos[1].l} 1900w,
+                  ${data.Photos[1].m} 1300w,
+                  ${data.Photos[1].s} 700w`"
+        :alt="data.Photos[1].alt" />
+      <img
+        v-lazy="data.Photos[2].l"
+        :data-srcset="`${data.Photos[2].l} 1900w,
                   ${data.Photos[2].m} 1300w,
                   ${data.Photos[2].s} 700w`"
         :alt="data.Photos[2].alt"/>
       <img
-        :src="`${data.Photos[3].l}`"
-        :srcset="`${data.Photos[3].l} 1900w,
+        v-lazy="data.Photos[3].l"
+        :data-srcset="`${data.Photos[3].l} 1900w,
                   ${data.Photos[3].m} 1300w,
                   ${data.Photos[3].s} 700w`"
         :alt="data.Photos[3].alt"/>
       <img
-        :src="`${data.Photos[4].l}`"
-        :srcset="`${data.Photos[4].l} 1900w,
+        v-lazy="data.Photos[4].l"
+        :data-srcset="`${data.Photos[4].l} 1900w,
                   ${data.Photos[4].m} 1300w,
                   ${data.Photos[4].s} 700w`"
         :alt="data.Photos[4].alt" />
     </div>
+    <lazy-component>
     <GmapMap
       :center="data.Marker.position"
       :zoom="15"
@@ -94,6 +98,7 @@
         }"
       />
     </GmapMap>
+    </lazy-component>
   </div>
 </template>
 
@@ -135,11 +140,8 @@ export default {
       return this.data.Title.toLowerCase();
     },
   },
-  async mounted() {
+  mounted() {
     this.$root.$emit('mounted');
-    await setTimeout(() => {
-      document.querySelector('.gm-ui-hover-effect').style.display = 'none';
-    }, 1000);
   },
 };
 </script>
@@ -158,8 +160,12 @@ export default {
     margin: 0;
   }
 
+  i {
+    margin-right: 5px;
+  }
+
   h1 {
-    margin-top: 0;
+    margin: 0;
     text-align: left;
   }
 
@@ -182,6 +188,7 @@ export default {
     justify-content: space-between;
     margin: 5px 30px 30px 0;
     min-height: 90px;
+    grid-gap: 10px;
 
     @include max-media(mobile) {
       margin-right: 0;
@@ -198,7 +205,6 @@ export default {
       }
 
       &.status {
-        grid-area: status;
         margin-left: auto;
 
         @include max-media(mobile) {
@@ -209,27 +215,19 @@ export default {
 
     .leftInfo {
       grid-area: left;
-      display: grid;
-      grid-template-areas:  'loc loc'
-                            'desc status';
+      display: flex;
       flex-direction: column;
       text-align: left;
-      width: 110%;
+      justify-content: space-between;
 
       @include max-media(mobile) {
-        grid-template-areas:  'loc'
-                              'desc'
-                              'status';
-        width: 45%;
+        // width: 45%;
       }
 
-      p {
-        white-space: nowrap;
-      }
+      // p {
+      //   white-space: nowrap;
+      // }
 
-      .h2 {
-        display: flex;
-      }
     }
     .rightInfo {
       grid-area: right;
@@ -309,8 +307,10 @@ export default {
 
   .gallery {
     display: grid;
-    grid-template-areas:  'first second'
-                          'third third';
+    grid-template-areas:  'first first'
+                          'second third'
+                          'fourth fourth';
+    grid-template-columns: 1fr 1fr;
     flex-wrap: wrap;
     margin-right: 30px;
     margin-bottom: 30px;
@@ -334,8 +334,12 @@ export default {
         grid-area: second;
       }
 
-      &:last-child {
+      &:nth-child(3) {
         grid-area: third;
+      }
+
+      &:nth-child(4) {
+        grid-area: fourth;
       }
     }
   }
@@ -346,6 +350,7 @@ export default {
     min-height: 150px;
     min-width: 320px;
     margin-right: 30px;
+    background-color: #d1d1d1;
 
     @include max-media(mobile) {
       width: 100%;

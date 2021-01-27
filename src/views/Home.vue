@@ -1,44 +1,49 @@
 <template>
   <div id="home" :class="{ remMargin:$store.state.isMobile }">
-    <hooper :wheelControl="false" :infiniteScroll="true" :autoPlay="true">
-      <slide>
-        <div class="hero">
-          <h1>Build Home, Build Value</h1>
-          <p>Lakra adalah perusahaan property developer
-            yang berbasis di Jakarta, kami hadir untuk
-            memperkenalkan hidup mendasar dan bernilai
-            yang dimulai dari bawah atap rumah tinggal kita.
-          </p>
-        </div>
-        <div class="overlay" style="opacity: 40%" />
-        <img
-          srcset="../assets/images/H3-1800w.jpg 1900w,
-                  ../assets/images/H3-1200w.jpg 1300w,
-                  ../assets/images/H3-600w.jpg 700w"
-          src="../assets/images/H3-1800w.jpg"
-          alt="Kamar &amp; tempat belajar." />
-      </slide>
-      <slide>
-        <div class="hero">
-          <h1>Design maksimal dengan biaya minimum.</h1>
-          <p>Menyediakan hunian premium yang
-            inovatif dan berkualitas bagi client,
-            dengan menghadirkan arsitek profesional,
-            kontraktor, dan konsultan terkait untuk
-            menjamin kualitas dan kenyamanan hunian bagi client.
-          </p>
-        </div>
-        <div class="overlay" style="opacity: 40%" />
-                <img
-          srcset="../assets/images/H1-1800w.jpg 1900w,
-                  ../assets/images/H1-1200w.jpg 1300w,
-                  ../assets/images/H1-600w.jpg 700w"
-          src="../assets/images/H1-1800w.jpg"
-          alt="Lakrasamana dengan ruko." />
-      </slide>
-      <hooper-navigation slot="hooper-addons"></hooper-navigation>
-      <hooper-pagination slot="hooper-addons"></hooper-pagination>
-    </hooper>
+      <hooper
+        :wheelControl="false"
+        :infiniteScroll="true"
+        :autoPlay="true"
+        :playSpeed="5000"
+        :transition="750">
+        <slide>
+          <div class="hero">
+            <h1>Build Home, Build Values.</h1>
+            <p>Lakra adalah perusahaan property developer
+              yang berbasis di Jakarta, kami hadir untuk
+              memperkenalkan hidup mendasar dan bernilai
+              yang dimulai dari bawah atap rumah tinggal kita.
+            </p>
+          </div>
+          <div class="overlay" style="opacity: 40%" />
+          <img
+            srcset="../assets/images/H3-1800w.jpg 1900w,
+                    ../assets/images/H3-1200w.jpg 1300w,
+                    ../assets/images/H3-600w.jpg 700w"
+            src="../assets/images/H3-1800w.jpg"
+            alt="Kamar &amp; tempat belajar." />
+        </slide>
+        <slide>
+          <div class="hero">
+            <h1>Design maksimal dengan biaya terjangkau.</h1>
+            <p>Menyediakan hunian premium yang
+              inovatif dan berkualitas bagi client,
+              dengan menghadirkan arsitek profesional,
+              kontraktor, dan konsultan terkait untuk
+              menjamin kualitas dan kenyamanan hunian bagi client.
+            </p>
+          </div>
+          <div class="overlay" style="opacity: 40%" />
+                  <img
+            srcset="../assets/images/H1-1800w.jpg 1900w,
+                    ../assets/images/H1-1200w.jpg 1300w,
+                    ../assets/images/H1-600w.jpg 700w"
+            src="../assets/images/H1-1800w.jpg"
+            alt="Lakrasamana dengan ruko." />
+        </slide>
+        <hooper-navigation slot="hooper-addons"></hooper-navigation>
+        <hooper-pagination slot="hooper-addons"></hooper-pagination>
+      </hooper>
     <listing />
   </div>
 </template>
@@ -65,11 +70,8 @@ export default {
   mounted() {
     this.$root.$emit('mounted');
     setTimeout(() => {
-      document.querySelector('#home').style.opacity = 1;
-      if (this.$store.state.windowWidth > 600 && !this.$store.state.isMobile) {
-        document.querySelector('.logoText').style.opacity = 1;
-      }
-    }, 1000);
+      document.querySelector('#home').style.opacity = '100%';
+    }, 100);
   },
 };
 </script>
@@ -118,10 +120,16 @@ export default {
       h1 {
         font-weight: 300;
         margin: 0;
+        margin-bottom: 10px;
       }
 
       p {
-        margin: 0;
+        margin: 0 auto;
+        width: 60%;
+
+        @include max-media(mobile) {
+          width: 80%;
+        }
       }
     }
 
