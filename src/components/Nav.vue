@@ -249,7 +249,6 @@ export default {
       }
     },
     active(i, j) {
-      console.log(i);
       if (i === 'Rumah') {
         if (!this.expanded) {
           this.yPos = 46;
