@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-// import Home from '../views/Home.vue';
 import asyncRoutes from './asyncRoutes';
 
 Vue.use(VueRouter);
@@ -57,7 +56,7 @@ const routes = [
     },
   },
   {
-    path: '/projects/:id',
+    path: '/projects/:id/:type',
     name: 'Rumah',
     props: true,
     component: Rumah,

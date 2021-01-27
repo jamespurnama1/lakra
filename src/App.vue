@@ -1,6 +1,9 @@
 <template>
   <div id="app">
     <vue-progress-bar></vue-progress-bar>
+    <transition name="opacity">
+      <RumahRuko @selected="overlay" :selected="selected" v-if="selected" />
+    </transition>
     <transition name="nav">
       <div class="mobileHeader"
       :class="{shadow: scrollPos > 0}"
@@ -17,14 +20,16 @@
       </div>
     </transition>
     <transition name="slide-right">
-      <Navigation v-if="(windowWidth > 600 && !$store.state.isMobile) || $store.state.opened" />
+      <Navigation
+      @selected="overlay"
+      v-if="(windowWidth > 600 && !$store.state.isMobile) || $store.state.opened" />
     </transition>
     <div class="white" v-if="$store.state.opened" />
     <div id="navSpacer" v-if="windowWidth > 600 && !$store.state.isMobile" />
     <div class="content"
     :class="{ extraMargin: $store.state.isMobile && $store.state.windowWidth > 601 }">
       <transition name="slide" mode="out-in">
-        <router-view :key="$route.fullPath" />
+        <router-view :key="$route.fullPath" @selected="overlay" />
       </transition>
       <Foot />
     </div>
@@ -35,20 +40,26 @@
 import { debounce } from 'debounce';
 import Navigation from './components/Nav.vue';
 import Foot from './components/Footer.vue';
+import RumahRuko from './views/RumahRuko.vue';
 
 export default {
   components: {
     Navigation,
     Foot,
+    RumahRuko,
   },
   data() {
     return {
       show: true,
       prevScroll: 0,
       scrollPos: 0,
+      selected: null,
     };
   },
   methods: {
+    overlay(i) {
+      this.selected = i;
+    },
     resize() {
       const w = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
       const h = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);

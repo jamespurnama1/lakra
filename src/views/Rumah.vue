@@ -35,13 +35,21 @@
         <li><i class="las la-shield-alt" /><p>Keamanan 24 Jam</p></li>
       </ul>
       <img
+        v-if="type === 'rumah'"
         v-lazy="data.Denah.l"
         :data-srcset="`${data.Denah.l} 1900w,
                   ${data.Denah.m} 1300w,
                   ${data.Denah.s} 700w`"
         :alt="data.Denah.alt" />
+        <img
+        v-else-if="type === 'ruko'"
+        v-lazy="data.DenahRuko.l"
+        :data-srcset="`${data.DenahRuko.l} 1900w,
+                  ${data.DenahRuko.m} 1300w,
+                  ${data.DenahRuko.s} 700w`"
+        :alt="data.Denah.alt" />
     </div>
-    <div class="gallery">
+    <div class="gallery" v-if="type === 'rumah'">
       <img
         v-lazy="data.Photos[1].l"
         :data-srcset="`${data.Photos[1].l} 1900w,
@@ -109,6 +117,7 @@ export default {
   name: 'Rumah',
   props: {
     id: String,
+    type: String,
   },
   data() {
     return {
@@ -129,6 +138,7 @@ export default {
   methods: {
     updateData() {
       [this.data] = this.$store.state.houses.filter((f) => f.Title.toLowerCase() === this.id);
+      // [this.data] = a.filter((f) => f.Type.toLowerCase() === this.type);
       if (this.data === undefined || this.data.length === 0) {
         this.$router.push('/404');
       }

@@ -1,6 +1,7 @@
 <template>
 <div id="grid">
-  <div @click="route(house.Title)" v-for="(house, i) in $store.state.houses" :key="i" class="house">
+  <div @click="$parent.$emit('selected', house)"
+  v-for="(house, i) in $store.state.houses" :key="i" class="house">
     <div class="img">
       <img
         v-lazy="house.Photos[0].l"
@@ -29,9 +30,6 @@ export default {
     };
   },
   methods: {
-    route(i) {
-      this.$router.push({ path: `/projects/${i.toLowerCase()}` });
-    },
   },
 };
 </script>

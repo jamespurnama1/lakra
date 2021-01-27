@@ -33,6 +33,12 @@ export default new Vuex.Store({
           l: require('../assets/images/lakrasamana/denah-1800w.jpg'),
           alt: '',
         },
+        DenahRuko: {
+          s: require('../assets/images/lakrasamana/denahRuko-600w.jpg'),
+          m: require('../assets/images/lakrasamana/denahRuko-1200w.jpg'),
+          l: require('../assets/images/lakrasamana/denahRuko-1800w.jpg'),
+          alt: '',
+        },
         Photos: [
           {
             s: require('../assets/images/lakrasamana/H0-600w.jpg'),
