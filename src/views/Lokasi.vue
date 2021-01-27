@@ -106,7 +106,7 @@ export default {
             this.$refs.mapRef.$mapPromise.then((map) => {
               map.setZoom(13);
               setTimeout(() => {
-                map.panTo(this.houses[i].Marker.position);
+                map.panTo(this.$store.state.houses[i].Marker.position);
                 map.setZoom(15);
               }, 500);
             });
