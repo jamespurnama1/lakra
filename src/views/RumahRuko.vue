@@ -2,8 +2,11 @@
   <div id="select" :class="{ remMargin:$store.state.isMobile }">
     <i @click="$emit('selected', null)" class="las la-times" />
     <div class="container">
-      <video
+      <video v-if="$store.state.windowWidth > 600"
         :src="require(`@/assets/images/${selected.Title.toLowerCase()}/reel.mp4`)"
+        autoplay muted preload loop playsinline />
+        <video v-else-if="$store.state.windowWidth < 601"
+        :src="require(`@/assets/images/${selected.Title.toLowerCase()}/reelLow.mp4`)"
         autoplay muted preload loop playsinline />
       <h1>{{ selected.Title }}</h1>
       <p class="loc"><i class="las la-map-marker" />{{ selected.Location }}</p>
