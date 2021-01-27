@@ -3,14 +3,14 @@
     <h1>Projects</h1>
     <div class="flex" v-if="$store.state.windowWidth > 600 && !$store.state.isMobile">
       <ul class="loc">
-        <router-link tag="li" v-for="(house, i) in $store.state.houses"
-        @mouseover.native="active(i)" :key="i" :to="`/projects/${house.Title.toLowerCase()}`">
+        <li v-for="(house, i) in $store.state.houses"
+        @mouseover="active(i)" :key="i" @click="$emit('selected', house);">
           <p>{{ house.Title }}</p>
           <p v-if="$store.state.windowWidth < 601 || $store.state.isMobile">
             <i class="las la-map-marker" />
             {{ house.Location }}
           </p>
-        </router-link>
+        </li>
       </ul>
       <div class="active1" />
       <lazy-component>

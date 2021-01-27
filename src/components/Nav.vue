@@ -13,16 +13,14 @@
           </router-link>
           <transition name="slide-up">
             <ul class="lokasiList" v-if="expanded">
-              <template v-for="(house, i) in $store.state.houses">
-              <router-link
-              tag="li"
-              :ref="house.Title.toLowerCase()"
-              :id="house.Title.toLowerCase()"
-              :key="i"
-              :to="`/projects/${house.Title.toLowerCase()}`">
+              <li
+                v-for="(house, i) in $store.state.houses"
+                @click="$emit('selected', house)"
+                :ref="house.Title.toLowerCase()"
+                :id="house.Title.toLowerCase()"
+                :key="i">
                 {{ house.Title }}
-              </router-link>
-              </template>
+              </li>
             </ul>
           </transition>
         </div>
@@ -275,7 +273,6 @@ export default {
           duration: 0.3,
         });
       } else if (i !== 'Home') {
-        // this.tl2.invalidate();
         this.tl2.to('.lokasi, #project', {
           color: 'black',
           duration: 0.3,
@@ -297,10 +294,10 @@ export default {
     },
   },
   async mounted() {
-    this.logo(); // init gsap scrolltrigger
-    this.$root.$on('mounted', () => { // on content mount
+    this.logo();
+    this.$root.$on('mounted', () => {
       this.$nextTick(() => {
-        this.active(this.$route.name); // move active
+        this.active(this.$route.name);
         Promise.resolve().then(() => { this.checkScroll(); });
         this.$Progress.finish();
       });

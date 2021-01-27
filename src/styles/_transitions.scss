@@ -1,12 +1,13 @@
-.fade-enter-active, .fade-leave-active
+.fade-enter-active, .fade-leave-active,
 .slide-up-enter-active, .slide-up-leave-active,
 .slide-right-enter-active, .slide-right-leave-active,
 .slide-enter-active, .slide-leave-active {
   transition: all .3s ease;
 }
 
-.nav-enter-active, .nav-leave-active {
-  transition: transform .5s ease;
+.nav-enter-active, .nav-leave-active,
+.opacity-enter-active, .opacity-leave-active {
+  transition: all .5s ease;
 }
 
 .slide-up-enter, .slide-up-leave-to {
@@ -28,6 +29,7 @@
   opacity: 0;
 }
 
-.fade-enter, .fade-leave-to {
+.fade-enter, .fade-leave-to,
+.opacity-enter, .opacity-leave-to {
   opacity: 0;
 }
