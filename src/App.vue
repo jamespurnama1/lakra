@@ -98,7 +98,7 @@ export default {
       if (this.selected) {
         document.querySelector('body').style.overflowY = 'hidden';
       } else {
-        document.querySelector('body').style.overflowY = 'scroll';
+        document.querySelector('body').style.overflowY = null;
       }
     },
   },
