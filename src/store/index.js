@@ -22,10 +22,10 @@ export default new Vuex.Store({
         Kamar: 2,
         Marker: {
           position: {
-            lat: -6.405181627778632,
-            lng: 106.84120278009165,
+            lat: -6.41457487118613,
+            lng: 106.84184069107874,
           },
-          infoText: '<strong>Lakrasamana</strong><br>Jl. Raden Saleh No. 52',
+          infoText: '<strong>Lakrasamana</strong><br>Jl. Raden Saleh No. 29',
         },
         Denah: {
           s: require('../assets/images/lakrasamana/denah-600w.jpg'),

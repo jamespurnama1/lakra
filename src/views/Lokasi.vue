@@ -16,7 +16,7 @@
       <lazy-component>
         <GmapMap
           v-if="$store.state.windowWidth > 600 && !$store.state.isMobile"
-          :center="{ lat: -6.405181627778632, lng: 106.84120278009165 }"
+          :center="{ lat: -6.41457487118613, lng: 106.84184069107874 }"
           :zoom=zoom
           ref="mapRef"
           class="map"
@@ -62,27 +62,6 @@ export default {
   },
   data() {
     return {
-      markers: [{
-        position: {
-          lat: -6.405181627778632,
-          lng: 106.84120278009165,
-        },
-        infoText: '<strong>Lakrasamana</strong><br>Jl. Raden Saleh No. 52',
-      },
-      {
-        position: {
-          lat: -6.387843811325713,
-          lng: 106.78105976979819,
-        },
-        infoText: '<strong>Lakratempat</strong><br>Jl. lakra I No. 2',
-      },
-      {
-        position: {
-          lat: -6.175152668747219,
-          lng: 106.82706501881407,
-        },
-        infoText: '<strong>Monas</strong><br>Beli nih Monas',
-      }],
       activeMarker: {
         position: {
           lat: 0,
@@ -104,8 +83,8 @@ export default {
   },
   methods: {
     async active(i) {
-      this.activeMarker = this.markers[i];
-      this.infoOptions.content = this.markers[i].infoText;
+      this.activeMarker = this.$store.state.houses[i].Marker;
+      this.infoOptions.content = this.$store.state.houses[i].Marker.infoText;
       this.yPos = i * 26;
       if (this.$store.state.windowWidth > 600 && !this.$store.state.isMobile) {
         this.tl.set('.active1', {
@@ -127,7 +106,7 @@ export default {
             this.$refs.mapRef.$mapPromise.then((map) => {
               map.setZoom(13);
               setTimeout(() => {
-                map.panTo(this.markers[i].position);
+                map.panTo(this.houses[i].Marker.position);
                 map.setZoom(15);
               }, 500);
             });
