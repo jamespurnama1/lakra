@@ -56,7 +56,7 @@ const routes = [
     },
   },
   {
-    path: '/projects/:id/:type',
+    path: '/projects/:type/:id',
     name: 'Rumah',
     props: true,
     component: Rumah,

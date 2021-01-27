@@ -94,6 +94,13 @@ export default {
     '$store.state.isMobile'() {
       this.$forceUpdate();
     },
+    selected() {
+      if (this.selected) {
+        document.querySelector('body').style.overflowY = 'hidden';
+      } else {
+        document.querySelector('body').style.overflowY = 'scroll';
+      }
+    },
   },
   computed: {
     windowWidth() {
