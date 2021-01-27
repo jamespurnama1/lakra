@@ -61,11 +61,6 @@ export default {
       } else {
         this.$store.commit('isMobile', false);
       }
-      if (w > 601) {
-        this.$nextTick(() => {
-          this.$store.commit('setNavWidth', document.getElementById('nav').offsetWidth);
-        });
-      }
     },
     toggleOpen() {
       this.$store.commit('toggleNav');
@@ -126,6 +121,20 @@ html {
       color: #2c3e50;
       display: flex;
       flex-wrap: wrap;
+
+      img[lazy=error], img[lazy=loading] {
+        max-width: 100px;
+        max-height: 100px;
+        margin: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .gm-ui-hover-effect {
+        display: none !important;
+      }
 
       h1, h2, h3, p {
         font-weight: 300;

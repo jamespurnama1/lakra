@@ -1,7 +1,8 @@
 import Vue from 'vue';
-import * as VueGoogleMaps from 'vue2-google-maps';
+import * as GmapVue from 'gmap-vue';
 import VueNumeric from 'vue-numeric';
 import VueProgressBar from 'vue-progressbar';
+import VueLazyload from 'vue-lazyload';
 import App from './App.vue';
 import './registerServiceWorker';
 import router from './router';
@@ -15,7 +16,10 @@ const options = {
   thickness: '5px',
 };
 
-Vue.use(VueGoogleMaps, {
+const loadimage = require('@/assets/images/loading.gif');
+const errorimage = require('@/assets/images/loading.gif');
+
+Vue.use(GmapVue, {
   load: {
     key: 'AIzaSyCVnPos21-glyEhbMuR1_Bz5rWK69X2pn0',
     libraries: 'places',
@@ -23,6 +27,11 @@ Vue.use(VueGoogleMaps, {
   installComponents: true,
 })
   .use(VueNumeric)
+  .use(VueLazyload, {
+    lazyComponent: true,
+    error: errorimage,
+    loading: loadimage,
+  })
   .use(VueProgressBar, options);
 
 router.beforeEach((to, from, next) => {

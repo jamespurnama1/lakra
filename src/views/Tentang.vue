@@ -18,8 +18,8 @@
       </p>
     </div>
     <img
-      :src="`${photos.l}`"
-      :srcset="`${photos.l} 1900w,
+      v-lazy="photos.l"
+      :data-srcset="`${photos.l} 1900w,
                 ${photos.m} 1300w,
                 ${photos.s} 700w`"
       alt="Lakrasamana" />

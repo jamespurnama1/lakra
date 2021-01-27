@@ -6,7 +6,6 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    navWidth: 200,
     windowWidth: 1920,
     windowHeight: 1080,
     opened: false,
@@ -17,8 +16,7 @@ export default new Vuex.Store({
         Location: 'Raden Saleh, Depok',
         Status: 'Dalam Pengembangan',
         Price: '880.000.000',
-        Desc:
-          '',
+        Desc: '4 Unit Rumah. 6 Unit Ruko.',
         Tanah: 60,
         Bangunan: 72,
         Kamar: 2,
@@ -27,7 +25,13 @@ export default new Vuex.Store({
             lat: -6.405181627778632,
             lng: 106.84120278009165,
           },
-          infoText: '<strong>Lakrasamana</strong><br>Jl. Raden Saleh I No. 34',
+          infoText: '<strong>Lakrasamana</strong><br>Jl. Raden Saleh No. 52',
+        },
+        Denah: {
+          s: require('../assets/images/lakrasamana/denah-600w.jpg'),
+          m: require('../assets/images/lakrasamana/denah-1200w.jpg'),
+          l: require('../assets/images/lakrasamana/denah-1800w.jpg'),
+          alt: '',
         },
         Photos: [
           {
@@ -71,9 +75,6 @@ export default new Vuex.Store({
     setHeight(state, h) {
       state.windowHeight = h;
     },
-    setNavWidth(state, w) {
-      state.navWidth = w;
-    },
     toggleNav(state) {
       state.opened = !state.opened;
     },
@@ -83,7 +84,6 @@ export default new Vuex.Store({
   },
   getters: {
     // getWidth: (state) => state.windowWidth,
-    // getNavWidth: (state) => state.navWidth,
   },
   actions: {},
   modules: {},
