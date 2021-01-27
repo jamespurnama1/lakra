@@ -66,7 +66,7 @@ export default {
         duration: 0.3,
       });
       this.offset = 0;
-      this.act(this.$route.path.slice(this.$route.path.lastIndexOf('/') + 1));
+      this.act(this.lastPath);
     },
     async expand() {
       this.expanded = !this.expanded;
@@ -76,15 +76,15 @@ export default {
       });
       this.offset = (this.expanded) ? 48 : 0;
       await this.$nextTick();
-      this.act(this.$route.path.slice(this.$route.path.lastIndexOf('/') + 1));
-      this.active(this.$route.name);
+      this.act(this.lastPath);
+      this.active(this.$route.name, this.lastPath);
     },
     resizeW() {
       this.checkScroll();
     },
     resizeH() {
-      this.act(this.$route.path.slice(this.$route.path.lastIndexOf('/') + 1));
-      this.active(this.$route.name);
+      this.act(this.lastPath);
+      this.active(this.$route.name, this.lastPath);
       this.resizeW();
     },
     async checkScroll() {
@@ -224,7 +224,6 @@ export default {
       });
     },
     act(i) {
-      // const h = ((document.documentElement.clientHeight || 0, window.innerHeight || 0) / 100);
       switch (i) {
         case 'projects':
           this.yPos = 48;
@@ -249,18 +248,29 @@ export default {
         default:
       }
     },
-    active(i) {
-      // const h = ((document.documentElement.clientHeight || 0, window.innerHeight || 0) / 100);
-      if (i === 'Rumah' && !this.expanded) {
-        this.yPos = 46;
-        this.tl2.set('.active', {
-          y: this.yPos,
-          duration: 0.1,
-        })
-          .to('.lokasi', {
+    active(i, j) {
+      console.log(i);
+      if (i === 'Rumah') {
+        if (!this.expanded) {
+          this.yPos = 46;
+          this.tl2.to('.lokasi', {
             color: 'white',
             duration: 0.3,
-          }, '<')
+          }, '<');
+        } else {
+          this.tl2.to(`#${j}`, {
+            color: 'white',
+            duration: 0.3,
+          }, 'active')
+            .to('.lokasi', {
+              color: 'black',
+              duration: 0.3,
+            }, '<');
+        }
+        this.tl2.set('.active', {
+          y: this.yPos,
+          duration: 0.5,
+        })
           .to('.active', {
             x: '15vw',
             autoAlpha: 1,
@@ -290,6 +300,11 @@ export default {
             color: 'white',
             duration: 0.3,
           }, 'active');
+      } else {
+        this.tl2.to('.lokasi, #project', {
+          color: 'black',
+          duration: 0.3,
+        }, 0);
       }
     },
   },
@@ -297,7 +312,7 @@ export default {
     this.logo();
     this.$root.$on('mounted', () => {
       this.$nextTick(() => {
-        this.active(this.$route.name);
+        this.active(this.$route.name, this.lastPath);
         Promise.resolve().then(() => { this.checkScroll(); });
         this.$Progress.finish();
       });
@@ -345,6 +360,9 @@ export default {
     },
     h() {
       return Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0) / 100;
+    },
+    lastPath() {
+      return this.$route.path.slice(this.$route.path.lastIndexOf('/') + 1);
     },
   },
 };

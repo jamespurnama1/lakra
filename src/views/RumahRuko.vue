@@ -1,26 +1,28 @@
 <template>
   <div id="select" :class="{ remMargin:$store.state.isMobile }">
     <i @click="$emit('selected', null)" class="las la-times" />
-    <video
-      :src="require(`@/assets/images/${selected.Title.toLowerCase()}/reel.mp4`)"
-      autoplay muted preload loop playsinline />
-    <h1>{{ selected.Title }}</h1>
-    <p class="loc"><i class="las la-map-marker" />{{ selected.Location }}</p>
-    <span>
-      <button
-        @click="choice('rumah')"
-        tag="button">
-        <p>
-          Rumah
-        </p>
-      </button>
-      <button
-        @click="choice('ruko')">
-        <p>
-          Ruko
-        </p>
-      </button>
-    </span>
+    <div class="container">
+      <video
+        :src="require(`@/assets/images/${selected.Title.toLowerCase()}/reel.mp4`)"
+        autoplay muted preload loop playsinline />
+      <h1>{{ selected.Title }}</h1>
+      <p class="loc"><i class="las la-map-marker" />{{ selected.Location }}</p>
+      <span>
+        <button
+          @click="choice('rumah')"
+          tag="button">
+          <p>
+            Rumah
+          </p>
+        </button>
+        <button
+          @click="choice('ruko')">
+          <p>
+            Ruko
+          </p>
+        </button>
+      </span>
+    </div>
   </div>
 </template>
 
@@ -33,7 +35,7 @@ export default {
   methods: {
     choice(i) {
       this.$emit('selected', null);
-      this.$router.push({ path: `/projects/${this.selected.Title.toLowerCase()}/${i}` });
+      this.$router.push({ path: `/projects/${i}/${this.selected.Title.toLowerCase()}` });
     },
   },
 };
@@ -46,34 +48,12 @@ export default {
   position: fixed;
   width: 100vw;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
   z-index: 15;
   background-color: $green;
   will-change: opacity;
-  box-sizing: border-box;
-  padding: 50px;
-
-  @include max-media(mobile) {
-    padding: 0 20px;
-  }
-
-  h1 {
-    color: white;
-    align-self: flex-start;
-    margin: 0;
-
-    // @include max-media(mobile) {
-    //   margin: 10px auto;
-    // }
-  }
-
-  .loc {
-    align-self: flex-start;
-    color: white;
-    margin: 0;
-    margin-bottom: 5px;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   .la-times {
     position: absolute;
@@ -84,59 +64,75 @@ export default {
     cursor: pointer;
   }
 
-  video {
-    margin: auto;
-    width: 100%;
-    height: auto;
-
-    @include max-media(mobile) {
-      width: 100%;
-      margin: auto 0 0 0;
-    }
-  }
-
-  span {
+  .container {
+    position: absolute;
     display: flex;
-    width: 50%;
-    margin-top: 5px;
-    margin-right: auto;
-    height: 3em;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 50px;
+    width: fit-content;
+    max-height: 100vh;
 
     @include max-media(mobile) {
-      margin-bottom: auto;
+      padding: 0 20px;
     }
 
-    button {
-      background-color: $green;
+    h1 {
       color: white;
-      border: 2px solid white;
-      padding: 10px 50px;
-      transition: background-color .3s ease;
-      cursor: pointer;
+      align-self: flex-start;
+      margin: 0;
+    }
 
-      &:first-child {
-        margin-right: 15px;
-      }
+    .loc {
+      align-self: flex-start;
+      color: white;
+      margin: 0;
+      margin-bottom: 5px;
+    }
 
-      &:focus {
-        outline: none;
-      }
+    video {
+      margin: auto 0 0 0;
+      max-height: 70vh;
+    }
 
-      p {
+    span {
+      display: flex;
+      width: 50%;
+      margin: 5px auto auto 0;
+      height: 3em;
+
+      button {
+        background-color: $green;
         color: white;
-        text-decoration: none;
-        margin: 0;
+        border: 2px solid white;
+        padding: 10px 50px;
+        transition: background-color .3s ease;
+        cursor: pointer;
 
-        &:visited {
-          color: white;
+        &:first-child {
+          margin-right: 15px;
         }
-      }
 
-      &:hover {
-        background-color: white;
+        &:focus {
+          outline: none;
+        }
 
         p {
-          color: $dark-green;
+          color: white;
+          text-decoration: none;
+          margin: 0;
+
+          &:visited {
+            color: white;
+          }
+        }
+
+        &:hover {
+          background-color: white;
+
+          p {
+            color: $dark-green;
+          }
         }
       }
     }
