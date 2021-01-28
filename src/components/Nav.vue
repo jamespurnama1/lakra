@@ -237,11 +237,11 @@ export default {
           break;
 
         case 'kontak':
-          this.yPos = 144 + this.offset;
+          this.yPos = 140 + this.offset;
           break;
 
         case 'tentang':
-          this.yPos = 194 + this.offset;
+          this.yPos = 190 + this.offset;
           break;
 
         default:
@@ -251,13 +251,11 @@ export default {
       if (i === 'Rumah') {
         if (!this.expanded) {
           this.yPos = 46;
-          if (this.$store.windowWidth > 600) {
-            this.tl2.to('.lokasi', {
-              color: 'white',
-              duration: 0.3,
-            }, '<');
-          }
-        } else if (this.$store.windowWidth > 600) {
+          this.tl2.to('.lokasi', {
+            color: 'white',
+            duration: 0.3,
+          }, '<');
+        } else {
           this.tl2.to(`#${j}`, {
             color: 'white',
             duration: 0.3,
@@ -282,7 +280,7 @@ export default {
           autoAlpha: 0,
           duration: 0.3,
         });
-      } else if (i !== 'Home' && this.$store.windowWidth > 600) {
+      } else if (i !== 'Home') {
         this.tl2.to('.lokasi, #projects', {
           color: 'black',
           duration: 0.3,
@@ -426,11 +424,19 @@ export default {
         transition: all .3s ease;
         cursor: pointer;
 
+        @include max-media(mobile) {
+          color: black !important;
+        }
+
         &:hover {
           color: $dark-green;
 
           li {
             color: black;
+
+            @include max-media(mobile) {
+              color: black !important;
+            }
 
             &:hover {
               color: $dark-green;
@@ -440,6 +446,10 @@ export default {
 
         .lokasi {
           margin: 30px 0;
+
+          @include max-media(mobile) {
+              color: black !important;
+          }
         }
 
         .lokasiList {
