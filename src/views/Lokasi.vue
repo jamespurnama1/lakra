@@ -13,7 +13,6 @@
         </li>
       </ul>
       <div class="active1" />
-      <lazy-component>
         <GmapMap
           v-if="$store.state.windowWidth > 600 && !$store.state.isMobile"
           :center="{ lat: -6.41457487118613, lng: 106.84184069107874 }"
@@ -44,7 +43,6 @@
             }"
           />
         </GmapMap>
-      </lazy-component>
     </div>
     <Listing v-else-if="$store.state.windowWidth < 601 || $store.state.isMobile" />
   </div>

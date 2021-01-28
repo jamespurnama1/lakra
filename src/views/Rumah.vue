@@ -75,7 +75,6 @@
                   ${data.Photos[4].s} 700w`"
         :alt="data.Photos[4].alt" />
     </div>
-    <lazy-component>
     <GmapMap
       :center="data.Marker.position"
       :zoom="15"
@@ -106,7 +105,6 @@
         }"
       />
     </GmapMap>
-    </lazy-component>
   </div>
 </template>
 
@@ -329,9 +327,11 @@ export default {
 
     @include max-media(mobile) {
       margin-right: 0;
+      grid-template-columns: 1fr;
       grid-template-areas:'first'
                           'second'
-                          'third';
+                          'third'
+                          'fourth';
     }
 
     img {
