@@ -1,15 +1,24 @@
 <template>
   <div id="rumah" :class="{ remMargin:$store.state.isMobile }">
     <img
+      v-if="type === 'rumah'"
       v-lazy="data.Photos[0].l"
       :data-srcset="`${data.Photos[0].l} 1900w,
                 ${data.Photos[0].m} 1300w,
                 ${data.Photos[0].s} 700w`"
       :alt="data.Photos[0].alt" />
+      <img
+      v-if="type === 'ruko'"
+      v-lazy="data.Photos[0].l"
+      :data-srcset="`${data.PhotosRuko[0].l} 1900w,
+                ${data.PhotosRuko[0].m} 1300w,
+                ${data.PhotosRuko[0].s} 700w`"
+      :alt="data.PhotosRuko[0].alt" />
     <div class="info">
       <div class="leftInfo">
         <h1>{{ data.Title }}</h1>
-        <p v-if="data.Desc" class="desc">{{ data.Desc }}</p>
+        <p v-if="data.Desc && type === 'rumah'" class="desc">{{ data.Desc }}</p>
+        <p v-else-if="data.DescRuko && type === 'ruko'" class="desc">{{ data.Desc }}</p>
         <span>
           <p><i class="las la-map-marker" /><b>Lokasi</b></p>
           <p>{{ data.Location }}</p>

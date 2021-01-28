@@ -16,7 +16,8 @@ export default new Vuex.Store({
         Location: 'Raden Saleh, Depok',
         Status: 'Dalam Pengembangan',
         Price: '880.000.000',
-        Desc: '4 Unit Rumah. 6 Unit Ruko.',
+        Desc: '4 Unit Rumah.',
+        DescRuko: '6 Unit Ruko.',
         Tanah: 60,
         Bangunan: 72,
         Kamar: 2,
@@ -39,6 +40,14 @@ export default new Vuex.Store({
           l: require('../assets/images/lakrasamana/denahRuko-1800w.jpg'),
           alt: '',
         },
+        PhotosRuko: [
+          {
+            s: require('../assets/images/lakrasamana/H1-600w.jpg'),
+            m: require('../assets/images/lakrasamana/H1-1200w.jpg'),
+            l: require('../assets/images/lakrasamana/H1-1800w.jpg'),
+            alt: '',
+          },
+        ],
         Photos: [
           {
             s: require('../assets/images/lakrasamana/H0-600w.jpg'),

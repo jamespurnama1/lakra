@@ -144,13 +144,29 @@ html {
       flex-wrap: wrap;
 
       img[lazy=error], img[lazy=loading] {
-        max-width: 100px;
-        max-height: 100px;
+        width: 100px !important;
+        height: 100px !important;
         margin: auto;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        display: block;
+        align-self: center;
+        justify-self: center;
+        object-fit: contain;
+        min-width: none;
+        min-height: none;
+
+        @include max-media(mobile) {
+          width: 50px !important;
+          height: 50px !important;
+        }
+      }
+
+      img[lazy=loaded] {
+        animation: fade .5s 1;
+      }
+
+      @keyframes fade {
+        from {opacity: 0;}
+        to {opacity: 100%;}
       }
 
       .gm-ui-hover-effect {
