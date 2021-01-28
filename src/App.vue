@@ -24,7 +24,7 @@
       @selected="overlay"
       v-if="(windowWidth > 600 && !$store.state.isMobile) || $store.state.opened" />
     </transition>
-    <div class="white" v-if="$store.state.opened" />
+    <div class="white" v-if="$store.state.opened" @click="$store.commit('toggleNav')" />
     <div id="navSpacer" v-if="windowWidth > 600 && !$store.state.isMobile" />
     <div class="content"
     :class="{ extraMargin: $store.state.isMobile && $store.state.windowWidth > 601 }">

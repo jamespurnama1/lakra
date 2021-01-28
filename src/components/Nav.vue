@@ -8,7 +8,7 @@
     <ul class="links">
       <li>
         <div>
-          <router-link to="/projects" id="project" ref="projects" class='lokasi'>
+          <router-link to="/projects" id="projects" class='lokasi'>
             Projects<i @click.stop.prevent="expand" class="las la-angle-down" />
           </router-link>
           <transition name="slide-up">
@@ -16,7 +16,6 @@
               <li
                 v-for="(house, i) in $store.state.houses"
                 @click="$emit('selected', house)"
-                :ref="house.Title.toLowerCase()"
                 :id="house.Title.toLowerCase()"
                 :key="i">
                 {{ house.Title }}
@@ -25,13 +24,13 @@
           </transition>
         </div>
       </li>
-      <router-link tag="li" ref="kpr" to="/kpr">
+      <router-link tag="li" id="kpr" to="/kpr">
         KPR
       </router-link>
-      <router-link tag="li" ref="kontak" to="/kontak">
+      <router-link tag="li" id="kontak" to="/kontak">
         Kontak Kami
       </router-link>
-      <router-link tag="li" ref="tentang" to="/tentang">
+      <router-link tag="li" id="tentang" to="/tentang">
         Tentang Kami
       </router-link>
     </ul>
@@ -252,11 +251,13 @@ export default {
       if (i === 'Rumah') {
         if (!this.expanded) {
           this.yPos = 46;
-          this.tl2.to('.lokasi', {
-            color: 'white',
-            duration: 0.3,
-          }, '<');
-        } else {
+          if (this.$store.windowWidth > 600) {
+            this.tl2.to('.lokasi', {
+              color: 'white',
+              duration: 0.3,
+            }, '<');
+          }
+        } else if (this.$store.windowWidth > 600) {
           this.tl2.to(`#${j}`, {
             color: 'white',
             duration: 0.3,
@@ -281,8 +282,8 @@ export default {
           autoAlpha: 0,
           duration: 0.3,
         });
-      } else if (i !== 'Home') {
-        this.tl2.to('.lokasi, #project', {
+      } else if (i !== 'Home' && this.$store.windowWidth > 600) {
+        this.tl2.to('.lokasi, #projects', {
           color: 'black',
           duration: 0.3,
         }, 0)
@@ -300,7 +301,7 @@ export default {
             duration: 0.3,
           }, 'active');
       } else {
-        this.tl2.to('.lokasi, #project', {
+        this.tl2.to('.lokasi, #projects', {
           color: 'black',
           duration: 0.3,
         }, 0);
@@ -332,7 +333,7 @@ export default {
       this.$store.state.opened = false;
       const p = from.path.slice(from.path.lastIndexOf('/') + 1);
       if (p.length > 0 && p !== '404') {
-        gsap.to(this.$refs[p].$el, {
+        gsap.to(`#${p}`, {
           color: 'black',
           duration: 0.3,
         });
