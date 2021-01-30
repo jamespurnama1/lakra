@@ -46,15 +46,15 @@ export default {
 #grid {
   display: grid;
   grid-template-columns: 50% 50%;
+  grid-gap: 30px 10px;
 
   .title {
     text-align: left;
   }
 
   .house {
+    width: 95%;
     position: relative;
-    margin-right: 5%;
-    margin-bottom: 5%;
     cursor: pointer;
 
     &:hover {

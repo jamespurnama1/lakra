@@ -84,7 +84,7 @@ export default {
     async active(i) {
       this.activeMarker = this.pos(i);
       this.infoOptions.content = `<strong>${this.$store.state.data[i].Name}</strong><br>${this.$store.state.data[i].Alamat}`;
-      this.yPos = i * 26;
+      this.yPos = i * 36;
       if (this.$store.state.windowWidth > 600 && !this.$store.state.isMobile) {
         this.tl.set('.active1', {
           y: `${this.yPos}px`,
