@@ -7,7 +7,6 @@ import App from './App.vue';
 import './registerServiceWorker';
 import router from './router';
 import store from './store';
-
 import 'line-awesome/dist/line-awesome/css/line-awesome.css';
 
 const options = {

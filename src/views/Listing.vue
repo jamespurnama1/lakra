@@ -1,23 +1,31 @@
 <template>
 <div id="grid">
   <div @click="$parent.$emit('selected', house)"
-  v-for="(house, i) in $store.state.houses" :key="i" class="house">
+  v-for="(house, i) in $store.state.data" :key="i" class="house">
     <div class="img">
       <img
-        v-lazy="house.Photos[0].l"
-        :data-srcset="` ${house.Photos[0].l} 1900w,
-                        ${house.Photos[0].m} 1300w,
-                        ${house.Photos[0].s} 700w`"
-        :alt="house.Photos[0].alt" />
+        v-lazy="house.Image[0].thumbnails.full.url"
+        :data-srcset="` ${house.Image[0].thumbnails.full.url} 1900w,
+                        ${house.Image[0].thumbnails.large.url} 700w`"
+        alt="" />
     </div>
     <div class="info">
       <div>
-        <h2 class="title">{{ house.Title }}</h2>
-        <p><i class="las la-map-marker"></i>{{ house.Location }}</p>
+        <h2 class="title">{{ house.Name }}</h2>
+        <p><i class="las la-map-marker"></i>{{ house.Lokasi }}</p>
       </div>
-      <h2 class="price">Rp. {{ house.Price }}</h2>
+      <h2
+      v-if="house['Harga Rumah']"
+      class="price">
+        Rp. {{ house['Harga Rumah'].toLocaleString() }}
+      </h2>
+      <h2
+      v-else-if="house['Harga Ruko']"
+      class="price">
+        Rp. {{ house['Harga Ruko'].toLocaleString() }}
+      </h2>
     </div>
-    <p>{{ house.Desc }}</p>
+    <p>{{ house['Deskripsi General'] }}</p>
   </div>
 </div>
 </template>
@@ -28,8 +36,6 @@ export default {
   data() {
     return {
     };
-  },
-  methods: {
   },
 };
 </script>

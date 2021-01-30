@@ -2,7 +2,10 @@
   <div id="app">
     <vue-progress-bar></vue-progress-bar>
     <transition name="opacity">
-      <RumahRuko @selected="overlay" :selected="selected" v-if="selected" />
+      <RumahRuko
+      @selected="overlay"
+      :selected="selected"
+      v-if="selected && $store.state.data.length > 0" />
     </transition>
     <transition name="nav">
       <div class="mobileHeader"
@@ -22,7 +25,8 @@
     <transition name="slide-right">
       <Navigation
       @selected="overlay"
-      v-if="(windowWidth > 600 && !$store.state.isMobile) || $store.state.opened" />
+      v-if="((windowWidth > 600 && !$store.state.isMobile) || $store.state.opened)
+      && $store.state.data.length > 0" />
     </transition>
     <div
       class="white"
@@ -32,7 +36,10 @@
     <div class="content"
     :class="{ extraMargin: $store.state.isMobile && $store.state.windowWidth > 601 }">
       <transition name="slide" mode="out-in">
-        <router-view :key="$route.fullPath" @selected="overlay" />
+        <router-view
+        v-if="$store.state.data.length > 0"
+        :key="$route.fullPath"
+        @selected="overlay" />
       </transition>
       <Foot />
     </div>
@@ -89,7 +96,8 @@ export default {
       this.prevScroll = window.scrollY;
     },
   },
-  mounted() {
+  async mounted() {
+    await this.$store.dispatch('getData');
     this.resize();
   },
   watch: {

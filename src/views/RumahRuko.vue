@@ -3,15 +3,16 @@
     <i @click="$emit('selected', null)" class="las la-times" />
     <div class="container">
       <video v-if="$store.state.windowWidth > 600"
-        :src="require(`@/assets/images/${selected.Title.toLowerCase()}/reel.mp4`)"
+        :src="selected.Reel[0].url"
         autoplay muted preload loop playsinline />
         <video v-else-if="$store.state.windowWidth < 601"
-        :src="require(`@/assets/images/${selected.Title.toLowerCase()}/reelLow.mp4`)"
+        :src="selected['Reel 480p'][0].url"
         autoplay muted preload loop playsinline />
-      <h1>{{ selected.Title }}</h1>
-      <p class="loc"><i class="las la-map-marker" />{{ selected.Location }}</p>
+      <h1>{{ selected.Name }}</h1>
+      <p class="loc"><i class="las la-map-marker" />{{ selected.Lokasi }}</p>
       <span>
         <button
+          v-if="selected.Tipe.includes('Rumah')"
           @click="choice('rumah')"
           tag="button">
           <p>
@@ -19,6 +20,7 @@
           </p>
         </button>
         <button
+          v-if="selected.Tipe.includes('Ruko')"
           @click="choice('ruko')">
           <p>
             Ruko
@@ -38,7 +40,7 @@ export default {
   methods: {
     choice(i) {
       this.$emit('selected', null);
-      this.$router.push({ path: `/projects/${i}/${this.selected.Title.toLowerCase()}` });
+      this.$router.push({ path: `/projects/${i}/${encodeURIComponent(this.selected.Name.toLowerCase())}` });
     },
   },
 };

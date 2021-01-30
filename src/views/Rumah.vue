@@ -1,91 +1,70 @@
 <template>
   <div id="rumah" :class="{ remMargin:$store.state.isMobile }">
     <img
-      v-if="type === 'rumah'"
-      v-lazy="data.Photos[0].l"
-      :data-srcset="`${data.Photos[0].l} 1900w,
-                ${data.Photos[0].m} 1300w,
-                ${data.Photos[0].s} 700w`"
-      :alt="data.Photos[0].alt" />
-      <img
-      v-if="type === 'ruko'"
-      v-lazy="data.Photos[0].l"
-      :data-srcset="`${data.PhotosRuko[0].l} 1900w,
-                ${data.PhotosRuko[0].m} 1300w,
-                ${data.PhotosRuko[0].s} 700w`"
-      :alt="data.PhotosRuko[0].alt" />
+      v-lazy="data[`Banner Image ${tipe}`][0].thumbnails.full.url"
+      :data-srcset="` ${data[`Banner Image ${tipe}`][0].thumbnails.full.url} 1900w,
+                      ${data[`Banner Image ${tipe}`][0].thumbnails.large.url} 700w`"
+      alt="" />
     <div class="info">
       <div class="leftInfo">
-        <h1>{{ data.Title }}</h1>
-        <p v-if="data.Desc && type === 'rumah'" class="desc">{{ data.Desc }}</p>
-        <p v-else-if="data.DescRuko && type === 'ruko'" class="desc">{{ data.Desc }}</p>
+        <h1>{{ data.Name }}</h1>
+        <p v-if="data[`Deskripsi ${tipe}`]" class="desc">{{ data[`Deskripsi ${tipe}`] }}</p>
         <span>
           <p><i class="las la-map-marker" /><b>Lokasi</b></p>
-          <p>{{ data.Location }}</p>
+          <p>{{ data.Lokasi }}</p>
         </span>
       </div>
       <div class="rightInfo">
         <p><i class="las la-money-check" /><b>Harga Mulai Dari</b></p>
-        <h2>Rp. {{ data.Price }}</h2>
+        <h2>Rp. {{ rupiah }}</h2>
         <p class="margin"><i class="las la-hammer" /><b>Status Konstruksi</b></p>
-          <p>{{ data.Status }}</p>
+          <p>{{ data[`Status ${tipe}`] }}</p>
       </div>
     </div>
     <div class="details">
       <h2>Spesifikasi</h2>
       <ul>
-        <li><i class="las la-user-friends" /><p>{{ data.Kamar }} Kamar Tidur</p></li>
-        <li><i class="las la-expand-arrows-alt" />
-          <p>Luas Tanah {{ data.Tanah }}m<sup>2</sup></p>
+        <li v-if="tipe === 'Rumah'">
+          <i class="las la-user-friends" />
+          <p>{{ data.Kamar }} Kamar Tidur</p>
         </li>
-        <li><i class="las la-home" /><p>Luas Bangunan {{ data.Bangunan }}m<sup>2</sup></p></li>
-        <li><i class="las la-check" /><p>Taman</p></li>
-        <li><i class="las la-check" /><p>Tempat Parkir</p></li>
-        <li><i class="las la-shield-alt" /><p>Keamanan 24 Jam</p></li>
+        <li>
+          <i class="las la-expand-arrows-alt" />
+          <p>Luas Tanah {{ data[`Luas Tanah ${tipe}`] }}m<sup>2</sup></p>
+        </li>
+        <li>
+          <i class="las la-home" />
+          <p>Luas Bangunan {{ data[`Luas Bangunan ${tipe}`] }}m<sup>2</sup></p>
+        </li>
+        <li v-if="data.Taman">
+          <i class="las la-check" />
+          <p>Taman</p>
+        </li>
+        <li v-if="data['Tempat Parkir']">
+          <i class="las la-check" />
+          <p>Tempat Parkir</p>
+        </li>
+        <li v-if="data['Keamanan 24 Jam']">
+          <i class="las la-shield-alt" />
+          <p>Keamanan 24 Jam</p>
+        </li>
       </ul>
       <img
-        v-if="type === 'rumah'"
-        v-lazy="data.Denah.l"
-        :data-srcset="`${data.Denah.l} 1900w,
-                  ${data.Denah.m} 1300w,
-                  ${data.Denah.s} 700w`"
-        :alt="data.Denah.alt" />
-        <img
-        v-else-if="type === 'ruko'"
-        v-lazy="data.DenahRuko.l"
-        :data-srcset="`${data.DenahRuko.l} 1900w,
-                  ${data.DenahRuko.m} 1300w,
-                  ${data.DenahRuko.s} 700w`"
-        :alt="data.Denah.alt" />
+        v-lazy="data[`Denah ${tipe}`][0].thumbnails.full.url"
+        :data-srcset="` ${data[`Denah ${tipe}`][0].thumbnails.full.url} 1900w,
+                        ${data[`Denah ${tipe}`][0].thumbnails.large.url} 700w`"
+        alt="" />
     </div>
-    <div class="gallery" v-if="type === 'rumah'">
+    <div class="gallery" v-if="data[`Gallery Image ${tipe}`]">
       <img
-        v-lazy="data.Photos[1].l"
-        :data-srcset="`${data.Photos[1].l} 1900w,
-                  ${data.Photos[1].m} 1300w,
-                  ${data.Photos[1].s} 700w`"
-        :alt="data.Photos[1].alt" />
-      <img
-        v-lazy="data.Photos[2].l"
-        :data-srcset="`${data.Photos[2].l} 1900w,
-                  ${data.Photos[2].m} 1300w,
-                  ${data.Photos[2].s} 700w`"
-        :alt="data.Photos[2].alt"/>
-      <img
-        v-lazy="data.Photos[3].l"
-        :data-srcset="`${data.Photos[3].l} 1900w,
-                  ${data.Photos[3].m} 1300w,
-                  ${data.Photos[3].s} 700w`"
-        :alt="data.Photos[3].alt"/>
-      <img
-        v-lazy="data.Photos[4].l"
-        :data-srcset="`${data.Photos[4].l} 1900w,
-                  ${data.Photos[4].m} 1300w,
-                  ${data.Photos[4].s} 700w`"
-        :alt="data.Photos[4].alt" />
+        v-for="(img, i) in data[`Gallery Image ${tipe}`]" :key="i"
+        v-lazy="img.thumbnails.full.url"
+        :data-srcset="` ${img.thumbnails.full.url} 1900w,
+                        ${img.thumbnails.large.url} 700w`"
+        alt="" />
     </div>
     <GmapMap
-      :center="data.Marker.position"
+      :center="pos"
       :zoom="15"
       class="map"
       map-type-id="terrain"
@@ -98,11 +77,11 @@
     >
       <gmap-info-window
         :options="infoOptions"
-        :position="data.Marker.position"
+        :position="pos"
         :opened="true"
       />
       <GmapMarker
-        :position="data.Marker.position"
+        :position="pos"
         :animation="2"
         :clickable="false"
         :draggable="false"
@@ -144,17 +123,30 @@ export default {
   },
   methods: {
     updateData() {
-      [this.data] = this.$store.state.houses.filter((f) => f.Title.toLowerCase() === this.id);
-      // [this.data] = a.filter((f) => f.Type.toLowerCase() === this.type);
-      if (this.data === undefined || this.data.length === 0) {
+      [this.data] = this.$store.state.data.filter(
+        (f) => f.Name.toLowerCase() === this.id,
+      );
+      // eslint-disable-next-line max-len
+      if (this.data === undefined || this.data.length === 0 || !this.data.Tipe.includes(this.tipe)) {
         this.$router.push('/404');
       }
-      this.infoOptions.content = this.data.Marker.infoText;
+      this.infoOptions.content = `<strong>${this.data.Name}</strong><br>${this.data.Alamat}`;
     },
   },
   computed: {
-    ttl() {
-      return this.data.Title.toLowerCase();
+    tipe() {
+      return this.type.charAt(0).toUpperCase() + this.type.slice(1);
+    },
+    pos() {
+      const pos = {
+        lat: parseFloat(this.data['Lat, Long'].split(',', 1)[0], 10),
+        lng: parseFloat(this.data['Lat, Long'].substr(this.data['Lat, Long'].lastIndexOf(',') + 1), 10),
+      };
+      return pos;
+    },
+    rupiah() {
+      const rupiah = this.data[`Harga ${this.tipe}`].toLocaleString();
+      return rupiah;
     },
   },
   mounted() {
@@ -326,8 +318,11 @@ export default {
     display: grid;
     grid-template-areas:  'first first'
                           'second third'
-                          'fourth fourth';
+                          'fourth fourth'
+                          'fifth sixth'
+                          'seventh seventh';
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
     flex-wrap: wrap;
     margin-right: 30px;
     margin-bottom: 30px;
@@ -340,7 +335,10 @@ export default {
       grid-template-areas:'first'
                           'second'
                           'third'
-                          'fourth';
+                          'fourth'
+                          'fifth'
+                          'sixth'
+                          'seventh';
     }
 
     img {
@@ -359,6 +357,15 @@ export default {
 
       &:nth-child(4) {
         grid-area: fourth;
+      }
+      &:nth-child(5) {
+        grid-area: fifth;
+      }
+      &:nth-child(6) {
+        grid-area: sixth;
+      }
+      &:nth-child(7) {
+        grid-area: seventh;
       }
     }
   }
