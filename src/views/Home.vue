@@ -6,40 +6,17 @@
         :autoPlay="true"
         :playSpeed="5000"
         :transition="750">
-        <slide>
+        <slide v-for="(slides, i) in carouselData" :key="i">
           <div class="hero">
-            <h1>Build Home, Build Values.</h1>
-            <p>Lakra adalah perusahaan property developer
-              yang berbasis di Jakarta, kami hadir untuk
-              memperkenalkan hidup mendasar dan bernilai
-              yang dimulai dari bawah atap rumah tinggal kita.
-            </p>
+            <h1>{{ slides.Header }}</h1>
+            <p>{{ slides.Caption }}</p>
           </div>
           <div class="overlay" style="opacity: 40%" />
           <img
-            srcset="../assets/images/H3-1800w.jpg 1900w,
-                    ../assets/images/H3-1200w.jpg 1300w,
-                    ../assets/images/H3-600w.jpg 700w"
-            src="../assets/images/H3-1800w.jpg"
-            alt="Kamar &amp; tempat belajar." />
-        </slide>
-        <slide>
-          <div class="hero">
-            <h1>Design maksimal dengan biaya terjangkau.</h1>
-            <p>Menyediakan hunian premium yang
-              inovatif dan berkualitas bagi client,
-              dengan menghadirkan arsitek profesional,
-              kontraktor, dan konsultan terkait untuk
-              menjamin kualitas dan kenyamanan hunian bagi client.
-            </p>
-          </div>
-          <div class="overlay" style="opacity: 40%" />
-                  <img
-            srcset="../assets/images/H1-1800w.jpg 1900w,
-                    ../assets/images/H1-1200w.jpg 1300w,
-                    ../assets/images/H1-600w.jpg 700w"
-            src="../assets/images/H1-1800w.jpg"
-            alt="Lakrasamana dengan ruko." />
+            :srcset="`${slides.Background[0].thumbnails.full.url} 1900w,
+                      ${slides.Background[0].thumbnails.large.url} 700w`"
+            :src="slides.Background[0].thumbnails.full.url"
+            alt="" />
         </slide>
         <hooper-navigation slot="hooper-addons"></hooper-navigation>
         <hooper-pagination slot="hooper-addons"></hooper-pagination>
@@ -55,6 +32,7 @@ import {
   Pagination as HooperPagination,
   Navigation as HooperNavigation,
 } from 'hooper';
+import axios from 'axios';
 import 'hooper/dist/hooper.css';
 import Listing from './Listing.vue';
 
@@ -67,11 +45,54 @@ export default {
     HooperPagination,
     HooperNavigation,
   },
+  data() {
+    return {
+      carouselData: null,
+    };
+  },
   mounted() {
+    this.getData();
     this.$root.$emit('mounted');
     setTimeout(() => {
       document.querySelector('#home').style.opacity = '100%';
     }, 100);
+  },
+  methods: {
+    async getData() {
+      try {
+        const result = await axios.get(
+          'https://v1.nocodeapi.com/jamespurnama1/airtable/uZXOlhWVbiythiZt',
+          {
+            params: {
+              tableName: 'Carousel',
+              view: 'Live Carousel',
+            },
+          },
+        );
+        const data = result.data.records.map((item) => ({
+          id: item.id,
+          ...item.fields,
+        }));
+        this.carouselData = data;
+        return Promise.resolve();
+      } catch (err) {
+        console.log(err, 'second source!');
+        try {
+          const result = await axios.get('https://api.airtable.com/v0/appp1lDFDdnHyUpHK/Carousel?view=Live%20Carousel', {
+            headers: { Authorization: 'Bearer keyoKJ6yU8YxauBPy' },
+          });
+          const data = result.data.records.map((item) => ({
+            id: item.id,
+            ...item.fields,
+          }));
+          this.carouselData = data;
+          return Promise.resolve();
+        } catch (error) {
+          console.log(error, 'No more backups sire...');
+          return Promise.reject();
+        }
+      }
+    },
   },
 };
 </script>
