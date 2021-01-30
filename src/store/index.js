@@ -39,7 +39,7 @@ export default new Vuex.Store({
           {
             params: {
               tableName: 'Main',
-              view: 'Live Properties',
+              view: 'Properties in Preview Mode',
             },
           },
         );
@@ -52,7 +52,7 @@ export default new Vuex.Store({
       } catch (err) {
         console.log(err, 'second source!');
         try {
-          const result = await axios.get('https://api.airtable.com/v0/appp1lDFDdnHyUpHK/Main?view=Live%20Properties', {
+          const result = await axios.get('https://api.airtable.com/v0/appp1lDFDdnHyUpHK/Main?view=Properties%20in%20Preview%20Mode', {
             headers: { Authorization: 'Bearer keyoKJ6yU8YxauBPy' },
           });
           const data = result.data.records.map((item) => ({

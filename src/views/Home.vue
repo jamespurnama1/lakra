@@ -65,7 +65,7 @@ export default {
           {
             params: {
               tableName: 'Carousel',
-              view: 'Live Carousel',
+              view: 'Carousel in Preview Mode',
             },
           },
         );
@@ -78,7 +78,7 @@ export default {
       } catch (err) {
         console.log(err, 'second source!');
         try {
-          const result = await axios.get('https://api.airtable.com/v0/appp1lDFDdnHyUpHK/Carousel?view=Live%20Carousel', {
+          const result = await axios.get('https://api.airtable.com/v0/appp1lDFDdnHyUpHK/Carousel?view=Carousel%20in%20Preview%20Mode', {
             headers: { Authorization: 'Bearer keyoKJ6yU8YxauBPy' },
           });
           const data = result.data.records.map((item) => ({
