@@ -1,4 +1,6 @@
 /* eslint-disable global-require */
+// import request from '@/utils/request';
+import axios from 'axios';
 import Vue from 'vue';
 import Vuex from 'vuex';
 
@@ -10,78 +12,7 @@ export default new Vuex.Store({
     windowHeight: 1080,
     opened: false,
     isMobile: false,
-    houses: [
-      {
-        Title: 'Lakrasamana',
-        Location: 'Raden Saleh, Depok',
-        Status: 'Dalam Pengembangan',
-        Price: '880.000.000',
-        Desc: '4 Unit Rumah.',
-        DescRuko: '6 Unit Ruko.',
-        Tanah: 60,
-        Bangunan: 72,
-        Kamar: 2,
-        Marker: {
-          position: {
-            lat: -6.41457487118613,
-            lng: 106.84184069107874,
-          },
-          infoText: '<strong>Lakrasamana</strong><br>Jl. Raden Saleh No. 29',
-        },
-        Denah: {
-          s: require('../assets/images/lakrasamana/denah-600w.jpg'),
-          m: require('../assets/images/lakrasamana/denah-1200w.jpg'),
-          l: require('../assets/images/lakrasamana/denah-1800w.jpg'),
-          alt: '',
-        },
-        DenahRuko: {
-          s: require('../assets/images/lakrasamana/denahRuko-600w.jpg'),
-          m: require('../assets/images/lakrasamana/denahRuko-1200w.jpg'),
-          l: require('../assets/images/lakrasamana/denahRuko-1800w.jpg'),
-          alt: '',
-        },
-        PhotosRuko: [
-          {
-            s: require('../assets/images/lakrasamana/H1-600w.jpg'),
-            m: require('../assets/images/lakrasamana/H1-1200w.jpg'),
-            l: require('../assets/images/lakrasamana/H1-1800w.jpg'),
-            alt: '',
-          },
-        ],
-        Photos: [
-          {
-            s: require('../assets/images/lakrasamana/H0-600w.jpg'),
-            m: require('../assets/images/lakrasamana/H0-1200w.jpg'),
-            l: require('../assets/images/lakrasamana/H0-1800w.jpg'),
-            alt: '',
-          },
-          {
-            s: require('../assets/images/lakrasamana/H2-600w.jpg'),
-            m: require('../assets/images/lakrasamana/H2-1200w.jpg'),
-            l: require('../assets/images/lakrasamana/H2-1800w.jpg'),
-            alt: '',
-          },
-          {
-            s: require('../assets/images/lakrasamana/H1-600w.jpg'),
-            m: require('../assets/images/lakrasamana/H1-1200w.jpg'),
-            l: require('../assets/images/lakrasamana/H1-1800w.jpg'),
-            alt: '',
-          },
-          {
-            s: require('../assets/images/lakrasamana/H3-600w.jpg'),
-            m: require('../assets/images/lakrasamana/H3-1200w.jpg'),
-            l: require('../assets/images/lakrasamana/H3-1800w.jpg'),
-            alt: '',
-          },
-          {
-            s: require('../assets/images/lakrasamana/Z3-600w.jpg'),
-            m: require('../assets/images/lakrasamana/Z3-1200w.jpg'),
-            l: require('../assets/images/lakrasamana/Z3-1800w.jpg'),
-            alt: '',
-          },
-        ],
-      },
-    ],
+    data: [],
   },
   mutations: {
     setWidth(state, w) {
@@ -96,10 +27,57 @@ export default new Vuex.Store({
     isMobile(state, b) {
       state.isMobile = b;
     },
+    getData(state, i) {
+      state.data = i;
+    },
   },
-  getters: {
-    // getWidth: (state) => state.windowWidth,
+  actions: {
+    async getData({ commit }) {
+      try {
+        const result = await axios.get(
+          'https://v1.nocodeapi.com/jamespurnama1/airtable/uZXOlhWVbiythiZt',
+          {
+            params: {
+              tableName: 'Main',
+              view: 'Live Properties',
+            },
+          },
+        );
+        const data = result.data.records.map((item) => ({
+          id: item.id,
+          ...item.fields,
+        }));
+        commit('getData', data);
+        return Promise.resolve();
+      } catch (err) {
+        console.log(err, 'second source!');
+        try {
+          const result = await axios.get('https://api.airtable.com/v0/appp1lDFDdnHyUpHK/Main?view=Live%20Properties', {
+            headers: { Authorization: 'Bearer keyoKJ6yU8YxauBPy' },
+          });
+          const data = result.data.records.map((item) => ({
+            id: item.id,
+            ...item.fields,
+          }));
+          commit('getData', data);
+          return Promise.resolve();
+        } catch (error) {
+          console.log(error, 'No more backups sire...');
+          return Promise.reject();
+        }
+      }
+    },
+    // async getData(context) {
+    //   const result = await axios.get('https://api.airtable.com/v0/appp1lDFDdnHyUpHK/Main?view=Live%20Properties', {
+    //     headers: { Authorization: 'Bearer keyoKJ6yU8YxauBPy' },
+    //   });
+    //   const data = result.data.records.map((item) => ({
+    //     id: item.id,
+    //     ...item.fields,
+    //   }));
+    //   context.commit('getData', data);
+    //   return Promise.resolve();
+    // },
   },
-  actions: {},
   modules: {},
 });

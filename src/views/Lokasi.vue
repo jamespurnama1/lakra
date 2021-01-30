@@ -3,13 +3,9 @@
     <h1>Projects</h1>
     <div class="flex" v-if="$store.state.windowWidth > 600 && !$store.state.isMobile">
       <ul class="loc">
-        <li v-for="(house, i) in $store.state.houses"
+        <li v-for="(house, i) in $store.state.data"
         @mouseover="active(i)" :key="i" @click="$emit('selected', house);">
-          <p>{{ house.Title }}</p>
-          <p v-if="$store.state.windowWidth < 601 || $store.state.isMobile">
-            <i class="las la-map-marker" />
-            {{ house.Location }}
-          </p>
+          <p>{{ house.Name }}</p>
         </li>
       </ul>
       <div class="active1" />
@@ -27,11 +23,11 @@
         >
           <gmap-info-window
             :options="infoOptions"
-            :position="activeMarker.position"
+            :position="activeMarker"
             :opened="true"
           />
           <GmapMarker
-            :position="activeMarker.position"
+            :position="activeMarker"
             :animation="2"
             :clickable="false"
             :draggable="false"
@@ -61,10 +57,8 @@ export default {
   data() {
     return {
       activeMarker: {
-        position: {
-          lat: 0,
-          lng: 0,
-        },
+        lat: 0,
+        lng: 0,
       },
       tl: gsap.timeline(),
       style,
@@ -80,9 +74,16 @@ export default {
     };
   },
   methods: {
+    pos(i) {
+      const pos = {
+        lat: parseFloat(this.$store.state.data[i]['Lat, Long'].split(',', 1)[0], 10),
+        lng: parseFloat(this.$store.state.data[i]['Lat, Long'].substr(this.$store.state.data[i]['Lat, Long'].lastIndexOf(',') + 1), 10),
+      };
+      return pos;
+    },
     async active(i) {
-      this.activeMarker = this.$store.state.houses[i].Marker;
-      this.infoOptions.content = this.$store.state.houses[i].Marker.infoText;
+      this.activeMarker = this.pos(i);
+      this.infoOptions.content = `<strong>${this.$store.state.data[i].Name}</strong><br>${this.$store.state.data[i].Alamat}`;
       this.yPos = i * 26;
       if (this.$store.state.windowWidth > 600 && !this.$store.state.isMobile) {
         this.tl.set('.active1', {
@@ -104,7 +105,7 @@ export default {
             this.$refs.mapRef.$mapPromise.then((map) => {
               map.setZoom(13);
               setTimeout(() => {
-                map.panTo(this.$store.state.houses[i].Marker.position);
+                map.panTo(this.pos(i));
                 map.setZoom(15);
               }, 500);
             });
@@ -114,10 +115,6 @@ export default {
           }
         }
       }
-    },
-    toggleInfoWindow: (marker) => {
-      this.infoWindowPos = marker.position;
-      this.infoOptions.content = marker.infoText;
     },
   },
   mounted() {

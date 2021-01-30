@@ -14,11 +14,11 @@
           <transition name="slide-up">
             <ul class="lokasiList" v-if="expanded">
               <li
-                v-for="(house, i) in $store.state.houses"
+                v-for="(house, i) in $store.state.data"
                 @click="$emit('selected', house)"
-                :id="house.Title.toLowerCase()"
+                :id="house.Name.toLowerCase()"
                 :key="i">
-                {{ house.Title }}
+                {{ house.Name }}
               </li>
             </ul>
           </transition>
@@ -76,14 +76,14 @@ export default {
       this.offset = (this.expanded) ? 48 : 0;
       await this.$nextTick();
       this.act(this.lastPath);
-      this.active(this.$route.name, this.lastPath);
+      this.active(this.$route.name, decodeURIComponent(this.lastPath));
     },
     resizeW() {
       this.checkScroll();
     },
     resizeH() {
       this.act(this.lastPath);
-      this.active(this.$route.name, this.lastPath);
+      this.active(this.$route.name, decodeURIComponent(this.lastPath));
       this.resizeW();
     },
     async checkScroll() {
@@ -302,7 +302,7 @@ export default {
         this.tl2.to('.lokasi, #projects', {
           color: 'black',
           duration: 0.3,
-        }, 0);
+        });
       }
     },
   },
@@ -310,7 +310,7 @@ export default {
     this.logo();
     this.$root.$on('mounted', () => {
       this.$nextTick(() => {
-        this.active(this.$route.name, this.lastPath);
+        this.active(this.$route.name, decodeURIComponent(this.lastPath));
         Promise.resolve().then(() => { this.checkScroll(); });
         this.$Progress.finish();
       });
