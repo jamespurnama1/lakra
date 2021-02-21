@@ -1,28 +1,30 @@
 <template>
-  <div id="home" :class="{ remMargin:$store.state.isMobile }">
-      <hooper
-        :wheelControl="false"
-        :infiniteScroll="true"
-        :autoPlay="true"
-        :playSpeed="5000"
-        :transition="750">
-        <slide v-for="(slides, i) in carouselData" :key="i">
-          <div class="hero">
-            <h1>{{ slides.Header }}</h1>
-            <p>{{ slides.Caption }}</p>
-          </div>
-          <div class="overlay" style="opacity: 40%" />
-          <img
-            :srcset="`${slides.Background[0].thumbnails.full.url} 1900w,
-                      ${slides.Background[0].thumbnails.large.url} 700w`"
-            :src="slides.Background[0].thumbnails.full.url"
-            alt="" />
-        </slide>
-        <hooper-navigation slot="hooper-addons"></hooper-navigation>
-        <hooper-pagination slot="hooper-addons"></hooper-pagination>
-      </hooper>
-    <listing />
-  </div>
+  <transition name="fade" appear>
+    <div id="home" style="transition-delay: 1s" :class="{ remMargin:$store.state.isMobile }">
+        <hooper
+          :wheelControl="false"
+          :infiniteScroll="true"
+          :autoPlay="true"
+          :playSpeed="5000"
+          :transition="750">
+          <slide v-for="(slides, i) in carouselData" :key="i">
+            <div class="hero">
+              <h1>{{ slides.Header }}</h1>
+              <p>{{ slides.Caption }}</p>
+            </div>
+            <div class="overlay" />
+            <img
+              :srcset="`${slides.Background[0].thumbnails.full.url} 1900w,
+                        ${slides.Background[0].thumbnails.large.url} 700w`"
+              :src="slides.Background[0].thumbnails.full.url"
+              alt="" />
+          </slide>
+          <hooper-navigation slot="hooper-addons"></hooper-navigation>
+          <hooper-pagination slot="hooper-addons"></hooper-pagination>
+        </hooper>
+      <listing />
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -53,9 +55,9 @@ export default {
   mounted() {
     this.getData();
     this.$root.$emit('mounted');
-    setTimeout(() => {
-      document.querySelector('#home').style.opacity = '100%';
-    }, 100);
+    // setTimeout(() => {
+    //   document.querySelector('#home').style.opacity = '100%';
+    // }, 100);
   },
   methods: {
     async getData() {
@@ -102,7 +104,6 @@ export default {
 #home {
   margin-top: 45vh;
   will-change: transform;
-  opacity: 0;
   transition: opacity .5s ease;
 
   @include max-media(mobile) {
@@ -161,8 +162,7 @@ export default {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-color: $green;
-      opacity: 40%;
+      background-color: rgba(128, 135, 111, 0.4); // $green
       z-index: 2;
     }
   }
