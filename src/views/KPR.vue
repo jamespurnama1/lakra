@@ -315,7 +315,7 @@ export default {
   will-change: transform;
 
   @include max-media(mobile) {
-    margin: 0;
+    margin: 10vh 30px 0 30px;
   }
 
   h1, h2, h3, p {
@@ -385,7 +385,7 @@ export default {
       }
 
       hr {
-        opacity: 50%;
+        opacity: 0.5;
         width: 100%;
         border: 1px solid $dark-green;
         margin: 30px 0 20px 0;

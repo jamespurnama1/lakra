@@ -76,7 +76,8 @@ export default {
   }
 
   @include max-media(mobile) {
-    justify-content: space-around;
+    // justify-content: space-around;
+    margin: 100px 30px 0 30px;
   }
 
   a {
@@ -173,7 +174,7 @@ export default {
     margin-right: 10%;
 
     @include max-media(mobile) {
-      margin-right: 0;
+      margin-right: 20%;
     }
 
     h2 {

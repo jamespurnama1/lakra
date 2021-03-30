@@ -33,13 +33,14 @@ export default new Vuex.Store({
   },
   actions: {
     async getData({ commit }) {
+      const preview = window.location.host.split('.')[0] === 'preview';
       try {
         const result = await axios.get(
           'https://v1.nocodeapi.com/jamespurnama1/airtable/uZXOlhWVbiythiZt',
           {
             params: {
               tableName: 'Main',
-              view: 'Properties in Preview Mode',
+              view: preview ? 'Properties in Preview Mode' : 'Live Properties',
             },
           },
         );
@@ -50,11 +51,16 @@ export default new Vuex.Store({
         commit('getData', data);
         return Promise.resolve();
       } catch (err) {
-        console.log(err, 'second source!');
+        // console.log(err, 'second source!');
         try {
-          const result = await axios.get('https://api.airtable.com/v0/appp1lDFDdnHyUpHK/Main?view=Properties%20in%20Preview%20Mode', {
-            headers: { Authorization: 'Bearer keyoKJ6yU8YxauBPy' },
-          });
+          const result = await axios.get(
+            `https://api.airtable.com/v0/appp1lDFDdnHyUpHK/Main?view=${
+              preview ? 'Properties%20in%20Preview%20Mode' : 'Live%20Properties'
+            }`,
+            {
+              headers: { Authorization: 'Bearer keyoKJ6yU8YxauBPy' },
+            },
+          );
           const data = result.data.records.map((item) => ({
             id: item.id,
             ...item.fields,
@@ -62,22 +68,11 @@ export default new Vuex.Store({
           commit('getData', data);
           return Promise.resolve();
         } catch (error) {
-          console.log(error, 'No more backups sire...');
+          // console.log(error, 'No more backups sire...');
           return Promise.reject();
         }
       }
     },
-    // async getData(context) {
-    //   const result = await axios.get('https://api.airtable.com/v0/appp1lDFDdnHyUpHK/Main?view=Live%20Properties', {
-    //     headers: { Authorization: 'Bearer keyoKJ6yU8YxauBPy' },
-    //   });
-    //   const data = result.data.records.map((item) => ({
-    //     id: item.id,
-    //     ...item.fields,
-    //   }));
-    //   context.commit('getData', data);
-    //   return Promise.resolve();
-    // },
   },
   modules: {},
 });
