@@ -121,7 +121,7 @@ export default {
   }
 
   @include max-media(mobile) {
-    margin: 0;
+    margin: 10vh 30px 0 30px;
   }
 
   h3 {

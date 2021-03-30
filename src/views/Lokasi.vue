@@ -111,7 +111,7 @@ export default {
             });
             this.prevActive = i;
           } catch (err) {
-            console.error(err);
+            // console.error(err);
           }
         }
       }
@@ -139,7 +139,7 @@ export default {
   will-change: transform;
 
   @include max-media(mobile) {
-    margin: 0;
+    margin: 0 30px;
   }
 
   h1 {

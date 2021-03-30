@@ -200,7 +200,7 @@ export default {
     grid-gap: 10px;
 
     @include max-media(mobile) {
-      margin-right: 0;
+      margin: 5px 30px 0 30px;
       min-height: 120px;
     }
 
@@ -270,7 +270,7 @@ export default {
                             'list'
                             'img';
       grid-gap: 10px;
-      margin-right: 0;
+      margin: 0 30px 30px 30px;
     }
 
     img {
@@ -330,7 +330,7 @@ export default {
     overflow: hidden;
 
     @include max-media(mobile) {
-      margin-right: 0;
+      margin: 0 30px 30px 30px;
       grid-template-columns: 1fr;
       grid-template-areas:'first'
                           'second'
@@ -379,8 +379,8 @@ export default {
     background-color: #d1d1d1;
 
     @include max-media(mobile) {
-      width: 100%;
-      margin-right: 0;
+      width: initial;
+      margin: 0 30px;
     }
   }
 }

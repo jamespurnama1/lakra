@@ -98,6 +98,7 @@ export default {
     video {
       margin: auto 0 0 0;
       max-height: 70vh;
+      max-width: 85vw;
 
       @include max-media(mobile) {
         width: 100%;

@@ -174,7 +174,7 @@ html {
 
       @keyframes fade {
         from {opacity: 0;}
-        to {opacity: 100%;}
+        to {opacity: 1;}
       }
 
       .gm-ui-hover-effect {
@@ -219,7 +219,7 @@ html {
         height: 100vh;
         background-color: white;
         z-index: 2;
-        opacity: 50%;
+        opacity: 0.5;
       }
 
       .mobileHeader {
@@ -306,7 +306,7 @@ html {
         height: auto;
 
         @include max-media(mobile) {
-          margin: 70px 30px 0 30px;
+          margin-top: 70px;
         }
 
         .remMargin {
@@ -318,11 +318,11 @@ html {
           height: 7px;
           border-radius: 50%;
           margin: 0 5px;
-          opacity: 50%;
+          opacity: 0.5;
 
           &.is-active {
             background-color: white;
-            opacity: 100%;
+            opacity: 1;
           }
         }
 

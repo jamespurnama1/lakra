@@ -48,6 +48,10 @@ export default {
   grid-template-columns: 50% 50%;
   grid-gap: 30px 10px;
 
+  @include max-media(mobile) {
+    margin: 0 30px;
+  }
+
   .title {
     text-align: left;
   }
