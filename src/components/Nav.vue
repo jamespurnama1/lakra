@@ -92,7 +92,7 @@ export default {
         try {
           ScrollTrigger.getById('trigger1').enable();
         } catch (err) {
-          console.error(err);
+          // console.error(err);
         }
         window.scrollTo({ top: 45 * h });
         gsap.to('.logo', {
@@ -109,7 +109,7 @@ export default {
         try {
           ScrollTrigger.getById('trigger1').disable(false);
         } catch (err) {
-          console.error(err);
+          // console.error(err);
         }
         gsap.set('.logoText', {
           x: 0,

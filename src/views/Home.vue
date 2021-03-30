@@ -1,7 +1,9 @@
 <template>
   <transition name="fade" appear>
-    <div id="home" style="transition-delay: 1s" :class="{ remMargin:$store.state.isMobile }">
+    <div id="home" :class="{ remMargin:$store.state.isMobile }">
+      <transition name="fade">
         <hooper
+          v-if="ready"
           :wheelControl="false"
           :infiniteScroll="true"
           :autoPlay="true"
@@ -22,6 +24,7 @@
           <hooper-navigation slot="hooper-addons"></hooper-navigation>
           <hooper-pagination slot="hooper-addons"></hooper-pagination>
         </hooper>
+      </transition>
       <listing />
     </div>
   </transition>
@@ -49,15 +52,24 @@ export default {
   },
   data() {
     return {
+      ready: false,
       carouselData: null,
     };
   },
   mounted() {
-    this.getData();
     this.$root.$emit('mounted');
-    // setTimeout(() => {
-    //   document.querySelector('#home').style.opacity = '100%';
-    // }, 100);
+    setTimeout(() => {
+      document.querySelector('#home').style.opacity = '1';
+      this.ready = true;
+    }, 100);
+  },
+  created() {
+    this.getData();
+  },
+  computed: {
+    preview() {
+      return window.location.host.split('.')[0] === 'preview';
+    },
   },
   methods: {
     async getData() {
@@ -67,7 +79,7 @@ export default {
           {
             params: {
               tableName: 'Carousel',
-              view: 'Live Carousel',
+              view: this.preview ? 'Carousel in Preview Mode' : 'Live Carousel',
             },
           },
         );
@@ -80,7 +92,7 @@ export default {
       } catch (err) {
         console.log(err, 'second source!');
         try {
-          const result = await axios.get('https://api.airtable.com/v0/appp1lDFDdnHyUpHK/Carousel?view=Live%20Carousel', {
+          const result = await axios.get(`https://api.airtable.com/v0/appp1lDFDdnHyUpHK/Carousel?view=${this.preview ? 'Carousel%20in%20Preview%20Mode' : 'Live%20Carousel'}`, {
             headers: { Authorization: 'Bearer keyoKJ6yU8YxauBPy' },
           });
           const data = result.data.records.map((item) => ({

@@ -51,7 +51,7 @@ export default {
     will-change: transform;
 
     @include max-media(mobile) {
-      margin: 0;
+      margin: 10vh 30px 0 30px;
     }
 
     h1, p {
