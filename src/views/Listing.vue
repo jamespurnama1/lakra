@@ -1,33 +1,28 @@
 <template>
-<div id="grid">
-  <div @click="$parent.$emit('selected', house)"
-  v-for="(house, i) in $store.state.data" :key="i" class="house">
-    <div class="img">
-      <img
-        v-lazy="house.Image[0].thumbnails.full.url"
-        :data-srcset="` ${house.Image[0].thumbnails.full.url} 1900w,
-                        ${house.Image[0].thumbnails.large.url} 700w`"
-        alt="" />
-    </div>
-    <div class="info">
-      <div>
-        <h2 class="title">{{ house.Name }}</h2>
-        <p><i class="las la-map-marker"></i>{{ house.Lokasi }}</p>
+  <div id="grid">
+    <div @click="$parent.$emit('selected', house)
+    && this.$posthog.capture('property_click', {property: house});"
+      v-for="(house, i) in $store.state.data" :key="i" class="house">
+      <div class="img">
+        <img v-lazy="house.Image[0].thumbnails.full.url"
+          :data-srcset="` ${house.Image[0].thumbnails.full.url} 1900w,
+          ${house.Image[0].thumbnails.large.url} 700w`" alt="" />
       </div>
-      <h2
-      v-if="house['Harga Rumah']"
-      class="price">
-        Rp. {{ house['Harga Rumah'].toLocaleString() }}
-      </h2>
-      <h2
-      v-else-if="house['Harga Ruko']"
-      class="price">
-        Rp. {{ house['Harga Ruko'].toLocaleString() }}
-      </h2>
+      <div class="info">
+        <div>
+          <h2 class="title">{{ house.Name }}</h2>
+          <p><i class="las la-map-marker"></i>{{ house.Lokasi }}</p>
+        </div>
+        <h2 v-if="house['Harga Rumah']" class="price">
+          Rp. {{ house['Harga Rumah'].toLocaleString() }}
+        </h2>
+        <h2 v-else-if="house['Harga Ruko']" class="price">
+          Rp. {{ house['Harga Ruko'].toLocaleString() }}
+        </h2>
+      </div>
+      <p>{{ house['Deskripsi General'] }}</p>
     </div>
-    <p>{{ house['Deskripsi General'] }}</p>
   </div>
-</div>
 </template>
 
 <script>
