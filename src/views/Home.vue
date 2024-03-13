@@ -74,37 +74,17 @@ export default {
   methods: {
     async getData() {
       try {
-        const result = await axios.get(
-          'https://v1.nocodeapi.com/jamespurnama1/airtable/uZXOlhWVbiythiZt',
-          {
-            params: {
-              tableName: 'Carousel',
-              view: this.preview ? 'Carousel in Preview Mode' : 'Live Carousel',
-            },
-          },
-        );
+        const result = await axios.get(`https://api.airtable.com/v0/appp1lDFDdnHyUpHK/Carousel?view=${this.preview ? 'Carousel%20in%20Preview%20Mode' : 'Live%20Carousel'}`, {
+          headers: { Authorization: `Bearer ${process.env.VUE_APP_AIRTABLE_TOKEN}` },
+        });
         const data = result.data.records.map((item) => ({
           id: item.id,
           ...item.fields,
         }));
         this.carouselData = data;
         return Promise.resolve();
-      } catch (err) {
-        console.log(err, 'second source!');
-        try {
-          const result = await axios.get(`https://api.airtable.com/v0/appp1lDFDdnHyUpHK/Carousel?view=${this.preview ? 'Carousel%20in%20Preview%20Mode' : 'Live%20Carousel'}`, {
-            headers: { Authorization: 'Bearer keyoKJ6yU8YxauBPy' },
-          });
-          const data = result.data.records.map((item) => ({
-            id: item.id,
-            ...item.fields,
-          }));
-          this.carouselData = data;
-          return Promise.resolve();
-        } catch (error) {
-          console.log(error, 'No more backups sire...');
-          return Promise.reject();
-        }
+      } catch (error) {
+        return Promise.reject();
       }
     },
   },

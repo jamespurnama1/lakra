@@ -10,7 +10,6 @@ export default () => {
   })
     .then((response) => {
     // handle success
-      console.log(response);
       const data = response.data.records.map((item) => ({
         id: item.id,
         ...item.fields,

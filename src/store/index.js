@@ -36,12 +36,11 @@ export default new Vuex.Store({
       const preview = window.location.host.split('.')[0] === 'preview';
       try {
         const result = await axios.get(
-          'https://v1.nocodeapi.com/jamespurnama1/airtable/uZXOlhWVbiythiZt',
+          `https://api.airtable.com/v0/appp1lDFDdnHyUpHK/Main?view=${
+            preview ? 'Properties%20in%20Preview%20Mode' : 'Live%20Properties'
+          }`,
           {
-            params: {
-              tableName: 'Main',
-              view: preview ? 'Properties in Preview Mode' : 'Live Properties',
-            },
+            headers: { Authorization: `Bearer ${process.env.VUE_APP_AIRTABLE_TOKEN}` },
           },
         );
         const data = result.data.records.map((item) => ({
@@ -50,27 +49,8 @@ export default new Vuex.Store({
         }));
         commit('getData', data);
         return Promise.resolve();
-      } catch (err) {
-        // console.log(err, 'second source!');
-        try {
-          const result = await axios.get(
-            `https://api.airtable.com/v0/appp1lDFDdnHyUpHK/Main?view=${
-              preview ? 'Properties%20in%20Preview%20Mode' : 'Live%20Properties'
-            }`,
-            {
-              headers: { Authorization: 'Bearer keyoKJ6yU8YxauBPy' },
-            },
-          );
-          const data = result.data.records.map((item) => ({
-            id: item.id,
-            ...item.fields,
-          }));
-          commit('getData', data);
-          return Promise.resolve();
-        } catch (error) {
-          // console.log(error, 'No more backups sire...');
-          return Promise.reject();
-        }
+      } catch (error) {
+        return Promise.reject();
       }
     },
   },

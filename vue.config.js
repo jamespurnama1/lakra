@@ -2,6 +2,7 @@ module.exports = {
   configureWebpack: {
     devtool: 'source-map',
   },
+
   pwa: {
     name: 'Lakra',
     themeColor: '#80876f',
@@ -58,4 +59,6 @@ module.exports = {
       onlyProduction: true,
     },
   },
+
+  // transpileDependencies: true
 };
