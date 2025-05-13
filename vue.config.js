@@ -55,7 +55,7 @@ module.exports = {
       ],
       useRenderEvent: true,
       maxConcurrentRoutes: 1,
-      headless: true,
+      // headless: true,
       onlyProduction: true,
     },
   },
